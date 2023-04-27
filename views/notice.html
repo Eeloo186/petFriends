@@ -1,0 +1,8 @@
+{% extends 'top.html' %}
+{% block content %}
+<hr>
+<h1>공지사항 페이지</h1>
+{% for twit in twits %}
+<h3>게시글번호 : {{twit.id}} // 작성자ID : {{twit.User.userId}} //  작성자닉네임 : {{twit.User.nickname}} // 작성일 : {{twit.createdAt}}</h3>
+{% endfor %}
+{% endblock %}

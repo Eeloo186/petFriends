@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{title}}</title>
+  </head>
+  <body>
+    <input id="board-name" name="board-name" type="hidden" value="{{boardName}}" />
+    <div id="container">
+      <h1>에디터 페이지</h1>
+      <label for="title">글제목 <input id="title" type="text" style="width: 549px" /></label>
+      <textarea name="editor" id="editor" rows="10" cols="100">CKEDITER5</textarea>
+      <button id="writeBtn">글쓰기</button>
+    </div>
+  </body>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="../CKEditor5/build/ckeditor.js"></script>
+  <script type="text/javascript">
+    // CKEditor5 설정
+    let editor;
+    ClassicEditor.create(document.querySelector("#editor"), {
+      simpleUpload: {
+        uploadUrl: "/post/img",
+      },
+    })
+      .then((newEditor) => {
+        editor = newEditor;
+      })
+      .catch((error) => {});
+
+    // 글쓰기 버튼 클릭 처리
+    const writeButton = document.getElementById("writeBtn");
+
+    writeButton.addEventListener("click", () => {
+      const title = document.getElementById("title").value;
+      const boardName = document.getElementById("board-name").value;
+      if (confirm("글쓰기를 완료하시겠습니까?")) {
+        const data = {
+          title,
+          content: editor.getData(),
+          boardName,
+        };
+        console.log(data);
+        axios
+          .post(`/boards/${boardName}/posts`, data)
+          .then((res) => {
+            // console.log(res);
+            location.href = '/';
+            // 작성글 정보 db에 등록 완료했으면 원래 있던 곳으로 redirect
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+      }
+    });
+
+    // 돌아가기 버튼 클릭
+    // 글 내용 있는지 확인하고 있으면 확인창, 없으면 바로 원래 있던 게시판으로 돌아감
+  </script>
+</html>
