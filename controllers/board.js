@@ -12,7 +12,7 @@ exports.uploadPost = async (req, res, next) => {
     const post = await Post.create({
       title,
       BoardId: board.id,
-      UserId: 5,
+      UserId: req.user.id,
     });
 
     // contents 테이블에 데이터 저장

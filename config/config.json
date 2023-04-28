@@ -1,22 +1,22 @@
 {
   "development": {
     "username": "root",
-    "password": "edurootroot",
-    "database": "cloneproj",
+    "password": "qw029953@@",
+    "database": "petFriends",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
   "test": {
     "username": "root",
-    "password": "root",
-    "database": "db",
+    "password": "qw029953@@",
+    "database": "petFriends",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
   "production": {
     "username": "root",
-    "password": "root",
-    "database": "db",
+    "password": "qw029953@@",
+    "database": "petFriends",
     "host": "127.0.0.1",
     "dialect": "mysql"
   }

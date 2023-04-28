@@ -12,6 +12,9 @@
       <div id="myPage">
         {% if user %}
         <a href="" id="myPage-btn">{{ user.nickname }} 님</a>
+        <div id="mypage-box">
+          <a href="/page/mypage" id="mypage-btn"> 마이페이지 </a>
+        </div>
         {% if user.provider == 'kakao' %}
         <div id="kakaoLogout-box">
           <a
@@ -28,6 +31,9 @@
         <div id="login-box">
           <a href="/page/login" id="login-btn"> 로그인 </a>
         </div>
+
+
+
         {% endif %}
       </div>
       <div id="logo-box">

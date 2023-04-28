@@ -1,4 +1,4 @@
-const { User } = require("../models");
+const { User, Post, Content } = require("../models");
 
 exports.checkUser = async (req, res) => {
   try {
@@ -19,3 +19,42 @@ exports.checkUser = async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 };
+
+
+exports.getPost = async(req, res) => {
+  console.log('------------------1------------------');
+  try {
+    const posts = await Post.findAll({
+        attributes: ['title', 'createdAt',],
+        where: {UserId: req.user.id},
+
+        include: [
+            {
+                model: User,
+                attributes: ['userId', 'nickname'],
+            },
+            {
+                model: Content,
+                attributes: ['content'],
+            },
+        ],
+
+    });
+    // res
+    console.log('-------------------------------------');
+    console.log(posts);
+    console.log('-------------------------------------');
+
+    // res.render('mypage',{ 
+    //   twits: posts,
+    // });
+    res.send("TEST");
+} catch (err) {
+    console.error(err);
+    next(err);
+}
+};
+
+// exports.updateUser( async (req, res) => {
+
+// });

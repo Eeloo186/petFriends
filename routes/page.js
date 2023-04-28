@@ -9,11 +9,13 @@ const {
   renderLogin,
   renderJoin,
   renderEditor,
+  renderMypage,
+  renderModifyUser,
 } = require("../controllers/page");
 
 router.use((req, res, next) => {
   // res.locals.user = req.user;
-  res.locals.user = 100;
+  res.locals.user = req.user;
 
   // 기타 페이지 이동시 필요한 정보들 여기에 추가
 
@@ -40,5 +42,13 @@ router.get("/page/community", renderCommunity);
 
 // 글쓰기(에디터) 페이지
 router.get("/page/editor", renderEditor);
+
+// 마이페이지
+router.get("/page/mypage", renderMypage);
+
+// 유저정보 수정 페이지
+router.get('/page/users/:id', renderModifyUser);
+
+
 
 module.exports = router;

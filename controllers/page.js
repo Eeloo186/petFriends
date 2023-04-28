@@ -135,13 +135,8 @@ exports.renderLogin = (req, res) => {
 
 exports.renderJoin = async (req, res, next) => {
   try {
-    const joins = await User.findAll({
-      attributes: ["id", "userId"],
-    });
     res.render("join", {
-      title: "회원가입 - NodeBird",
-      script: "/javascript/join.js",
-      join: joins,
+      title: "회원가입",
     });
   } catch (err) {
     console.error(err);
@@ -154,4 +149,32 @@ exports.renderEditor = (req, res) => {
     title: "글쓰기(에디터) 페이지",
     boardName: req.query["board-name"],
   });
+};
+
+exports.renderMypage = (req, res) => {
+  // console.log(req.user);
+  // res.render('mypage', {
+  //   user: req.user,
+  // });
+  res.render('mypage');
+};
+
+exports.renderModifyUser = async (req, res, next) => {
+  try {
+    const user = await User.findOne({ where: { id: req.user.id }});
+    // console.log(user);
+    console.log('----------------------------');
+    // console.log(req.user["dataValues"]["id"]);
+    // console.log(req.user.id);
+    console.log(user);
+    console.log('----------------------------');
+
+    res.render("modify", {
+      title: "회원정보수정",
+      user: user,
+    });
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
 };

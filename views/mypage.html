@@ -1,0 +1,89 @@
+
+
+{% block content %}
+
+<link rel="stylesheet" href="/styles/mypage.css">
+<h1><a href="/">로고</a>, 상단 고정 바 버튼들, 검색창 등</h1>
+
+<div class="mypage-box">
+    <h2>마이페이지</h2>
+    <div class="user-info">
+        <h3>닉네임: {{user.nickname}}</h3>
+        <h3>이메일: {{user.email}}</h3>
+        <h3>가입일: {{user.createdAt}}</h3>
+    </div>
+    <!-- <a href="#" onclick="doDisplay()" id="mypost"class="btn">내가 작성한 글보기</a> -->
+    <a href="#" onclick="doDisplay()" id="mypost"class="btn">내가 작성한 글보기</a>
+    <div class="half">
+        <div>팔로잉</div>
+        <div class="count following-count">{{followingCount}}</div>
+    </div>
+    <div class="half">
+        <div>팔로워</div>
+        <div class="count follower-count">{{followerCount}}</div>
+    </div>
+        <div class="timeline">
+            <a id="logout" href="/auth/logout" class="btn">로그아웃</a>
+            <a href="/page/users/{{user.id}}" id="modify"class="btn">회원정보수정</a>
+
+
+    </div>
+</div>
+<input type="text" value={{twits}}> 
+<!-- {% for twit in twits %} -->
+<div class="myDIV">
+    <h3> 작성자ID : {{twit.User.userId}}   작성자닉네임 : {{twit.User.nickname}} <br>  제목:{{twit.title}}<br> 글내용:{{twit.Content.content}}<br>
+        작성일 : {{twit.createdAt}}</h3>
+
+</div>
+<!-- {% endfor %} -->
+    <!-- axios render 안됨 -->
+    <!-- {% for twit in twits %} -->
+    <!-- <div class="myDIV">
+        <h3> 작성자ID : {{twit.User.userId}}   작성자닉네임 : {{twit.User.nickname}} <br>  제목:{{twit.title}}<br> 글내용:{{twit.Content.content}}<br>
+            작성일 : {{twit.createdAt}}</h3>
+
+    </div> -->
+    <!-- {% endfor %} -->
+
+</div>
+
+{% endblock %}
+
+{% block script %}
+ <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script type="text/javascript">
+ async function doDisplay(){
+    await axios.post('/users/{{user.id}}/posts')
+    .then((res) => {
+        // 작성글 요청 성공시
+        console.log("요청 성공");
+        const cons = document.querySelectorAll(".myDIV");
+        console.log(cons);
+        for (let i = 0; i < cons.length; i++) {
+            if (cons[i].style.display === 'none') {
+                cons[i].style.display = 'block';
+            } else {
+                cons[i].style.display = 'none';
+            }
+        }
+    })
+    .catch((err) => {
+              console.error(err);
+            });
+
+}
+</script>
+<!-- <script type="text/javascript">
+    function doDisplay() {
+        const cons = document.querySelectorAll(".myDIV");
+        for (let i = 0; i < cons.length; i++) {
+            if (cons[i].style.display === 'none') {
+                cons[i].style.display = 'block';
+            } else {
+                cons[i].style.display = 'none';
+            }
+        }
+    }
+</script> -->
+{% endblock %}
