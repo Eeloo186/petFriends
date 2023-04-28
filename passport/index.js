@@ -33,5 +33,9 @@ module.exports = () => {
   });
 
   local();
+<<<<<<< HEAD
   // kakao();
+=======
+  //kakao();
+>>>>>>> 40229bb (routes, controllers안 page.js와 views안 community, communityView, info, notice 4개 html파일 총 6개 파일 수정)
 };

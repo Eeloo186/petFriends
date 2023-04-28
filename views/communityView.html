@@ -1,0 +1,71 @@
+{% extends 'top.html' %}
+{% block content %}
+<hr>
+<h1>메인 페이지</h1>
+<div class="twits">
+    <form id="hashtag-form" action="/hashtag">
+        <input type="text" name="hashtag" placeholder="태그 검색">
+        <button class="btn">검색</button>
+    </form>
+
+
+    <div class="twit">
+        <input type="hidden" value="{{twit.User.userId}}" class="twit-user-id">
+        <input type="hidden" value="{{twit.id}}" class="twit-id">
+        <div class="twit-author"><a>{{twits.User.nickname}}</a><button>팔로우하기</button></div>
+
+        {% if not followingIdList.includes(twits.User.userId) and twit.User.userId !== user.id %}
+        <button class="twit-follow">팔로우하기</button>
+        {% endif %}
+        <div class="twit-content">{{twits.Content.content}}</div>
+        <div class="twit-img"><img src="/imgs/sample.jpeg" alt="섬네일"></div>
+        {% if twit.img %}
+        <div class="twit-img"><img src="../public/imgs/sample.jpeg" alt="섬네일"></div>
+        {% endif %}
+    </div>
+
+</div>
+{% endblock %}
+{% block script %}
+<script>
+    if (document.getElementById('img')) {
+        document.getElementById('img').addEventListener('change', function(e) {
+            const formData = new FormData();
+            formData.append('img', this.files[0]);
+            console.log('-------');
+            for ( let key of formData.keys()) {
+                console.log(key, ":", formData.get(key));
+            }
+            console.log('-------');
+            axios.post('/post/img', formData)
+                .then((res) => {
+                    document.getElementById('img-url').value = res.data.url;
+                    document.getElementById('img-preview').src = res.data.url;
+                    document.getElementById('img-preview').style.display = 'inline';
+                })
+                .catch((err) => {
+                    console.error(err);
+                });
+        });
+    }
+    document.querySelectorAll('.twit-follow').forEach(function(tag) {
+        tag.addEventListener('click', function() {
+            const myId = document.querySelector('#my-id');
+            if (myId) {
+                const userId = tag.parentNode.querySelector('.twit-user-id').value;
+                if (userId !== myId.value) {
+                    if (confirm('팔로잉하시겠습니까?')) {
+                        axios.post(`/user/${userId}/follow`)
+                            .then(() => {
+                                location.reload();
+                            })
+                            .catch((err) => {
+                                console.error(err);
+                            });
+                    }
+                }
+            }
+        });
+    });
+</script>
+{% endblock %}

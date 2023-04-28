@@ -90,7 +90,43 @@ exports.renderInfo = async (req, res, next) => {
   }
 };
 
+exports.renderCommunityView = async (req, res, next) => {
+  //console.log(req.params);
+  const {id} = req.params;
+  try {
+    const posts = await Post.findOne({
+      include: [
+        {
+          model: User,
+          attributes: ['userId', 'nickname'],
+        },
+        {
+          model: Board,
+          attributes: ['name'],
+        },
+        {
+          model: Content,
+          attributes: ['content'],
+        },
+      ],
+      where: {
+        id : id
+      }
+    })
+
+    res.render("communityView", {
+      title: "메인페이지",
+      twits: posts,
+      boardName: "communityView",
+    });
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+};
+
 exports.renderCommunity = async (req, res, next) => {
+  const page = req.query.currentPage;
   try {
     const posts = await Post.findAll({
       include: [
@@ -108,7 +144,35 @@ exports.renderCommunity = async (req, res, next) => {
           attributes: ["content"],
         },
       ],
+      limit:10,
+      offset: (page -1) * 10
     });
+
+    const postsCount = await Post.findAndCountAll({
+      nest: false,
+      include: [
+        {
+          model: User,
+          attributes: ['userId', 'nickname'],
+        },
+        {
+          model: Board,
+          attributes: ['name'],
+          where: { name: 'community' },
+        },
+        {
+          model: Content,
+          attributes: ['id', 'content'],
+        }
+      ],
+      limit:10,
+      offset: page * 10
+    })
+
+    const {count} = postsCount;
+    let limit = 10;
+
+    const pagingData = getPagingDataCount(count, page, limit);
 
     // DB createdAt에 들어있는 Date 정보 커스터마이징
     posts.forEach((post) => {
@@ -122,11 +186,22 @@ exports.renderCommunity = async (req, res, next) => {
       title: "커뮤니티페이지",
       twits: posts,
       boardName: "community",
+      pagingData,
     });
   } catch (err) {
     console.error(err);
     next(err);
   }
+};
+
+getPagingDataCount = (totalItems, page, limit) => {
+  const currentPage = page ? page : 0;
+  const totalPages = Math.ceil(totalItems / limit);
+  const pnStart = ((Math.ceil(page / limit) - 1) * limit) + 1; // NOTE: 현재 페이지의 페이지네이션 시작 번호.
+  let pnEnd = (pnStart + limit); // NOTE: 현재 페이지의 페이지네이션 끝 번호.
+  if (pnEnd > totalPages) pnEnd = totalPages; // NOTE: 페이지네이션의 끝 번호가 페이지네이션 전체 카운트보다 높을 경우.
+
+  return { totalItems, totalPages, currentPage, pnStart, pnEnd };
 };
 
 exports.renderLogin = (req, res) => {
