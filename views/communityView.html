@@ -1,0 +1,28 @@
+{% extends 'top.html' %}
+{% block content %}
+<hr>
+<h1>메인 페이지</h1>
+<div class="twits">
+    <form id="hashtag-form" action="/hashtag">
+        <input type="text" name="hashtag" placeholder="태그 검색">
+        <button class="btn">검색</button>
+    </form>
+
+
+    <div class="twit">
+        <input type="hidden" value="{{twit.User.userId}}" class="twit-user-id">
+        <input type="hidden" value="{{twit.id}}" class="twit-id">
+        <div class="twit-author"><a>{{twits.User.nickname}}</a><button>팔로우하기</button></div>
+
+        {% if not followingIdList.includes(twits.User.userId) and twit.User.userId !== user.id %}
+        <button class="twit-follow">팔로우하기</button>
+        {% endif %}
+        <div class="twit-content">{{twits.Content.content}}</div>
+        <div class="twit-img"><img src="/imgs/sample.jpeg" alt="섬네일"></div>
+        {% if twit.img %}
+        <div class="twit-img"><img src="../public/imgs/sample.jpeg" alt="섬네일"></div>
+        {% endif %}
+    </div>
+
+</div>
+{% endblock %}
