@@ -22,6 +22,7 @@ exports.renderMain = async (req, res, next) => {
       title: "메인페이지",
       twits: posts,
       boardName: "main",
+      user: req.user,
     });
   } catch (err) {
     console.error(err);
@@ -132,13 +133,25 @@ exports.renderLogin = (req, res) => {
   res.render("login", { title: "로그인 페이지" });
 };
 
-exports.renderJoin = (req, res) => {
-  res.render("join", { title: "회원가입 페이지" });
+exports.renderJoin = async (req, res, next) => {
+  try {
+    const joins = await User.findAll({
+      attributes: ["id", "userId"],
+    });
+    res.render("join", {
+      title: "회원가입 - NodeBird",
+      script: "/javascript/join.js",
+      join: joins,
+    });
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
 };
 
 exports.renderEditor = (req, res) => {
   res.render("editor", {
     title: "글쓰기(에디터) 페이지",
-    boardName: req.query['board-name'],
+    boardName: req.query["board-name"],
   });
 };

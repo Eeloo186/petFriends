@@ -1,0 +1,95 @@
+* {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  text-decoration: none;
+  box-sizing: border-box;
+  vertical-align: bottom;
+}
+
+body {
+  height: 1500px;
+}
+
+#kakaoLogout-box {
+  margin-top: 20px;
+}
+
+#kakaoLogout {
+  background-color: #fee500;
+  color: rgba(0, 0, 0, 0.85);
+  border-radius: 8px;
+  padding: 5px 10px;
+  font-weight: bold;
+}
+
+#kakaoLogout img {
+  width: 25px;
+  height: 25px;
+}
+
+#logo-box {
+  right: 50%;
+  top: 3%;
+}
+
+#menu-box {
+  width: 100%;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  height: 100px;
+  align-items: center;
+  position: fixed;
+}
+
+#menu-list {
+  display: flex;
+}
+
+#menu-list li {
+  margin-left: 30px;
+}
+
+#menu-list li a {
+  color: black;
+}
+
+#myPage {
+  padding: 10px;
+}
+
+#myPage-btn {
+  margin: 0px 10px;
+  text-align: center;
+  display: block;
+}
+
+#login-box {
+  width: 108px;
+  text-align: center;
+}
+
+#login-btn {
+  background-color: #c7c7c7;
+  color: rgba(0, 0, 0, 0.85);
+  border-radius: 8px;
+  padding: 10px 25px;
+  font-weight: bold;
+  line-height: 80px;
+  border-radius: 25px;
+}
+
+#nomarl-logout {
+  margin-top: 20px;
+  text-align: center;
+  width: 108px;
+}
+
+#logout {
+  background-color: #c7c7c7;
+  color: rgba(0, 0, 0, 0.85);
+  border-radius: 8px;
+  padding: 5px 10px;
+  font-weight: bold;
+}

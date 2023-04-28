@@ -1,14 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{{title}}</title>
-</head>
-<body>
-    <h1>로그인 페이지</h1>
-    <h3>로그인, 회원가입, 카카오로그인 등</h3>
-    <a href="/page/join">회원가입</a>
-</body>
+    <link rel="stylesheet" href="/styles/login.css" />
+    <script
+      type="text/javascript"
+      src="https://unpkg.com/axios@0.26.0/dist/axios.min.js"
+    ></script>
+    <script src="/javascript/login.js" defer></script>
+  </head>
+  <body>
+    <div class="logo">
+      <a href="/">LOGO 였던 것</a>
+    </div>
+    <div class="login-form">
+      <form action="/auth/login" method="post">
+        <div>
+          <input
+            type="text"
+            name="userId"
+            class="text-field"
+            placeholder="아이디"
+            id="userid"
+          />
+        </div>
+        <div>
+          <input
+            type="password"
+            name="password"
+            class="text-field"
+            placeholder="비밀번호"
+            id="userPwd"
+          />
+        </div>
+        <div><input type="submit" value="로그인" class="submit-btn" /></div>
+        <div>
+          <a id="kakao" href="/auth/kakao" class="submit-btn social">
+            <img src="/imgs/kakao_login_medium_wide.png" alt="" class="kakao" />
+          </a>
+        </div>
+      </form>
+      <div class="links">
+        <a href="#">비밀번호를 잊어버리셨나요?</a>
+      </div>
+      <div class="join">
+        <a href="/page/join" target="_blank" class="join-btn">회원가입</a>
+      </div>
+    </div>
+  </body>
 </html>
