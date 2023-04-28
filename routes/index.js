@@ -3,6 +3,7 @@ const router = express.Router();
 // 라우트 포함 (추후 라우트 분류하면서 수정 필요함)
 const pageRouter = require("./page");
 const boardRouter = require("./board");
+const postRouter = require("./post");
 // const authRouter = require("./routes/auth");
 // const postRouter = require("./routes/post");
 // const userRouter = require("./routes/user");
@@ -11,6 +12,7 @@ const boardRouter = require("./board");
 // 라우터 사용 선언 (추후 라우트 분류하면서 수정 필요함)
 router.use("/", pageRouter);
 router.use("/boards", boardRouter);
+router.use("/posts", postRouter);
 // app.use("/auth", authRouter);
 // app.use("/post", postRouter);
 // app.use("/user", userRouter);

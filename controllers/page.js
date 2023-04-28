@@ -21,6 +21,7 @@ exports.renderMain = async (req, res, next) => {
     res.render("main", {
       title: "메인페이지",
       twits: posts,
+      boardName: "main",
     });
   } catch (err) {
     console.error(err);
@@ -50,6 +51,7 @@ exports.renderNotice = async (req, res, next) => {
     res.render("notice", {
       title: "공지사항페이지",
       twits: posts,
+      boardName: "notice",
     });
   } catch (err) {
     console.error(err);
@@ -79,6 +81,7 @@ exports.renderInfo = async (req, res, next) => {
     res.render("info", {
       title: "정보페이지",
       twits: posts,
+      boardName: "info",
     });
   } catch (err) {
     console.error(err);
@@ -117,6 +120,7 @@ exports.renderCommunity = async (req, res, next) => {
     res.render("community", {
       title: "커뮤니티페이지",
       twits: posts,
+      boardName: "community",
     });
   } catch (err) {
     console.error(err);
