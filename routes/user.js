@@ -8,7 +8,7 @@ router.get("/check", checkUser);
 
 // router.get("/check", checkUserNick);
 
-router.post('/:id/posts', getPost);
+router.get('/:id/posts', getPost);
 
 // router.patch('/:id', updateUser);
 

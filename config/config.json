@@ -1,22 +1,22 @@
 {
   "development": {
     "username": "root",
-    "password": "qw029953@@",
-    "database": "petFriends",
+    "password": "root",
+    "database": "db",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
   "test": {
     "username": "root",
-    "password": "qw029953@@",
-    "database": "petFriends",
+    "password": "root",
+    "database": "db",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
   "production": {
     "username": "root",
-    "password": "qw029953@@",
-    "database": "petFriends",
+    "password": "root",
+    "database": "db",
     "host": "127.0.0.1",
     "dialect": "mysql"
   }

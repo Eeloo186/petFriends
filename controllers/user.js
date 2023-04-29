@@ -21,34 +21,25 @@ exports.checkUser = async (req, res) => {
 };
 
 
-exports.getPost = async(req, res) => {
-  console.log('------------------1------------------');
+exports.getPost = async(req, res, next) => {
+  console.log(req.user.id);
   try {
     const posts = await Post.findAll({
-        attributes: ['title', 'createdAt',],
-        where: {UserId: req.user.id},
-
-        include: [
-            {
-                model: User,
-                attributes: ['userId', 'nickname'],
-            },
-            {
-                model: Content,
-                attributes: ['content'],
-            },
-        ],
-
+      include: [
+        {
+          model: User,
+          attributes: ["userId", "nickname"],
+          where: { id: req.user.id },
+        },
+        {
+          model: Content,
+          attributes: ["content"],
+        },
+      ],
     });
-    // res
-    console.log('-------------------------------------');
-    console.log(posts);
-    console.log('-------------------------------------');
-
-    // res.render('mypage',{ 
-    //   twits: posts,
-    // });
-    res.send("TEST");
+    res.json({
+      posts,
+    });
 } catch (err) {
     console.error(err);
     next(err);
@@ -56,5 +47,4 @@ exports.getPost = async(req, res) => {
 };
 
 // exports.updateUser( async (req, res) => {
-
 // });

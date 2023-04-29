@@ -23,7 +23,7 @@ p {
 }
 
 .myDIV {
-    /* display: none; */
+    display: none;
     background-color: #f1f1f1;
     border-radius: 8px;
     padding: 16px;
@@ -68,7 +68,7 @@ h2 {text-align: center}
 #logout {
     align-self: flex-end;
     margin-top: 10px;
-    transform: translate(-25%, 130%);
+    transform: translate(-100%, 140%);
 }
 .btn {
     background-color: rgb(128, 0, 255);
@@ -108,11 +108,24 @@ h2 {text-align: center}
 h1 {
     text-align: center;
 }
-/* #mypost {
-    position: absolute;
+#mypostBtn {
+    /* position: absolute;
     top: 50%;
     left: 30%;
 
 
-    transform: translate(-90%, 195%);
-} */
+    transform: translate(-90%, 195%); */
+    align-self: flex-start;
+    margin-top: 10px;
+    transform: translate(35%, 300%);
+}
+
+#post-list-div{
+    display: none;
+    background-color: #f1f1f1;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 16px;
+    width: 75%;
+    border : 1px solid black;
+}
