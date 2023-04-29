@@ -14,3 +14,12 @@ exports.isNotLoggedIn = (req, res, next) => {
     res.redirect(`/?error=${message}`);
   }
 };
+
+
+// 관리자 여부 조사
+exports.isAdmin = (req, res, next) => {
+  // id 받아서 등급 조사로 admin 여부 구해옴
+};
+exports.isNotAdmin = (req, res, next) => {
+
+};

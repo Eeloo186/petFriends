@@ -28,6 +28,7 @@
                   id="user-name"
                   class="input-style"
                   placeholder="2~10사이"
+                  value="{{user.nickname}}"
                   required
                 />
               </div>
@@ -45,6 +46,8 @@
                   name="userId"
                   id="user-id"
                   class="input-style"
+                  value="{{user.userId}}"
+                  readonly
                   required
                 />
               </div>
@@ -93,11 +96,14 @@
                   name="email"
                   id="user-email"
                   class="input-style"
+                  value="{{user.email}}"
                 />
               </div>
             </li>
             <li>
               <!-- ------------- 주소 --------------- -->
+              <!-- 가입시 address1~3 구분자로 구분해서 넣기 -->
+              <!-- 회원정보수정시 구분자로 구분해서 가져오기 -->
               <div class="list">
                 <label for="address">주소</label>
                 <input
@@ -189,9 +195,11 @@
           </div>
         </ul>
         <div id="join-content">
-          <button id="join-btn" type="submit">회원가입</button>
+          <button id="join-btn" type="submit">수정</button>
         </div>
       </form>
     </div>
   </body>
+  <script>
+  </script>
 </html>
