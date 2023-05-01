@@ -14,11 +14,7 @@ const {
 } = require("../controllers/page");
 
 router.use((req, res, next) => {
-  // res.locals.user = req.user;
   res.locals.user = req.user;
-
-  // 기타 페이지 이동시 필요한 정보들 여기에 추가
-
   next();
 });
 

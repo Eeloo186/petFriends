@@ -1,6 +1,7 @@
 const { User, Post, Board, Content } = require("../models");
 
 exports.renderMain = async (req, res, next) => {
+  console.log("renderMain 진입");
   try {
     const posts = await Post.findAll({
       include: [
@@ -18,6 +19,7 @@ exports.renderMain = async (req, res, next) => {
         },
       ],
     });
+
     res.render("main", {
       title: "메인페이지",
       twits: posts,
