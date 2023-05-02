@@ -37,7 +37,7 @@ class User extends Sequelize.Model {
         },
         pet: {
           type: Sequelize.BOOLEAN,
-          allowNull: false,
+          allowNull: true,
         },
         rank: {
           type: Sequelize.STRING(5), // 추후 ENUM으로 변경

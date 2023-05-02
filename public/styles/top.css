@@ -1,7 +1,6 @@
 * {
   margin: 0;
   padding: 0;
-  list-style: none;
   text-decoration: none;
   box-sizing: border-box;
   vertical-align: bottom;
@@ -33,18 +32,23 @@ body {
   top: 3%;
 }
 
+#logo-box a {
+  color: rgb(0, 0, 0);
+}
+
 #menu-box {
   width: 100%;
   display: flex;
   flex-direction: row-reverse;
   justify-content: space-between;
-  height: 100px;
+  height: 80px;
   align-items: center;
-  /* position: fixed; */
+  position: fixed;
 }
 
 #menu-list {
   display: flex;
+  list-style: none;
 }
 
 #menu-list li {
@@ -52,7 +56,7 @@ body {
 }
 
 #menu-list li a {
-  color: black;
+  color: rgb(49, 49, 49);
 }
 
 #myPage {
@@ -63,6 +67,7 @@ body {
   margin: 0px 10px;
   text-align: center;
   display: block;
+  color: black;
 }
 
 #login-box {
@@ -71,13 +76,7 @@ body {
 }
 
 #login-btn {
-  background-color: #c7c7c7;
-  color: rgba(0, 0, 0, 0.85);
-  border-radius: 8px;
-  padding: 10px 25px;
-  font-weight: bold;
-  line-height: 80px;
-  border-radius: 25px;
+  color: rgba(82, 82, 82, 0.85);
 }
 
 #nomarl-logout {
@@ -87,7 +86,6 @@ body {
 }
 
 #logout {
-  background-color: #c7c7c7;
   color: rgba(0, 0, 0, 0.85);
   border-radius: 8px;
   padding: 5px 10px;
