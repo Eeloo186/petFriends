@@ -3,6 +3,8 @@ const { User, Post, Board, Content } = require("../models");
 exports.renderMain = async (req, res, next) => {
   try {
     const posts = await Post.findAll({
+      order: [["view", "DESC"]],
+      limit: 5,
       include: [
         {
           model: User,

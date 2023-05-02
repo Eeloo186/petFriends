@@ -2,7 +2,6 @@ const { User } = require("../models");
 
 exports.checkUser = async (req, res) => {
   try {
-    console.log(Object.keys(req.query)[0]);
     if (Object.keys(req.query)[0] == "userId") {
       const userId = req.query.userId;
       const user = await User.findOne({ where: { userId: userId } });
