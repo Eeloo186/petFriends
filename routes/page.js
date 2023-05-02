@@ -42,7 +42,7 @@ router.get("/page/info", renderInfo);
 router.get("/page/community", renderCommunity);
 
 // 개별 상세보기 페이지
-router.get("/page/view/:id", renderCommunityView);
+router.get("/page/communityView/:id", renderCommunityView);
 
 // 글쓰기(에디터) 페이지
 router.get("/page/editor", renderEditor);

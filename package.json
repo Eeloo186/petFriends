@@ -4,7 +4,7 @@
   "description": "pet community project",
   "main": "index.js",
   "scripts": {
-    "start" : "nodemon index"
+    "start": "nodemon index"
   },
   "author": "team pet friends",
   "license": "ISC",

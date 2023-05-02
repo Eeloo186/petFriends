@@ -2,20 +2,20 @@
   "development": {
     "username": "root",
     "password": "edurootroot",
-    "database": "test",
+    "database": "db",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
   "test": {
     "username": "root",
-    "password": "root",
+    "password": "edurootroot",
     "database": "db",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
   "production": {
     "username": "root",
-    "password": "root",
+    "password": "edurootroot",
     "database": "db",
     "host": "127.0.0.1",
     "dialect": "mysql"

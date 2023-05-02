@@ -31,6 +31,7 @@ exports.renderMain = async (req, res, next) => {
 };
 
 exports.renderNotice = async (req, res, next) => {
+  const page = req.query.currentPage;
   try {
     const posts = await Post.findAll({
       include: [
@@ -48,11 +49,49 @@ exports.renderNotice = async (req, res, next) => {
           attributes: ["content"],
         },
       ],
+      limit:10,
+      offset: (page -1) * 10
     });
+
+    const postsCount = await Post.findAndCountAll({
+      nest: false,
+      include: [
+        {
+          model: User,
+          attributes: ['userId', 'nickname'],
+        },
+        {
+          model: Board,
+          attributes: ['name'],
+          where: { name: 'notice' },
+        },
+        {
+          model: Content,
+          attributes: ['id', 'content'],
+        }
+      ],
+      limit:10,
+      offset: page * 10
+    })
+
+    const {count} = postsCount;
+    let limit = 10;
+
+    const pagingData = getPagingDataCount(count, page, limit);
+
+     // DB createdAt에 들어있는 Date 정보 커스터마이징
+     posts.forEach((post) => {
+      let date = post["dataValues"]["createdAt"];
+      post["dataValues"][
+        "createdAt"
+      ] = `${date.getFullYear()}년 ${date.getMonth()}월 ${date.getDate()}일 ${date.getHours()}시 ${date.getMinutes()}분 ${date.getSeconds()}초`;
+    });
+
     res.render("notice", {
       title: "공지사항페이지",
       twits: posts,
       boardName: "notice",
+      pagingData,
     });
   } catch (err) {
     console.error(err);
@@ -61,6 +100,7 @@ exports.renderNotice = async (req, res, next) => {
 };
 
 exports.renderInfo = async (req, res, next) => {
+  const page = req.query.currentPage;
   try {
     const posts = await Post.findAll({
       include: [
@@ -78,11 +118,49 @@ exports.renderInfo = async (req, res, next) => {
           attributes: ["content"],
         },
       ],
+      limit:10,
+      offset: (page -1) * 10
     });
+
+    const postsCount = await Post.findAndCountAll({
+      nest: false,
+      include: [
+        {
+          model: User,
+          attributes: ['userId', 'nickname'],
+        },
+        {
+          model: Board,
+          attributes: ['name'],
+          where: { name: 'info' },
+        },
+        {
+          model: Content,
+          attributes: ['id', 'content'],
+        }
+      ],
+      limit:10,
+      offset: page * 10
+    })
+
+    const {count} = postsCount;
+    let limit = 10;
+
+    const pagingData = getPagingDataCount(count, page, limit);
+
+    // DB createdAt에 들어있는 Date 정보 커스터마이징
+    posts.forEach((post) => {
+      let date = post["dataValues"]["createdAt"];
+      post["dataValues"][
+        "createdAt"
+      ] = `${date.getFullYear()}년 ${date.getMonth()}월 ${date.getDate()}일 ${date.getHours()}시 ${date.getMinutes()}분 ${date.getSeconds()}초`;
+    });
+
     res.render("info", {
       title: "정보페이지",
       twits: posts,
       boardName: "info",
+      pagingData,
     });
   } catch (err) {
     console.error(err);
@@ -147,6 +225,7 @@ exports.renderCommunity = async (req, res, next) => {
       limit:10,
       offset: (page -1) * 10
     });
+    //console.log(posts);
 
     const postsCount = await Post.findAndCountAll({
       nest: false,
@@ -238,11 +317,11 @@ exports.renderModifyUser = async (req, res, next) => {
   try {
     const user = await User.findOne({ where: { id: req.user.id }});
     // console.log(user);
-    console.log('----------------------------');
+    //console.log('----------------------------');
     // console.log(req.user["dataValues"]["id"]);
     // console.log(req.user.id);
-    console.log(user);
-    console.log('----------------------------');
+    //console.log(user);
+    //console.log('----------------------------');
 
     res.render("modify", {
       title: "회원정보수정",
