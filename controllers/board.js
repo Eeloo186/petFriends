@@ -3,11 +3,12 @@ const { Board, Post, Content } = require("../models");
 
 exports.uploadPost = async (req, res, next) => {
   try {
+    console.log(req.body);
     const { boardName, title, content } = req.body;
 
     // 게시판이름으로 게시판ID 찾아서 저장
     const board = await Board.findOne({ where: { name: boardName } });
-
+    console.log(board);
     // posts 테이블에 데이터 저장
     const post = await Post.create({
       title,

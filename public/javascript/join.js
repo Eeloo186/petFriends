@@ -3,61 +3,63 @@ const selected = document.getElementById("selected");
 const userSelect = document.getElementById("email-select");
 const joinBtn = document.querySelector("#join-btn");
 const confirmBox = document.querySelector(".confirm-box");
+const userIdInput = document.getElementById("user-id");
+const userNickInput = document.getElementById("user-name");
 //유효성 검사
 
-//아이디 중복 체크
-const userIdInput = document.getElementById("user-id");
+if (window.location.href.match("join")) {
+  //아이디 중복 체크
 
-userIdInput.addEventListener("input", async () => {
-  const userId = userIdInput.value;
+  userIdInput.addEventListener("input", async () => {
+    const userId = userIdInput.value;
 
-  const response = await axios.get(`/users/check/?userId=${userId}`);
-  const isDuplicate = response.data.isDuplicate;
-  const userIdResult = document.getElementById("userIdResult");
-  if (userId !== "") {
-    if (isDuplicate) {
-      userIdResult.textContent = "이미 사용하는 아이디입니다.";
-      userIdResult.style.color = "red";
-      userIdInput.style.border = "2px solid red";
-      userIdInput.style.outline = "red";
+    const response = await axios.get(`/users/check/?userId=${userId}`);
+    const isDuplicate = response.data.isDuplicate;
+    const userIdResult = document.getElementById("userIdResult");
+    if (userId !== "") {
+      if (isDuplicate) {
+        userIdResult.textContent = "이미 사용하는 아이디입니다.";
+        userIdResult.style.color = "red";
+        userIdInput.style.border = "2px solid red";
+        userIdInput.style.outline = "red";
+      } else {
+        userIdResult.textContent = "멋진 아이디네요!";
+        userIdResult.style.color = "green";
+        userIdInput.style.border = "2px solid green";
+        userIdInput.style.outline = "green";
+      }
     } else {
-      userIdResult.textContent = "멋진 아이디네요!";
-      userIdResult.style.color = "green";
-      userIdInput.style.border = "2px solid green";
-      userIdInput.style.outline = "green";
+      userIdResult.textContent = "";
+      userIdInput.style.border = "1px solid rgb(189, 189, 189)";
     }
-  } else {
-    userIdResult.textContent = "";
-    userIdInput.style.border = "1px solid rgb(189, 189, 189)";
-  }
-});
+  });
 
-//이름 중복 검사
-const userNickInput = document.getElementById("user-name");
+  //이름 중복 검사
 
-userNickInput.addEventListener("input", async () => {
-  const nickname = userNickInput.value;
+  userNickInput.addEventListener("input", async () => {
+    const nickname = userNickInput.value;
 
-  const response = await axios.get(`/users/check/?nickname=${nickname}`);
-  const isDuplicate = response.data.isDuplicate;
-  const userNickResult = document.getElementById("userNickResult");
-  if (nickname !== "") {
-    if (isDuplicate) {
-      userNickResult.textContent = "이미 사용하는 이름입니다.";
-      userNickResult.style.color = "red";
-      userNickInput.style.border = "2px solid red";
-      userNickInput.style.outline = "red";
+    const response = await axios.get(`/users/check/?nickname=${nickname}`);
+    const isDuplicate = response.data.isDuplicate;
+    const userNickResult = document.getElementById("userNickResult");
+    if (nickname !== "") {
+      if (isDuplicate) {
+        userNickResult.textContent = "이미 사용하는 이름입니다.";
+        userNickResult.style.color = "red";
+        userNickInput.style.border = "2px solid red";
+        userNickInput.style.outline = "red";
+      } else {
+        userNickResult.textContent = "멋진 이름이네요!";
+        userNickResult.style.color = "green";
+        userNickInput.style.border = "2px solid green";
+        userNickInput.style.outline = "green";
+      }
     } else {
-      userNickResult.textContent = "멋진 이름이네요!";
-      userNickResult.style.color = "green";
-      userNickInput.style.border = "2px solid green";
-      userNickInput.style.outline = "green";
+      userNickResult.textContent = "";
+      userNickInput.style.border = "1px solid rgb(189, 189, 189)";
     }
-  } else {
-    userNickResult.textContent = "";
-    userNickInput.style.border = "1px solid rgb(189, 189, 189)";
-  }
-});
+  });
+}
 
 //제출 했을 때
 joinBtn.addEventListener("click", (event) => {
@@ -114,8 +116,8 @@ function execDaumPostcode() {
 
       // 각 주소의 노출 규칙에 따라 주소를 조합한다.
       // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-      let addr = ""; // 주소 변수
-      let extraAddr = ""; // 참고항목 변수
+      var addr = ""; // 주소 변수
+      var extraAddr = ""; // 참고항목 변수
 
       //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
       if (data.userSelectedType === "R") {
@@ -139,12 +141,13 @@ function execDaumPostcode() {
             extraAddr !== "" ? ", " + data.buildingName : data.buildingName;
         }
         // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+        if (extraAddr !== "") {
+          extraAddr = " (" + extraAddr + ")";
+        }
       }
-
       // 우편번호와 주소 정보를 해당 필드에 넣는다.
       document.getElementById("postcode").value = data.zonecode;
       document.getElementById("address").value = addr;
-      document.getElementById("sample4_jibunAddress").value = data.jibunAddress;
       // 커서를 상세주소 필드로 이동한다.
       document.getElementById("detailAddress").focus();
     },
@@ -178,4 +181,62 @@ const petYes = document
     }, 300);
   });
 
-//
+// 회원정보 수정
+if (window.location.href.match("page/users")) {
+  const hidn = document.querySelector(".hiddenNick").value;
+
+  userNickInput.addEventListener("input", async () => {
+    const nickname = userNickInput.value;
+    const response = await axios.get(`/users/check/?nickname=${nickname}`);
+    const isDuplicate = response.data.isDuplicate;
+    const userNickResult = document.getElementById("userNickResult");
+
+    if (nickname !== "") {
+      if (isDuplicate && hidn == nickname) {
+        userNickResult.textContent = "";
+        userNickInput.style.border = "1px solid rgb(189, 189, 189)";
+      } else if (isDuplicate && hidn !== userNickInput.value) {
+        userNickResult.textContent = "이미 사용하는 이름입니다.";
+        userNickResult.style.color = "red";
+        userNickInput.style.border = "2px solid red";
+        userNickInput.style.outline = "red";
+      } else {
+        userNickResult.textContent = "멋진 이름이네요!";
+        userNickResult.style.color = "green";
+        userNickInput.style.border = "2px solid green";
+        userNickInput.style.outline = "green";
+      }
+    } else {
+      userNickResult.textContent = "";
+      userNickInput.style.border = "1px solid rgb(189, 189, 189)";
+    }
+  });
+
+  userIdInput.addEventListener("input", async () => {
+    const userId = userIdInput.value;
+    const hidn = document.querySelector(".hiddenId").value;
+
+    const response = await axios.get(`/users/check/?userId=${userId}`);
+    const isDuplicate = response.data.isDuplicate;
+    const userIdResult = document.getElementById("userIdResult");
+    if (userId !== "") {
+      if (isDuplicate && hidn == userId) {
+        userIdResult.textContent = "";
+        userIdInput.style.border = "1px solid rgb(189, 189, 189)";
+      } else if (isDuplicate && hidn !== userId) {
+        userIdResult.textContent = "이미 사용하는 아이디입니다.";
+        userIdResult.style.color = "red";
+        userIdInput.style.border = "2px solid red";
+        userIdInput.style.outline = "red";
+      } else {
+        userIdResult.textContent = "멋진 아이디네요!";
+        userIdResult.style.color = "green";
+        userIdInput.style.border = "2px solid green";
+        userIdInput.style.outline = "green";
+      }
+    } else {
+      userIdResult.textContent = "";
+      userIdInput.style.border = "1px solid rgb(189, 189, 189)";
+    }
+  });
+}

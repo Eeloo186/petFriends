@@ -43,7 +43,7 @@ h3 span {
   font-weight: bold;
 }
 .mypage-box {
-  margin: 0 auto;
+  margin: 10% auto;
   max-width: 800px;
   padding: 20px;
   border: 1px solid #ddd;

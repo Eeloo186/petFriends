@@ -1,4 +1,4 @@
-const { User, Post, Content } = require("../models");
+const { User, Post, Content, Pet } = require("../models");
 
 exports.checkUser = async (req, res) => {
   try {
@@ -44,5 +44,53 @@ exports.getPost = async (req, res, next) => {
   }
 };
 
-// exports.updateUser( async (req, res) => {
-// });
+exports.editUser = async (req, res, next) => {
+  const {
+    id,
+    nickname,
+    userId,
+    email,
+    address1,
+    address2,
+    address3,
+    pet,
+    petName,
+    petType,
+    petKind,
+    petAge,
+    petEtc,
+  } = req.body;
+  console.log(id, nickname, userId, email, address1);
+  try {
+    await User.update(
+      {
+        nickname,
+        userId,
+        email,
+        address1,
+        address2,
+        address3,
+        pet,
+      },
+      {
+        where: { id: id },
+      }
+    );
+    await Pet.update(
+      {
+        name: petName,
+        type: petType,
+        kind: petKind,
+        age: Number(petAge),
+        etc: petEtc,
+      },
+      {
+        where: { id: id },
+      }
+    );
+    return res.redirect("/page/mypage");
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "서버 에러 발생" });
+  }
+};

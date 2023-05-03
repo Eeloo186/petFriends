@@ -16,9 +16,7 @@
 
 #kakaoLogout {
   background-color: #fee500;
-  color: rgba(0, 0, 0, 0.85);
-  border-radius: 8px;
-  padding: 5px 10px;
+  border-radius: 12px;
 }
 
 #kakaoLogout img {
@@ -42,10 +40,10 @@
 }
 
 #menu-list a {
-  padding: 0px 20px;
+  padding: 0px 10px;
   text-align: center;
   color: black;
-  margin: 0 10px;
+  margin: 0 20px;
   font-weight: bold;
 }
 

@@ -1,36 +1,33 @@
 <div id="menu-box">
   <div id="logo-box">
-    <a href="/page/login" id="login-btn">로고</a>
+    <a href="/" id="login-btn">로고</a>
   </div>
   <div id="menu-list">
     <a href="/">홈</a>
     <a href="/page/notice" class="notice-btn">공지사항 </a>
     <a href="/page/info" class="info">정보글 </a>
     <a href="/page/community" class="community">커뮤니티 </a>
-    <div id="myPage">
-      {% if user %}
-      <a href="" class="mypage-btn">{{ user.nickname }} 님</a>
-      <div id="mypage-box">
-        <a href="/page/mypage" class="mypage-btn"> 마이페이지 </a>
-      </div>
-      {% if user.provider == 'kakao' %}
-      <div id="kakaoLogout-box">
-        <a
-          id="kakaoLogout"
-          href="https://kauth.kakao.com/oauth/logout?client_id={{ kakao }}&logout_redirect_uri=http://localhost:8001/auth/logout"
-          ><img src="/imgs/kakaologout.png" alt="" /> 로그아웃</a
-        >
-      </div>
-      {% else %}
-      <div id="nomarl-logout">
-        <a id="logout" href="/auth/logout">로그아웃</a>
-      </div>
-      {% endif %} {% else %}
-      <div id="login-box">
-        <a href="/page/login" id="login-btn"> 로그인 </a>
-      </div>
-
-      {% endif %}
+    {% if user %}
+    <div id="mypage-box">
+      <a href="/page/mypage" class="mypage-btn"> 마이페이지 </a>
     </div>
+    {% if user.provider == 'kakao' %}
+    <div id="kakaoLogout-box">
+      <a
+        id="kakaoLogout"
+        href="https://kauth.kakao.com/oauth/logout?client_id={{ kakao }}&logout_redirect_uri=http://localhost:8001/auth/logout"
+        ><img src="/imgs/kakaologout.png" alt="" /> 로그아웃</a
+      >
+    </div>
+    {% else %}
+    <div id="nomarl-logout">
+      <a id="logout" href="/auth/logout">로그아웃</a>
+    </div>
+    {% endif %} {% else %}
+    <div id="login-box">
+      <a href="/page/login" id="login-btn"> 로그인 </a>
+    </div>
+    {% endif %}
   </div>
 </div>
+<div style="width: 100%; height: 50px"></div>

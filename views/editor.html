@@ -7,11 +7,18 @@
     <title>{{title}}</title>
   </head>
   <body>
-    <input id="board-name" name="board-name" type="hidden" value="{{boardName}}" />
+    <input
+      id="board-name"
+      name="board-name"
+      type="hidden"
+      value="{{boardName}}"
+    />
     <div id="container">
       <h1>에디터 페이지</h1>
-      <label for="title">글제목 <input id="title" type="text" style="width: 549px" /></label>
-      <textarea name="editor" id="editor" rows="10" cols="100">CKEDITER5</textarea>
+      <label for="title"
+        >글제목 <input id="title" type="text" style="width: 549px"
+      /></label>
+      <textarea name="editor" id="editor" rows="10" cols="100"></textarea>
       <button id="writeBtn">글쓰기</button>
       <button id="backBtn">돌아가기</button>
     </div>
@@ -38,7 +45,7 @@
       const title = document.getElementById("title").value;
       const boardName = document.getElementById("board-name").value;
       const content = editor.getData();
-      
+
       // 유효성 검사 추가
       if (title == "") {
         alert("글 제목을 입력하세요");
