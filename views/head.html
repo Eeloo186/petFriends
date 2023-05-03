@@ -1,0 +1,27 @@
+<meta charset="UTF-8" />
+<title>{{title}}</title>
+<meta name="viewport" content="width=device-width, user-scalable=no" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<link rel="stylesheet" href="/styles/top.css" />
+<script src="/javascript/top.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+  window.onload = async function () {
+    console.log("top.html 로딩 완료");
+    if ("{{user}}") {
+      await axios
+        .get("/api/weather/{{user.id}}")
+        .then((res) => {
+          console.log(res.data);
+          const weatherArea = document.getElementById("weather-textbox");
+          weatherArea.value = `기온 : ${res.data.temp}, 강수확률 : ${res.data.pop}`;
+        })
+        .catch((err) => {
+          console.log("에러 발생");
+          console.error(err);
+        });
+    }
+  };
+</script>

@@ -27,7 +27,9 @@
                   name="nickname"
                   id="user-name"
                   class="input-style"
-                  placeholder="2~10사이"
+                  placeholder="1~10사이"
+                  minlength="2"
+                  maxlength="10"
                   required
                 />
               </div>
@@ -63,6 +65,8 @@
                   id="user-passward"
                   class="input-style"
                   placeholder="6~15사이"
+                  minlength="6"
+                  maxlength="15"
                   required
                 />
               </div>
@@ -93,6 +97,7 @@
                   name="email"
                   id="user-email"
                   class="input-style"
+                  minlength="3"
                 />
               </div>
             </li>
@@ -108,21 +113,23 @@
                 />
                 <input
                   type="text"
-                  id="zip-code"
+                  id="postcode"
                   class="input-style"
                   name="address1"
                   placeholder="우편번호"
+                  readonly
                 />
                 <input
                   type="text"
-                  id="address-1"
+                  id="address"
                   class="input-style"
                   name="address2"
-                  placeholder="도로명주소"
+                  placeholder="주소"
+                  readonly
                 />
                 <input
                   type="text"
-                  id="address-2"
+                  id="detailAddress"
                   class="input-style"
                   name="address3"
                   placeholder="상세주소"
@@ -130,8 +137,8 @@
               </div>
             </li>
             <li>
+              <!-- ------------- 펫 정보 --------------- -->
               <div class="list">
-                <!-- ------------- 펫 정보 --------------- -->
                 <label for="pet">펫 정보</label>
                 <input type="radio" id="petYes" name="pet" value="true" /><span
                   class="petCheck"

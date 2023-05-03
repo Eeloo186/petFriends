@@ -7,11 +7,18 @@
     <title>{{title}}</title>
   </head>
   <body>
-    <input id="board-name" name="board-name" type="hidden" value="{{boardName}}" />
+    <input
+      id="board-name"
+      name="board-name"
+      type="hidden"
+      value="{{boardName}}"
+    />
     <div id="container">
       <h1>에디터 페이지</h1>
-      <label for="title">글제목 <input id="title" type="text" style="width: 549px" /></label>
-      <textarea name="editor" id="editor" rows="10" cols="100">CKEDITER5</textarea>
+      <label for="title"
+        >글제목 <input id="title" type="text" style="width: 549px"
+      /></label>
+      <textarea name="editor" id="editor" rows="10" cols="100"></textarea>
       <button id="writeBtn">글쓰기</button>
       <button id="backBtn">돌아가기</button>
     </div>
@@ -38,7 +45,7 @@
       const title = document.getElementById("title").value;
       const boardName = document.getElementById("board-name").value;
       const content = editor.getData();
-      
+
       // 유효성 검사 추가
       if (title == "") {
         alert("글 제목을 입력하세요");
@@ -55,7 +62,7 @@
             .post(`/boards/${boardName}/posts`, data)
             .then((res) => {
               // 작성글 정보 db에 등록 완료했으면 원래 있던 곳으로 이동
-              location.href = `/page/${boardName}`;
+              location.href = `/page/${boardName}?currentPage=1`;
             })
             .catch((err) => {
               console.error(err);
@@ -73,10 +80,10 @@
       const boardName = document.getElementById("board-name").value;
       if (title == "" && content == "") {
         // 작성 내용이 없음
-        location.href = `/page/${boardName}`;
+        location.href = `/page/${boardName}?currentPage=1`;
       } else {
         if (confirm("작성중인 내용이 있습니다. 정말 돌아가시겠습니까?")) {
-          location.href = `/page/${boardName}`;
+          location.href = `/page/${boardName}?currentPage=1`;
         }
       }
     });

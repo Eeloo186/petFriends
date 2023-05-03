@@ -1,9 +1,13 @@
+const e = require("express");
 const { User, Post, Board, Content } = require("../models");
 
 exports.renderMain = async (req, res, next) => {
   console.log("renderMain 진입");
   try {
+    const kakao = process.env.KAKAO_ID;
     const posts = await Post.findAll({
+      order: [["view", "DESC"]],
+      limit: 5,
       include: [
         {
           model: User,
@@ -25,6 +29,7 @@ exports.renderMain = async (req, res, next) => {
       twits: posts,
       boardName: "main",
       user: req.user,
+      kakao,
     });
   } catch (err) {
     console.error(err);
@@ -51,8 +56,8 @@ exports.renderNotice = async (req, res, next) => {
           attributes: ["content"],
         },
       ],
-      limit:10,
-      offset: (page -1) * 10
+      limit: 10,
+      offset: (page - 1) * 10,
     });
 
     const postsCount = await Post.findAndCountAll({
@@ -60,29 +65,29 @@ exports.renderNotice = async (req, res, next) => {
       include: [
         {
           model: User,
-          attributes: ['userId', 'nickname'],
+          attributes: ["userId", "nickname"],
         },
         {
           model: Board,
-          attributes: ['name'],
-          where: { name: 'notice' },
+          attributes: ["name"],
+          where: { name: "notice" },
         },
         {
           model: Content,
-          attributes: ['id', 'content'],
-        }
+          attributes: ["id", "content"],
+        },
       ],
-      limit:10,
-      offset: page * 10
-    })
+      limit: 10,
+      offset: page * 10,
+    });
 
-    const {count} = postsCount;
+    const { count } = postsCount;
     let limit = 10;
 
     const pagingData = getPagingDataCount(count, page, limit);
 
-     // DB createdAt에 들어있는 Date 정보 커스터마이징
-     posts.forEach((post) => {
+    // DB createdAt에 들어있는 Date 정보 커스터마이징
+    posts.forEach((post) => {
       let date = post["dataValues"]["createdAt"];
       post["dataValues"][
         "createdAt"
@@ -120,8 +125,8 @@ exports.renderInfo = async (req, res, next) => {
           attributes: ["content"],
         },
       ],
-      limit:10,
-      offset: (page -1) * 10
+      limit: 10,
+      offset: (page - 1) * 10,
     });
 
     const postsCount = await Post.findAndCountAll({
@@ -129,23 +134,23 @@ exports.renderInfo = async (req, res, next) => {
       include: [
         {
           model: User,
-          attributes: ['userId', 'nickname'],
+          attributes: ["userId", "nickname"],
         },
         {
           model: Board,
-          attributes: ['name'],
-          where: { name: 'info' },
+          attributes: ["name"],
+          where: { name: "info" },
         },
         {
           model: Content,
-          attributes: ['id', 'content'],
-        }
+          attributes: ["id", "content"],
+        },
       ],
-      limit:10,
-      offset: page * 10
-    })
+      limit: 10,
+      offset: page * 10,
+    });
 
-    const {count} = postsCount;
+    const { count } = postsCount;
     let limit = 10;
 
     const pagingData = getPagingDataCount(count, page, limit);
@@ -172,27 +177,27 @@ exports.renderInfo = async (req, res, next) => {
 
 exports.renderCommunityView = async (req, res, next) => {
   //console.log(req.params);
-  const {id} = req.params;
+  const { id } = req.params;
   try {
     const posts = await Post.findOne({
       include: [
         {
           model: User,
-          attributes: ['userId', 'nickname'],
+          attributes: ["userId", "nickname"],
         },
         {
           model: Board,
-          attributes: ['name'],
+          attributes: ["name"],
         },
         {
           model: Content,
-          attributes: ['content'],
+          attributes: ["content"],
         },
       ],
       where: {
-        id : id
-      }
-    })
+        id: id,
+      },
+    });
 
     res.render("communityView", {
       title: "메인페이지",
@@ -224,8 +229,8 @@ exports.renderCommunity = async (req, res, next) => {
           attributes: ["content"],
         },
       ],
-      limit:10,
-      offset: (page -1) * 10
+      limit: 10,
+      offset: (page - 1) * 10,
     });
     //console.log(posts);
 
@@ -234,23 +239,23 @@ exports.renderCommunity = async (req, res, next) => {
       include: [
         {
           model: User,
-          attributes: ['userId', 'nickname'],
+          attributes: ["userId", "nickname"],
         },
         {
           model: Board,
-          attributes: ['name'],
-          where: { name: 'community' },
+          attributes: ["name"],
+          where: { name: "community" },
         },
         {
           model: Content,
-          attributes: ['id', 'content'],
-        }
+          attributes: ["id", "content"],
+        },
       ],
-      limit:10,
-      offset: page * 10
-    })
+      limit: 10,
+      offset: page * 10,
+    });
 
-    const {count} = postsCount;
+    const { count } = postsCount;
     let limit = 10;
 
     const pagingData = getPagingDataCount(count, page, limit);
@@ -278,8 +283,8 @@ exports.renderCommunity = async (req, res, next) => {
 getPagingDataCount = (totalItems, page, limit) => {
   const currentPage = page ? page : 0;
   const totalPages = Math.ceil(totalItems / limit);
-  const pnStart = ((Math.ceil(page / limit) - 1) * limit) + 1; // NOTE: 현재 페이지의 페이지네이션 시작 번호.
-  let pnEnd = (pnStart + limit); // NOTE: 현재 페이지의 페이지네이션 끝 번호.
+  const pnStart = (Math.ceil(page / limit) - 1) * limit + 1; // NOTE: 현재 페이지의 페이지네이션 시작 번호.
+  let pnEnd = pnStart + limit; // NOTE: 현재 페이지의 페이지네이션 끝 번호.
   if (pnEnd > totalPages) pnEnd = totalPages; // NOTE: 페이지네이션의 끝 번호가 페이지네이션 전체 카운트보다 높을 경우.
 
   return { totalItems, totalPages, currentPage, pnStart, pnEnd };
@@ -312,12 +317,12 @@ exports.renderMypage = (req, res) => {
   // res.render('mypage', {
   //   user: req.user,
   // });
-  res.render('mypage');
+  res.render("mypage");
 };
 
 exports.renderModifyUser = async (req, res, next) => {
   try {
-    const user = await User.findOne({ where: { id: req.user.id }});
+    const user = await User.findOne({ where: { id: req.user.id } });
     // console.log(user);
     //console.log('----------------------------');
     // console.log(req.user["dataValues"]["id"]);
@@ -328,6 +333,20 @@ exports.renderModifyUser = async (req, res, next) => {
     res.render("modify", {
       title: "회원정보수정",
       user: user,
+    });
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+};
+
+exports.renderManager = async (req, res, next) => {
+  try {
+    const users = await User.findAll();
+    const posts = await Post.findAll();
+    res.render("manager", {
+      users,
+      posts,
     });
   } catch (err) {
     console.error(err);

@@ -1,131 +1,130 @@
 * {
-    text-decoration: none;
+  text-decoration: none;
 }
 p {
-    font-size: 30px;
+  font-size: 30px;
 }
 
 .timeline {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .btn {
-    background-color: #007bff;
-    color: #fff;
-    padding: 8px 16px;
-    border: none;
-    border-radius: 4px;
-    font-size: 16px;
-    cursor: pointer;
-    margin-bottom: 16px;
+  background-color: #007bff;
+  color: #fff;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-bottom: 16px;
 }
 
 .myDIV {
-    display: none;
-    background-color: #f1f1f1;
-    border-radius: 8px;
-    padding: 16px;
-    margin-bottom: 16px;
-    width: 100%;
+  display: none;
+  background-color: #f1f1f1;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+  width: 100%;
 }
 
 h3 {
-    font-size: 18px;
-    margin: 0;
-    line-height: 1.4;
-    text-align: center;
+  font-size: 18px;
+  margin: 0;
+  line-height: 1.4;
+  text-align: center;
 }
 
 h3 span {
-    color: #007bff;
-    font-weight: bold;
+  color: #007bff;
+  font-weight: bold;
 }
 .mypage-box {
-    margin: 0 auto;
-    max-width: 800px;
-    padding: 20px;
-    border: 1px solid #ddd;
+  margin: 10% auto;
+  max-width: 800px;
+  padding: 20px;
+  border: 1px solid #ddd;
 }
 
 .user-info {
-    text-align: left;
-    margin-bottom: 20px;
+  text-align: left;
+  margin-bottom: 20px;
 }
 
 .user-info h3 {
-    font-size: 24px;
-    margin-bottom: 10px;
+  font-size: 24px;
+  margin-bottom: 10px;
 }
 
 .user-info p {
-    font-size: 16px;
-    margin: 0;
+  font-size: 16px;
+  margin: 0;
 }
-h2 {text-align: center}
+h2 {
+  text-align: center;
+}
 
 #logout {
-    align-self: flex-end;
-    margin-top: 10px;
-    transform: translate(-100%, 140%);
+  align-self: flex-end;
+  margin-top: 10px;
+  transform: translate(-100%, 140%);
 }
 .btn {
-    background-color: rgb(128, 0, 255);
-    color: white;
-    padding: 10px 40px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    margin-right: 10px;
-    font-weight: bold;
+  background-color: rgb(128, 0, 255);
+  color: white;
+  padding: 10px 40px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-right: 10px;
+  font-weight: bold;
 }
 .half {
-    text-align: right;
-
+  text-align: right;
 }
 .container {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }
 
 .half {
-    text-align: right;
-    flex-direction: column;
-    align-items: end;
-    margin-left: 20px;
-
+  text-align: right;
+  flex-direction: column;
+  align-items: end;
+  margin-left: 20px;
 }
 
 .count {
-    font-size: 24px;
-    font-weight: bold;
-    margin-top: 10px;
-
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 10px;
 }
 h1 {
-    text-align: center;
+  text-align: center;
 }
 #mypostBtn {
-    /* position: absolute;
+  /* position: absolute;
     top: 50%;
     left: 30%;
 
 
     transform: translate(-90%, 195%); */
-    align-self: flex-start;
-    margin-top: 10px;
-    transform: translate(35%, 300%);
+  align-self: flex-start;
+  margin-top: 10px;
+  transform: translate(35%, 300%);
 }
 
-#post-list-div{
-    display: none;
-    background-color: #f1f1f1;
-    border-radius: 8px;
-    padding: 16px;
-    margin-bottom: 16px;
-    width: 75%;
-    border : 1px solid black;
+#post-list-div {
+  display: none;
+  background-color: #f1f1f1;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+  width: 75%;
+  border: 1px solid black;
 }

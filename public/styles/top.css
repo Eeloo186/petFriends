@@ -1,97 +1,76 @@
 * {
   margin: 0;
   padding: 0;
-  list-style: none;
   text-decoration: none;
   box-sizing: border-box;
-  vertical-align: bottom;
-}
-
-body {
-  height: 1500px;
-}
-
-#kakaoLogout-box {
-  margin-top: 20px;
-}
-
-#kakaoLogout {
-  background-color: #fee500;
-  color: rgba(0, 0, 0, 0.85);
-  border-radius: 8px;
-  padding: 5px 10px;
-  font-weight: bold;
-}
-
-#kakaoLogout img {
-  width: 25px;
-  height: 25px;
-}
-
-#logo-box {
-  right: 50%;
-  top: 3%;
 }
 
 #menu-box {
   width: 100%;
+  height: 50px;
   display: flex;
-  flex-direction: row-reverse;
   justify-content: space-between;
-  height: 100px;
   align-items: center;
-  /* position: fixed; */
+  position: fixed;
+}
+
+#kakaoLogout {
+  background-color: #fee500;
+  border-radius: 12px;
+}
+
+#kakaoLogout img {
+  width: 23px;
+  height: 23px;
+  vertical-align: bottom;
+}
+
+#login-box {
+  margin-right: 100px;
+}
+
+#logo-box a {
+  color: black;
+  margin-left: 100px;
+  font-weight: bold;
 }
 
 #menu-list {
   display: flex;
 }
 
-#menu-list li {
-  margin-left: 30px;
-}
-
-#menu-list li a {
+#menu-list a {
+  padding: 0px 10px;
+  text-align: center;
   color: black;
+  margin: 0 20px;
+  font-weight: bold;
 }
 
-#myPage {
-  padding: 10px;
-}
-
-#myPage-btn {
+.mypage-btn {
   margin: 0px 10px;
   text-align: center;
   display: block;
 }
 
-#login-box {
-  width: 108px;
+.manager-btn {
+  margin: 0px 10px;
   text-align: center;
+  display: block;
+  color: rgb(255, 217, 0);
 }
 
-#login-btn {
-  background-color: #c7c7c7;
-  color: rgba(0, 0, 0, 0.85);
-  border-radius: 8px;
-  padding: 10px 25px;
-  font-weight: bold;
-  line-height: 80px;
-  border-radius: 25px;
+#login-box {
+  text-align: center;
 }
 
 #nomarl-logout {
-  margin-top: 20px;
   text-align: center;
-  width: 108px;
 }
 
 #logout {
-  background-color: #c7c7c7;
-  color: rgba(0, 0, 0, 0.85);
   border-radius: 8px;
   padding: 5px 10px;
-  font-weight: bold;
 }
 
 textarea {

@@ -25,6 +25,7 @@ module.exports = () => {
               snsId: profile.id,
               provider: "kakao",
               password: "kakao",
+              address: profile._json && profile._json.kakao_account_address,
             });
             done(null, newUser);
           }

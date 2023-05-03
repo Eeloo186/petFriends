@@ -13,7 +13,8 @@
   </head>
   <body>
     <div id="content-box">
-      <form action="/auth/join" method="post" id="join-form">
+      <form action="/users/:id" method="post" id="join-form">
+        <input type="hidden" name="id" value="{{user.id}}">
         <ul>
           <div>
             <li>
@@ -27,11 +28,14 @@
                   name="nickname"
                   id="user-name"
                   class="input-style"
-                  placeholder="2~10사이"
+                  placeholder="1~10사이"
+                  minlength="2"
+                  maxlength="10"
                   value="{{user.nickname}}"
                   required
                 />
               </div>
+              <input type="hidden" class="hiddenNick" value="{{user.nickname}}">
               <div id="userNickResult" class="confirm-box"></div>
             </li>
             <li>
@@ -47,45 +51,11 @@
                   id="user-id"
                   class="input-style"
                   value="{{user.userId}}"
-                  readonly
                   required
                 />
               </div>
+              <input type="hidden" class="hiddenId" value="{{user.userId}}">
               <div id="userIdResult" class="confirm-box"></div>
-            </li>
-            <li>
-              <!-- ------------- 비밀번호 --------------- -->
-              <div class="list">
-                <label for="password"
-                  >비밀번호
-                  <span class="essential"> * </span>
-                </label>
-                <input
-                  type="password"
-                  name="password"
-                  id="user-passward"
-                  class="input-style"
-                  placeholder="6~15사이"
-                  required
-                />
-              </div>
-            </li>
-            <li>
-              <!-- ------------- 비밀번호확인 --------------- -->
-              <div class="list">
-                <label for="repassword"
-                  >비밀번호 재확인<span class="essential"> * </span></label
-                >
-                <input
-                  type="password"
-                  name="repassword"
-                  id="user-repassward"
-                  class="input-style"
-                  required
-                />
-              </div>
-            </li>
-          </div>
           <div>
             <li>
               <!-- ------------- 이메일 --------------- -->
@@ -102,8 +72,6 @@
             </li>
             <li>
               <!-- ------------- 주소 --------------- -->
-              <!-- 가입시 address1~3 구분자로 구분해서 넣기 -->
-              <!-- 회원정보수정시 구분자로 구분해서 가져오기 -->
               <div class="list">
                 <label for="address">주소</label>
                 <input
@@ -114,24 +82,29 @@
                 />
                 <input
                   type="text"
-                  id="zip-code"
+                  id="postcode"
                   class="input-style"
                   name="address1"
                   placeholder="우편번호"
+                  value="{{user.address1}}"
+                  readonly
                 />
                 <input
                   type="text"
-                  id="address-1"
+                  id="address"
                   class="input-style"
                   name="address2"
-                  placeholder="도로명주소"
+                  placeholder="주소"
+                  value="{{user.address2}}"
+                  readonly
                 />
                 <input
                   type="text"
-                  id="address-2"
+                  id="detailAddress"
                   class="input-style"
                   name="address3"
                   placeholder="상세주소"
+                  value="{{user.address3}}"
                 />
               </div>
             </li>
@@ -200,6 +173,5 @@
       </form>
     </div>
   </body>
-  <script>
-  </script>
+  <script></script>
 </html>

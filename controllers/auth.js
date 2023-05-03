@@ -1,7 +1,6 @@
 const bcrypt = require("bcrypt");
 const passport = require("passport");
-const User = require("../models/user");
-const Pet = require("../models/pet");
+const { User, Pet } = require("../models");
 
 exports.join = async (req, res, next) => {
   const {
@@ -9,7 +8,6 @@ exports.join = async (req, res, next) => {
     password,
     nickname,
     email,
-    emailSelect,
     address1,
     address2,
     address3,
@@ -27,14 +25,14 @@ exports.join = async (req, res, next) => {
       return res.redirect("/join?error=exist");
     }
     const hash = await bcrypt.hash(password, 12);
-    const address = `${address1} ${address2} ${address3}`;
-    const allEmail = `${email}@${emailSelect}`;
     await User.create({
       userId,
       password: hash,
       nickname,
-      email: allEmail,
-      address,
+      email,
+      address1,
+      address2,
+      address3,
       provider,
       pet,
     });
@@ -59,7 +57,12 @@ exports.login = (req, res, next) => {
       return next(authError);
     }
     if (!user) {
-      return res.redirect(`/?loginError=${info.message}`);
+      console.error("없는 아이디입니다.");
+      return res
+        .status(401)
+        .send(
+          `<script>alert('아이디가 없거나 비밀번호가 잘못되었습니다.');history.back();</script>`
+        );
     }
     return req.login(user, (loginError) => {
       if (loginError) {
