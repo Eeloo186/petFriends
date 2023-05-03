@@ -1,7 +1,21 @@
 const axios = require("axios");
 const moment = require("moment");
 
+const { Hospital } = require("../models");
+
+exports.getHospitalList = async (req, res) => {
+  console.log("동물병원 진입");
+  const hospitals = await Hospital.findAll();
+  console.log(hospitals);
+
+  res.json(hospitals);
+};
+
+
+
 exports.getWeather = async (req, res) => {
+  // 주소 없는 경우 예외 처리 추가해야함
+
   // 순서 확인할것.
   // 1. 캐시 데이터 확인
   // 2. 캐시 데이터 없으면 날씨API에서 값 얻어옴
@@ -24,7 +38,7 @@ exports.getWeather = async (req, res) => {
       .get("https://dapi.kakao.com/v2/local/search/address.json", {
         params: {
           // query: "대구광역시 서구 내당동 245-4",
-          query: req.user.address,
+          query: req.user.address2,
         },
         headers: {
           Authorization: `KakaoAK ${process.env.KAKAO_MAPS_API_KEY}`,
