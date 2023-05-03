@@ -1,18 +1,13 @@
 const axios = require("axios");
 const moment = require("moment");
 
-const { Weather } = require("../models");
-
 exports.getWeather = async (req, res) => {
   // 순서 확인할것.
   // 1. 캐시 데이터 확인
   // 2. 캐시 데이터 없으면 날씨API에서 값 얻어옴
   // 3. 날씨API에서 요구하는 값은 로그인한 유저의 주소값을 KAKAO API에 넣은 뒤 getGrid로 변환해서 얻은 값
   console.log("날씨 컨트롤러 진입");
-  console.log(`접속중인 유저의 id : ${req.user.id}`);
-  console.log(`접속중인 유저의 address : ${req.user.address}`);
-
-  const { id } = req.params;
+  const id = req.user.id;
 
   // 캐시된 데이터가 있는지 확인
   const cachedData = req.cookies[`weatherData${id}`];
@@ -40,14 +35,6 @@ exports.getWeather = async (req, res) => {
         const rs = getGrid(response.data.documents[0].y, response.data.documents[0].x);
         const nx = rs.x;
         const ny = rs.y;
-        /////////////////////////////////////////////////////////////////////////////////////
-        console.log(`--------------------------------------`);
-        console.log(`-----------${response.data.documents[0].x}----------------`);
-        console.log(`-----------${response.data.documents[0].y}----------------`);
-        console.log(`----------------${rs.x}----------------`);
-        console.log(`----------------${rs.y}----------------`);
-        console.log(`--------------------------------------`);
-        ////////////////////////////////////////////////////////////////////////////////////
 
         // base_date, base_time 결정
         const { base_date, base_time } = getBaseTime();
@@ -121,16 +108,23 @@ exports.getWeather = async (req, res) => {
             return res.json(weatherData);
           })
           .catch((error) => {
-            console.log("에러발생1");
+            console.log("날씨API 에러발생");
             console.error(error);
+            return res.status(500).send("날씨 데이터를 가져올 수 없습니다.");
           });
       })
       .catch((error) => {
-        console.log("에러발생2");
+        console.log("주소API 에러발생");
         console.error(error);
+        return res.status(500).send("입력받은 주소를 좌표로 변환할 수 없습니다");
       });
   }
 };
+
+
+
+
+
 
 // 위도 경도를 좌표로 변환
 function getGrid(v1, v2) {
@@ -177,6 +171,7 @@ function getGrid(v1, v2) {
   return rs;
 }
 
+// 가장 최근의 예보시각을 반환
 function getBaseTime() {
   // ❍ 단기예보
   // - Base_time : 0200, 0500, 0800, 1100, 1400, 1700, 2000, 2300 (1일 8회)
