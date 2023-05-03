@@ -93,3 +93,8 @@ body {
   padding: 5px 10px;
   font-weight: bold;
 }
+
+textarea {
+  width: 200px;
+  height: 50px;
+}
