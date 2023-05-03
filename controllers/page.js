@@ -1,7 +1,9 @@
+const e = require("express");
 const { User, Post, Board, Content } = require("../models");
 
 exports.renderMain = async (req, res, next) => {
   try {
+    const kakao = process.env.KAKAO_ID;
     const posts = await Post.findAll({
       order: [["view", "DESC"]],
       limit: 5,
@@ -25,6 +27,7 @@ exports.renderMain = async (req, res, next) => {
       twits: posts,
       boardName: "main",
       user: req.user,
+      kakao,
     });
   } catch (err) {
     console.error(err);
@@ -158,22 +161,36 @@ exports.renderMypage = (req, res) => {
   // res.render('mypage', {
   //   user: req.user,
   // });
-  res.render('mypage');
+  res.render("mypage");
 };
 
 exports.renderModifyUser = async (req, res, next) => {
   try {
-    const user = await User.findOne({ where: { id: req.user.id }});
+    const user = await User.findOne({ where: { id: req.user.id } });
     // console.log(user);
-    console.log('----------------------------');
+    console.log("----------------------------");
     // console.log(req.user["dataValues"]["id"]);
     // console.log(req.user.id);
     console.log(user);
-    console.log('----------------------------');
+    console.log("----------------------------");
 
     res.render("modify", {
       title: "회원정보수정",
       user: user,
+    });
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+};
+
+exports.renderManager = async (req, res, next) => {
+  try {
+    const users = await User.findAll();
+    const posts = await Post.findAll();
+    res.render("manager", {
+      users,
+      posts,
     });
   } catch (err) {
     console.error(err);

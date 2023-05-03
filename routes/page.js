@@ -11,6 +11,7 @@ const {
   renderEditor,
   renderMypage,
   renderModifyUser,
+  renderManager,
 } = require("../controllers/page");
 
 router.use((req, res, next) => {
@@ -47,8 +48,9 @@ router.get("/page/editor", renderEditor);
 router.get("/page/mypage", renderMypage);
 
 // 유저정보 수정 페이지
-router.get('/page/users/:id', renderModifyUser);
+router.get("/page/users/:id", renderModifyUser);
 
-
+//관리자 페이지
+router.get("/page/manager", renderManager);
 
 module.exports = router;

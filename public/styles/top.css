@@ -3,15 +3,15 @@
   padding: 0;
   text-decoration: none;
   box-sizing: border-box;
-  vertical-align: bottom;
 }
 
-body {
-  height: 1500px;
-}
-
-#kakaoLogout-box {
-  margin-top: 20px;
+#menu-box {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
 }
 
 #kakaoLogout {
@@ -19,75 +19,58 @@ body {
   color: rgba(0, 0, 0, 0.85);
   border-radius: 8px;
   padding: 5px 10px;
-  font-weight: bold;
 }
 
 #kakaoLogout img {
-  width: 25px;
-  height: 25px;
+  width: 23px;
+  height: 23px;
+  vertical-align: bottom;
 }
 
-#logo-box {
-  right: 50%;
-  top: 3%;
+#login-box {
+  margin-right: 100px;
 }
 
 #logo-box a {
-  color: rgb(0, 0, 0);
-}
-
-#menu-box {
-  width: 100%;
-  display: flex;
-  flex-direction: row-reverse;
-  justify-content: space-between;
-  height: 80px;
-  align-items: center;
-  position: fixed;
+  color: black;
+  margin-left: 100px;
+  font-weight: bold;
 }
 
 #menu-list {
   display: flex;
-  list-style: none;
 }
 
-#menu-list li {
-  margin-left: 30px;
+#menu-list a {
+  padding: 0px 20px;
+  text-align: center;
+  color: black;
+  margin: 0 10px;
+  font-weight: bold;
 }
 
-#menu-list li a {
-  color: rgb(49, 49, 49);
-}
-
-#myPage {
-  padding: 10px;
-}
-
-#myPage-btn {
+.mypage-btn {
   margin: 0px 10px;
   text-align: center;
   display: block;
-  color: black;
+}
+
+.manager-btn {
+  margin: 0px 10px;
+  text-align: center;
+  display: block;
+  color: rgb(255, 217, 0);
 }
 
 #login-box {
-  width: 108px;
   text-align: center;
-}
-
-#login-btn {
-  color: rgba(82, 82, 82, 0.85);
 }
 
 #nomarl-logout {
-  margin-top: 20px;
   text-align: center;
-  width: 108px;
 }
 
 #logout {
-  color: rgba(0, 0, 0, 0.85);
   border-radius: 8px;
   padding: 5px 10px;
-  font-weight: bold;
 }

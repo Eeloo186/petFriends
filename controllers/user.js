@@ -19,8 +19,7 @@ exports.checkUser = async (req, res) => {
   }
 };
 
-
-exports.getPost = async(req, res, next) => {
+exports.getPost = async (req, res, next) => {
   console.log(req.user.id);
   try {
     const posts = await Post.findAll({
@@ -39,10 +38,10 @@ exports.getPost = async(req, res, next) => {
     res.json({
       posts,
     });
-} catch (err) {
+  } catch (err) {
     console.error(err);
     next(err);
-}
+  }
 };
 
 // exports.updateUser( async (req, res) => {

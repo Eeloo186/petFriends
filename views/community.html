@@ -1,12 +1,25 @@
-{% extends 'top.html' %}
-{% block content %}
-<hr />
-<h1>커뮤니티 페이지</h1>
-<form id="write-form" action="/page/editor" method="get">
-  <input id="board-name" name="board-name" type="hidden" value="{{boardName}}" />
-  <button id="write-btn" type="submit" class="btn">글쓰기</button>
-</form>
-{% for twit in twits %}
-<h3>게시글번호 : {{twit.id}} // 작성자ID : {{twit.User.userId}} // 작성자닉네임 : {{twit.User.nickname}} // 작성일 : {{twit.createdAt}}</h3>
-{% endfor %}
-{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% include 'head.html' %}
+  </head>
+  <body>
+    {% include 'top.html' %}
+    <h1>커뮤니티 페이지</h1>
+    <form id="write-form" action="/page/editor" method="get">
+      <input
+        id="board-name"
+        name="board-name"
+        type="hidden"
+        value="{{boardName}}"
+      />
+      <button id="write-btn" type="submit" class="btn">글쓰기</button>
+    </form>
+    {% for twit in twits %}
+    <h3>
+      게시글번호 : {{twit.id}} // 작성자ID : {{twit.User.userId}} //
+      작성자닉네임 : {{twit.User.nickname}} // 작성일 : {{twit.createdAt}}
+    </h3>
+    {% endfor %}
+  </body>
+</html>

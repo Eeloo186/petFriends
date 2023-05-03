@@ -93,6 +93,7 @@
                   name="email"
                   id="user-email"
                   class="input-style"
+                  minlength="3"
                 />
               </div>
             </li>
@@ -108,21 +109,24 @@
                 />
                 <input
                   type="text"
-                  id="zip-code"
+                  id="postcode"
                   class="input-style"
                   name="address1"
                   placeholder="우편번호"
+                  disabled
                 />
                 <input
                   type="text"
-                  id="address-1"
+                  id="address"
                   class="input-style"
                   name="address2"
-                  placeholder="도로명주소"
+                  placeholder="주소"
+                  disabled
                 />
+                <input type="hidden" id="jibunAddress" placeholder="지번주소" />
                 <input
                   type="text"
-                  id="address-2"
+                  id="detailAddress"
                   class="input-style"
                   name="address3"
                   placeholder="상세주소"

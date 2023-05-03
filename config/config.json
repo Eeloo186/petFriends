@@ -2,7 +2,7 @@
   "development": {
     "username": "root",
     "password": "edurootroot",
-    "database": "test",
+    "database": "NodeProject",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
