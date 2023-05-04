@@ -4,8 +4,6 @@ const router = express.Router();
 const { uploadPost } = require('../controllers/board');
 
 
-
-
 router.post(`/:boardName/posts`, uploadPost);
 
 

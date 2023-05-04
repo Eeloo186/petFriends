@@ -43,8 +43,9 @@
     {% endfor %}
     </tbody>
 </table><br>
+{% if user %}
 <a href="/page/editor"><button type="button" class="btn btn-primary">글쓰기 버튼</button></a>
-
+{% endif %}
 <div class='text-center'>
         {% if pagingData.totalPages != 0  %}
         <div class="" style="text-align:center;">

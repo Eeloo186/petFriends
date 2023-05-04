@@ -33,30 +33,11 @@ exports.renderMain = async (req, res, next) => {
 };
 
 exports.renderNotice = async (req, res, next) => {
-  const page = req.query.currentPage;
+  const page = req.query.currentPage-1;
   try {
-    const posts = await Post.findAll({
-      include: [
-        {
-          model: User,
-          attributes: ["userId", "nickname"],
-        },
-        {
-          model: Board,
-          attributes: ["name"],
-          where: { name: "notice" },
-        },
-        {
-          model: Content,
-          attributes: ["content"],
-        },
-      ],
-      limit:10,
-      offset: (page -1) * 10
-    });
-
     const postsCount = await Post.findAndCountAll({
-      nest: false,
+      // raw:true,
+      nest: true,
       include: [
         {
           model: User,
@@ -76,10 +57,10 @@ exports.renderNotice = async (req, res, next) => {
       offset: page * 10
     })
 
-    const {count} = postsCount;
+    const {count, rows: posts} = postsCount;
     let limit = 10;
 
-    const pagingData = getPagingDataCount(count, page, limit);
+    const pagingData = getPagingDataCount(count, page+1, limit);
 
      // DB createdAt에 들어있는 Date 정보 커스터마이징
      posts.forEach((post) => {
@@ -102,30 +83,10 @@ exports.renderNotice = async (req, res, next) => {
 };
 
 exports.renderInfo = async (req, res, next) => {
-  const page = req.query.currentPage;
+  const page = req.query.currentPage-1;
   try {
-    const posts = await Post.findAll({
-      include: [
-        {
-          model: User,
-          attributes: ["userId", "nickname"],
-        },
-        {
-          model: Board,
-          attributes: ["name"],
-          where: { name: "info" },
-        },
-        {
-          model: Content,
-          attributes: ["content"],
-        },
-      ],
-      limit:10,
-      offset: (page -1) * 10
-    });
-
     const postsCount = await Post.findAndCountAll({
-      nest: false,
+      nest: true,
       include: [
         {
           model: User,
@@ -145,10 +106,10 @@ exports.renderInfo = async (req, res, next) => {
       offset: page * 10
     })
 
-    const {count} = postsCount;
+    const {count:count, rows:posts} = postsCount;
     let limit = 10;
 
-    const pagingData = getPagingDataCount(count, page, limit);
+    const pagingData = getPagingDataCount(count, page+1, limit);
 
     // DB createdAt에 들어있는 Date 정보 커스터마이징
     posts.forEach((post) => {
@@ -206,31 +167,10 @@ exports.renderCommunityView = async (req, res, next) => {
 };
 
 exports.renderCommunity = async (req, res, next) => {
-  const page = req.query.currentPage;
+  const page = req.query.currentPage-1;
   try {
-    const posts = await Post.findAll({
-      include: [
-        {
-          model: User,
-          attributes: ["userId", "nickname"],
-        },
-        {
-          model: Board,
-          attributes: ["name"],
-          where: { name: "community" },
-        },
-        {
-          model: Content,
-          attributes: ["content"],
-        },
-      ],
-      limit:10,
-      offset: (page -1) * 10
-    });
-    //console.log(posts);
-
     const postsCount = await Post.findAndCountAll({
-      nest: false,
+      nest: true,
       include: [
         {
           model: User,
@@ -250,10 +190,10 @@ exports.renderCommunity = async (req, res, next) => {
       offset: page * 10
     })
 
-    const {count} = postsCount;
+    const {count, rows: posts} = postsCount;
     let limit = 10;
 
-    const pagingData = getPagingDataCount(count, page, limit);
+    const pagingData = getPagingDataCount(count, page+1, limit);
 
     // DB createdAt에 들어있는 Date 정보 커스터마이징
     posts.forEach((post) => {

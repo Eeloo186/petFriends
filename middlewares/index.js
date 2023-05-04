@@ -23,3 +23,15 @@ exports.isAdmin = (req, res, next) => {
 exports.isNotAdmin = (req, res, next) => {
 
 };
+
+
+exports.previousUrl= ((req, res, next) => {
+
+  if(!req.path.includes('/auth/login') && !req.path.includes('/auth/logout') ){
+    req.session.previousUrl= req.originalUrl;
+
+  }
+  //console.log("app.use ----->", req.session.previousUrl);
+
+  next();
+})

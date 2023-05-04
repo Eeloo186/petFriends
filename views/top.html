@@ -15,6 +15,10 @@
         <div id="mypage-box">
           <a href="/page/mypage" id="mypage-btn"> 마이페이지 </a>
         </div>
+        <div id="nomarl-logout">
+          <a id="logout" href="/auth/logout">로그아웃</a>
+        </div>
+       
         {% if user.provider == 'kakao' %}
         <div id="kakaoLogout-box">
           <a
@@ -23,20 +27,19 @@
             ><img src="/imgs/kakaologout.png" alt="" /> 로그아웃</a
           >
         </div>
-        {% else %}
-        <div id="nomarl-logout">
-          <a id="logout" href="/auth/logout">로그아웃</a>
-        </div>
         {% endif %} {% else %}
+      
         <div id="login-box">
-          <a href="/page/login" id="login-btn"> 로그인 </a>
+          <a href="/auth/login" id="login-btn"> 로그인 </a>
         </div>
 
         {% endif %}
       </div>
       <div id="logo-box">
-        <h1><a href="/">로고</a></h1>
-        {{ user.nickname }} 님
+        <h1><a href="/">PET FRIENTS</a></h1>
+        {% if user %}
+       <p> {{ user.nickname }} 님 </p>
+        {% endif %}
       </div>
       <div>
         <ul id="menu-list">

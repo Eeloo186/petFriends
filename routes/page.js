@@ -1,5 +1,9 @@
 const express = require("express");
+
+const {previousUrl} = require('../middlewares')
+
 const router = express.Router();
+
 
 const {
   renderMain,
@@ -19,14 +23,11 @@ router.use((req, res, next) => {
   next();
 });
 
+
+router.use(previousUrl);
+
 // 메인 페이지
 router.get("/", renderMain);
-
-// 로그인 페이지
-router.get("/page/login", renderLogin);
-
-// 회원 가입 페이지
-router.get("/page/join", renderJoin);
 
 // 공지사항 페이지
 router.get("/page/notice", renderNotice);

@@ -3,11 +3,23 @@ const passport = require("passport");
 
 const { isLoggedIn, isNotLoggedIn } = require("../middlewares");
 const { join, login, logout } = require("../controllers/auth");
+const {
+  renderLogin,
+  renderJoin,
+} = require("../controllers/page");
+
 
 const router = express.Router();
 
+
+// 회원 가입 페이지
+router.get("/join", renderJoin);
+
 // POST /auth/join
 router.post("/join", isNotLoggedIn, join);
+
+// 로그인 페이지
+router.get("/login", renderLogin);
 
 // POST /auth/login
 router.post("/login", isNotLoggedIn, login);
@@ -28,5 +40,7 @@ router.get(
     res.redirect("/"); // 성공 시에는 /로 이동
   }
 );
+
+
 
 module.exports = router;

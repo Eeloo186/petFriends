@@ -10,14 +10,17 @@ module.exports = () => {
       {
         usernameField: "userId",
         passwordField: "password",
-        passReqToCallback: false,
+        passReqToCallback: true,
       },
-      async (userId, password, done) => {
+      async (req, userId, password, done) => {
         try {
           const exUser = await User.findOne({ where: { userId } });
           if (exUser) {
             const result = await bcrypt.compare(password, exUser.password);
             if (result) {
+              exUser.dataValues.previousUrl = req.session.previousUrl;
+
+              console.log("passport----------1>",exUser.dataValues );
               done(null, exUser);
             } else {
               done(null, false, { message: "비밀번호가 일치하지 않습니다." });

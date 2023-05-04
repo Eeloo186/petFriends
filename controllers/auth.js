@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt");
 const passport = require("passport");
 const User = require("../models/user");
 const Pet = require("../models/pet");
+const session = require("express-session");
 
 exports.join = async (req, res, next) => {
   const {
@@ -61,18 +62,27 @@ exports.login = (req, res, next) => {
     if (!user) {
       return res.redirect(`/?loginError=${info.message}`);
     }
-    return req.login(user, (loginError) => {
+    return req.login(user, (loginError) => {       
       if (loginError) {
         console.error(loginError);
         return next(loginError);
       }
-      return res.redirect("/");
+      const fillteredUser = { ...user.dataValues };
+      delete fillteredUser.password;
+
+      //console.log("authenticate ----->", fillteredUser);
+
+      return res.redirect(fillteredUser.previousUrl);
     });
   })(req, res, next); // 미들웨어 내의 미들웨어에는 (req, res, next)를 붙입니다.
 };
 
 exports.logout = (req, res) => {
-  req.logout(() => {
-    res.redirect("/");
-  });
+    const previousUrl = req.session.previousUrl;    
+    //console.log("logout   ---------->", previousUrl);
+    // 세션을 파괴하고 로그아웃 처리
+    req.session.destroy(() => {
+      // 이전 페이지로 리디렉션
+      res.redirect(previousUrl);
+    });
 };
