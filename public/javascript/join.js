@@ -20,17 +20,18 @@ if (window.location.href.match("join")) {
       if (isDuplicate) {
         userIdResult.textContent = "이미 사용하는 아이디입니다.";
         userIdResult.style.color = "red";
-        userIdInput.style.border = "2px solid red";
-        userIdInput.style.outline = "red";
+        userIdInput.classList.add("existenceN");
+        userIdInput.classList.remove("existenceY");
       } else {
         userIdResult.textContent = "멋진 아이디네요!";
         userIdResult.style.color = "green";
-        userIdInput.style.border = "2px solid green";
-        userIdInput.style.outline = "green";
+        userIdInput.classList.add("existenceY");
+        userIdInput.classList.remove("existenceN");
       }
     } else {
       userIdResult.textContent = "";
-      userIdInput.style.border = "1px solid rgb(189, 189, 189)";
+      userIdInput.classList.remove("existenceY");
+      userIdInput.classList.remove("existenceN");
     }
   });
 
@@ -44,33 +45,34 @@ if (window.location.href.match("join")) {
     const userNickResult = document.getElementById("userNickResult");
     if (nickname !== "") {
       if (isDuplicate) {
-        userNickResult.textContent = "이미 사용하는 이름입니다.";
+        userNickResult.textContent = "이미 사용하는 아이디입니다.";
         userNickResult.style.color = "red";
-        userNickInput.style.border = "2px solid red";
-        userNickInput.style.outline = "red";
+        userNickInput.classList.add("existenceN");
+        userNickInput.classList.remove("existenceY");
       } else {
-        userNickResult.textContent = "멋진 이름이네요!";
+        userNickResult.textContent = "멋진 아이디네요!";
         userNickResult.style.color = "green";
-        userNickInput.style.border = "2px solid green";
-        userNickInput.style.outline = "green";
+        userNickInput.classList.add("existenceY");
+        userNickInput.classList.remove("existenceN");
       }
     } else {
       userNickResult.textContent = "";
-      userNickInput.style.border = "1px solid rgb(189, 189, 189)";
+      userNickInput.classList.remove("existenceY");
+      userNickInput.classList.remove("existenceN");
     }
   });
 }
 
 //제출 했을 때
 joinBtn.addEventListener("click", (event) => {
-  if (userNickInput.style.border == "2px solid red") {
+  if (userNickInput.classList.contains("existenceN")) {
     event.preventDefault();
     alert("이미 사용하는 이름입니다.");
     userNickInput.focus();
     return;
   }
 
-  if (userIdInput.style.border == "2px solid red") {
+  if (userIdInput.classList.contains("existenceN")) {
     event.preventDefault();
     alert("이미 사용하는 아이디입니다.");
     userIdInput.focus();
@@ -194,21 +196,23 @@ if (window.location.href.match("page/users")) {
     if (nickname !== "") {
       if (isDuplicate && hidn == nickname) {
         userNickResult.textContent = "";
-        userNickInput.style.border = "1px solid rgb(189, 189, 189)";
+        userNickInput.classList.remove("existenceY");
+        userNickInput.classList.remove("existenceN");
       } else if (isDuplicate && hidn !== userNickInput.value) {
         userNickResult.textContent = "이미 사용하는 이름입니다.";
         userNickResult.style.color = "red";
-        userNickInput.style.border = "2px solid red";
-        userNickInput.style.outline = "red";
+        userNickInput.classList.add("existenceN");
+        userNickInput.classList.remove("existenceY");
       } else {
         userNickResult.textContent = "멋진 이름이네요!";
         userNickResult.style.color = "green";
-        userNickInput.style.border = "2px solid green";
-        userNickInput.style.outline = "green";
+        userNickInput.classList.add("existenceY");
+        userNickInput.classList.remove("existenceN");
       }
     } else {
       userNickResult.textContent = "";
-      userNickInput.style.border = "1px solid rgb(189, 189, 189)";
+      userNickInput.classList.remove("existenceY");
+      userNickInput.classList.remove("existenceN");
     }
   });
 
@@ -222,21 +226,23 @@ if (window.location.href.match("page/users")) {
     if (userId !== "") {
       if (isDuplicate && hidn == userId) {
         userIdResult.textContent = "";
-        userIdInput.style.border = "1px solid rgb(189, 189, 189)";
+        userIdInput.classList.remove("existenceY");
+        userIdInput.classList.remove("existenceN");
       } else if (isDuplicate && hidn !== userId) {
         userIdResult.textContent = "이미 사용하는 아이디입니다.";
         userIdResult.style.color = "red";
-        userIdInput.style.border = "2px solid red";
-        userIdInput.style.outline = "red";
+        userIdInput.classList.add("existenceN");
+        userIdInput.classList.remove("existenceY");
       } else {
         userIdResult.textContent = "멋진 아이디네요!";
         userIdResult.style.color = "green";
-        userIdInput.style.border = "2px solid green";
-        userIdInput.style.outline = "green";
+        userIdInput.classList.add("existenceY");
+        userIdInput.classList.remove("existenceN");
       }
     } else {
       userIdResult.textContent = "";
-      userIdInput.style.border = "1px solid rgb(189, 189, 189)";
+      userIdInput.classList.remove("existenceY");
+      userIdInput.classList.remove("existenceN");
     }
   });
 }

@@ -46,7 +46,10 @@ exports.getWeather = async (req, res) => {
       })
       .then(async (response) => {
         // 주소로 좌표를 구해서 nx와 ny에 나누어 저장
-        const rs = getGrid(response.data.documents[0].y, response.data.documents[0].x);
+        const rs = getGrid(
+          response.data.documents[0].y,
+          response.data.documents[0].x
+        );
         const nx = rs.x;
         const ny = rs.y;
 
@@ -56,7 +59,8 @@ exports.getWeather = async (req, res) => {
 
         console.log("진입테스트");
         // 날씨 API 쿼리문에 사용할 변수 선언
-        const apiAddress = "https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst";
+        const apiAddress =
+          "https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst";
         const serviceKey = process.env.WEATHER_API_KEY;
         const pageNo = "1";
         const numOfRows = "1000";
@@ -130,15 +134,12 @@ exports.getWeather = async (req, res) => {
       .catch((error) => {
         console.log("주소API 에러발생");
         console.error(error);
-        return res.status(500).send("입력받은 주소를 좌표로 변환할 수 없습니다");
+        return res
+          .status(500)
+          .send("입력받은 주소를 좌표로 변환할 수 없습니다");
       });
   }
 };
-
-
-
-
-
 
 // 위도 경도를 좌표로 변환
 function getGrid(v1, v2) {
@@ -160,7 +161,9 @@ function getGrid(v1, v2) {
   const olon = OLON * DEGRAD;
   const olat = OLAT * DEGRAD;
 
-  let sn = Math.tan(Math.PI * 0.25 + slat2 * 0.5) / Math.tan(Math.PI * 0.25 + slat1 * 0.5);
+  let sn =
+    Math.tan(Math.PI * 0.25 + slat2 * 0.5) /
+    Math.tan(Math.PI * 0.25 + slat1 * 0.5);
   sn = Math.log(Math.cos(slat1) / Math.cos(slat2)) / Math.log(sn);
   let sf = Math.tan(Math.PI * 0.25 + slat1 * 0.5);
   sf = (Math.pow(sf, sn) * Math.cos(slat1)) / sn;

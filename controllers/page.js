@@ -340,14 +340,13 @@ exports.renderModifyUser = async (req, res, next) => {
   }
 };
 
-exports.renderManager = async (req, res, next) => {
+exports.popularList = async (req, res, next) => {
   try {
-    const users = await User.findAll();
-    const posts = await Post.findAll();
-    res.render("manager", {
-      users,
-      posts,
+    const popularList = await Post.findAll({
+      order: [["view", "DESC"]],
+      limit: 10,
     });
+    res.json({ popularList }); // popularList를 객체 형태로 응답합니다.
   } catch (err) {
     console.error(err);
     next(err);
