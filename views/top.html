@@ -30,7 +30,20 @@
     {% endif %}
   </div>
 </div>
-<div style="width: 100%; height: 50px"></div>
+<div style="width: 100%; height: 50px; "></div>
+{% if user %}
 <div class="weather-area">
-  <textarea id="weather-textbox"></textarea>
+  <div class="weather-img">
+    <img src="/imgs/err.png" alt="" />
+  </div>
+  <div>
+    <span>기온: </span>
+    <input class="temp weather" disabled ></input> °C<br>
+    <span>강수확률: </span>
+    <input class="pop weather" disabled ></input> %
+  </div>
+  <div class="weather-word">
+    <span></span>
+  </div>
 </div>
+{% endif %}

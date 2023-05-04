@@ -7,7 +7,7 @@
 }
 
 body {
-  background-color: #d4d5d4;
+  background-color: #ffffff;
 }
 
 /* 회원가입 페이지 */
@@ -85,6 +85,18 @@ body {
   background-color: rgb(92, 0, 185);
   color: #ffffff;
   font-weight: bold;
+}
+
+.existenceN {
+  color: red;
+  border: 2px solid red;
+  outline: red;
+}
+
+.existenceY {
+  color: green;
+  border: 2px solid green;
+  outline: green;
 }
 
 /* 펫 정보 페이지 */

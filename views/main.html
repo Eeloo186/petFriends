@@ -2,17 +2,47 @@
 <html lang="en">
   <head>
     {% include 'head.html' %}
+    <link rel="stylesheet" href="/styles/main.css" />
+    <script src="/javascript/main.js" defer></script>
   </head>
   <body>
-    {% include 'top.html' %}
-    <h1>메인 페이지</h1>
-    {% for twit in twits %}
-    <h3>
-      게시글번호 : {{twit.id}} // 작성자ID : {{twit.User.userId}} //
-      작성자닉네임 : {{twit.User.nickname}} // 작성일 : {{twit.createdAt}}
-    </h3>
-    {% endfor %}
-    <div id="map" style="width: 500px; height: 400px"></div>
+    {% include 'top.html' %} {% if user %}
+    <div class="community-event-box">
+      <p>여러 사람들과 <span> '소통' </span> 해보세요!</p>
+      <a href="/page/community?currentPage=1">커뮤티니</a>
+    </div>
+    {% else %}
+    <div class="join-event-box">
+      <p>
+        <span>나</span> 만의 <span class="uni">특별한</span> 동물들을
+        소개해주세요!
+      </p>
+      <a href="/page/login">login</a>
+    </div>
+    {% endif %}
+    <div class="main-box">
+      <div
+        id="map"
+        style="
+          width: 500px;
+          height: 400px;
+          border-radius: 20px;
+          margin-left: 30px;
+        "
+      ></div>
+      <div
+        class="popular-posts"
+        style="
+          width: 800px;
+          height: 400px;
+          border-radius: 20px;
+          margin-left: 30px;
+          background-color: aqua;
+        "
+      >
+        <ul></ul>
+      </div>
+    </div>
   </body>
   <script
     type="text/javascript"
