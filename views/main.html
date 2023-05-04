@@ -20,7 +20,7 @@
         padding: 0;
         margin: 0;
       }
-      .wrap .info {
+      .wrap .infomation {
         width: 150px;
         height: 120px;
         border-radius: 5px;
@@ -29,11 +29,11 @@
         overflow: hidden;
         background: #fff;
       }
-      .wrap .info:nth-child(1) {
+      .wrap .infomation:nth-child(1) {
         border: 0;
         box-shadow: 0px 1px 2px #888;
       }
-      .info .title {
+      .infomation .title {
         padding-left: 5px;
         height: 30px;
         background: #eee;
@@ -41,7 +41,7 @@
         font-size: 18px;
         font-weight: bold;
       }
-      .info .close {
+      .infomation .close {
         position: absolute;
         top: 5px;
         right: 7px;
@@ -51,14 +51,14 @@
         background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png");
         background-size: cover;
       }
-      .info .close:hover {
+      .infomation .close:hover {
         cursor: pointer;
       }
-      .info .body {
+      .infomation .body {
         position: relative;
         overflow: hidden;
       }
-      .info .desc {
+      .infomation .desc {
         position: relative;
         margin: 20px auto;
       }
@@ -67,22 +67,7 @@
         text-overflow: ellipsis;
         white-space: nowrap;
       }
-      .desc .jibun {
-        font-size: 11px;
-        color: #888;
-        margin-top: -2px;
-      }
-      .info .img {
-        position: absolute;
-        top: 6px;
-        left: 5px;
-        width: 73px;
-        height: 71px;
-        border: 1px solid #ddd;
-        color: #888;
-        overflow: hidden;
-      }
-      .info:after {
+      .infomation:after {
         content: "";
         position: absolute;
         margin-left: -12px;
@@ -91,9 +76,6 @@
         width: 22px;
         height: 12px;
         background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png");
-      }
-      .info .link {
-        color: #5085bb;
       }
     </style>
   </head>
@@ -155,8 +137,8 @@
                 // 별도의 이벤트 메소드를 제공하지 않습니다
                 var content = document.createElement("div");
                 content.className = "wrap";
-                var info = document.createElement("div");
-                info.className = "info";
+                var infomation = document.createElement("div");
+                infomation.className = "infomation";
                 var title = document.createElement("div");
                 title.className = "title";
                 title.appendChild(document.createTextNode(hospital.company_name));
@@ -176,9 +158,9 @@
                 title.appendChild(closeBtn);
                 desc.appendChild(ellipsis);
                 body.appendChild(desc);
-                info.appendChild(title);
-                info.appendChild(body);
-                content.appendChild(info);
+                infomation.appendChild(title);
+                infomation.appendChild(body);
+                content.appendChild(infomation);
 
                 // 마커 위에 커스텀오버레이를 표시합니다
                 // 마커를 중심으로 커스텀 오버레이를 표시하기위해 CSS를 이용해 위치를 설정했습니다
