@@ -1,4 +1,93 @@
 <!DOCTYPE html>
+<html lang="ko">
+  <head>
+    {% include 'head.html' %}
+    <style>
+      #post-details-area {
+        border: 1px solid red;
+        display: flex;
+        flex-direction: column;
+        margin: 0 auto;
+        width: 70%;
+      }
+
+      .post--header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-basis: 10%;
+        padding: 0 10px;
+      }
+
+      .post--header span:first-child {
+        flex-basis: 5%;
+      }
+
+      .post--header span:nth-child(2) {
+        flex-basis: 70%;
+      }
+
+      .post--header span:nth-child(3),
+      .post--header span:nth-child(4) {
+        flex-basis: 10%;
+      }
+
+      .post--header span:last-child {
+        flex-basis: 5%;
+      }
+
+      .post-content {
+        flex-basis: 90%;
+        padding: 10px;
+      }
+      #comments-area {
+        border: 1px solid blue;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width:70%;
+        margin:0 auto;
+      }
+      .comment-form {
+        display: flex;
+        align-items: center;
+      }
+      #comment {
+        margin-right: 10px;
+        resize: none;
+      }
+      button {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    {% include 'top.html' %}
+    <!-- 본문구역 시작 -->
+    <div id="post-details-area">
+      <div class="post--header">
+        <span>postId</span>
+        <span>title</span>
+        <span>writer</span>
+        <span>Views</span>
+        <span>Likes</span>
+      </div>
+      <div class="post-content">content</div>
+    </div>
+    <!-- 본문구역 끝 -->
+    <!-- 댓글 구역 시작 -->
+    <div id="comments-area">
+      <div class="comment-form">
+        <textarea name="comment" id="comment" cols="60" rows="4"></textarea>
+        <button>댓글 등록</button>
+      </div>
+    </div>
+    <!-- 댓글 구역 시작 -->
+    <!-- footer include -->
+  </body>
+</html>
+
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -82,4 +171,4 @@
 
 
 
-
+ -->
