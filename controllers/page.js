@@ -1,5 +1,6 @@
 const express = require("express");
-const { User, Post, Board, Content } = require("../models");
+const { reformatDate } = require('../utils');
+const { User, Post, Board, Content, Comment } = require("../models");
 
 exports.renderMain = async (req, res, next) => {
   console.log("renderMain 진입");
@@ -176,10 +177,10 @@ exports.renderInfo = async (req, res, next) => {
 };
 
 exports.renderCommunityView = async (req, res, next) => {
-  //console.log(req.params);
-  const { id } = req.params;
+  const { postId } = req.params;
   try {
-    const posts = await Post.findOne({
+    // 게시글 정보 가져옴
+    const post = await Post.findOne({
       include: [
         {
           model: User,
@@ -195,14 +196,46 @@ exports.renderCommunityView = async (req, res, next) => {
         },
       ],
       where: {
-        id: id,
+        id: postId,
       },
     });
 
+    // 댓글 정보 가져옴
+    const comments = await Comment.findAll({
+      include: [
+        {
+          model: User,
+          attributes: ["id", "userId", "nickname"],
+        },
+        {
+          model: Post,
+          attributes: ["id"],
+          where: { id: postId },
+        }
+      ]
+    });
+
+    // 날짜를 필요한 형태로 바꿈
+    reformatDate(post, "full");
+    comments.forEach((comment) => {
+      reformatDate(comment, "full");
+    })
+
+    // 해당 게시글의 조회수 +1 처리
+    await Post.update({
+      view: post.view + 1,
+    }, {
+      where: { id: postId},
+    });
+
+
+
     res.render("communityView", {
       title: "메인페이지",
-      twits: posts,
+      twit: post,
+      comments,
       boardName: "communityView",
+      postId: postId,
     });
   } catch (err) {
     console.error(err);
@@ -371,48 +404,18 @@ exports.renderAdminpost = async (req, res, next) => {
   }
 };
 
-exports.renderMember = async (req, res,next) => {
+exports.renderMember = async (req, res, next) => {
   try {
     const users = await User.findAll();
     res.render("admin_member", {
       title: "회원관리 페이지",
-      users:users,
+      users: users,
     });
   } catch (err) {
     console.error(err);
-    next(err)
+    next(err);
   }
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 exports.popularList = async (req, res, next) => {
   try {

@@ -4,7 +4,7 @@ class Comment extends Sequelize.Model {
   static initiate(sequelize) {
     Comment.init({
         content: {
-            type: Sequelize.STRING(100),
+            type: Sequelize.STRING(500),
             allowNull: false,
         },
     }, {

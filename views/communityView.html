@@ -1,90 +1,214 @@
+<!-- 페이지 이름 postDetail.html로 수정하기 -->
+<!-- 대댓글 구분은? 부모 댓글이 있냐 없냐로 판별하기 -->
+<!-- 만약 댓글이 대댓글이라면 앞에 └ 표시와 공백 강제로 표시하기 -->
+<!-- 댓글창 삐져나가는 문제 해결. div.textContent 대신에 textarea 같은거 추가? -->
+
 <!DOCTYPE html>
 <html lang="ko">
   <head>
     {% include 'head.html' %}
     <style>
-      #post-details-area {
-        border: 1px solid red;
-        display: flex;
-        flex-direction: column;
-        margin: 0 auto;
-        width: 70%;
-      }
-
-      .post--header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-basis: 10%;
-        padding: 0 10px;
-      }
-
-      .post--header span:first-child {
-        flex-basis: 5%;
-      }
-
-      .post--header span:nth-child(2) {
-        flex-basis: 70%;
-      }
-
-      .post--header span:nth-child(3),
-      .post--header span:nth-child(4) {
-        flex-basis: 10%;
-      }
-
-      .post--header span:last-child {
-        flex-basis: 5%;
-      }
-
-      .post-content {
-        flex-basis: 90%;
-        padding: 10px;
-      }
-      #comments-area {
+      #post-info-area {
         border: 1px solid blue;
         display: flex;
-        justify-content: center;
+        flex-direction: column;
+        justify-content: space-between;
         align-items: center;
-        width:70%;
-        margin:0 auto;
+        width: 50%;
+        margin: 0 auto;
       }
-      .comment-form {
+
+      #post-meta-area {
+        /* border: 1px solid red; */
+        background-color: rgb(246, 230, 210);
         display: flex;
         align-items: center;
+        justify-content: space-between;
+        width: 100%;
       }
-      #comment {
+
+      #post-meta-area span {
+        margin-left: 25px;
+      }
+
+      #post-meta-area span:first-child {
+        margin-right: auto;
+      }
+
+      #post-meta-area span:last-child {
         margin-right: 10px;
-        resize: none;
       }
-      button {
-        text-align: center;
+
+      #post-content-area {
+        /* border: 1px solid green; */
+        flex: 1;
+        padding: 10px;
+        width: 100%;
+      }
+
+      #post-title {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 20px;
+      }
+      /*  */
+      #comments-area {
+        display: flex;
+        flex-direction: column;
+        width: 50%;
+        border: 1px solid blue;
+        margin: 0 auto;
+        margin-top: 10px;
+      }
+
+      #comments-write-area {
+        /* border: 1px solid green; */
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+      }
+
+      #comment-textarea {
+        width: 80%;
+        height: 100px;
+        resize: none;
+        margin: 10px;
+      }
+
+      #comment-submit-btn {
+        width: 100px;
+        height: 100px;
+        margin-right: 10px;
+      }
+
+      #comments-view-area {
+        display: flex;
+        flex-direction: column;
+        /* border: 1px solid yellowgreen; */
+        margin-top: 10px;
+      }
+
+      #comment-meta-area {
+        /* border: 1px solid red; */
+        background-color: rgb(246, 230, 210);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+      }
+
+      #comment-meta-area span {
+        margin-left: 20px;
+      }
+
+      #comment-meta-area span:first-child {
+        margin-right: auto;
+      }
+
+      #comment-delete-btn {
+        margin-left: 20px;
       }
     </style>
   </head>
   <body>
     {% include 'top.html' %}
-    <!-- 본문구역 시작 -->
+    <input type="hidden" id="postId" name="postId" value="{{ postId }}" />
+    <input type="hidden" id="userId" name="userId" value="{{ user.id }}" />
     <div id="post-details-area">
-      <div class="post--header">
-        <span>postId</span>
-        <span>title</span>
-        <span>writer</span>
-        <span>Views</span>
-        <span>Likes</span>
+      <!-- 본문구역 시작 -->
+      <div id="post-info-area">
+        <div id="post-meta-area">
+          <span>{{twit.User.nickname}}</span>
+          <span>작성일 : {{twit.createdAt}}</span>
+          <span>조회수 : {{twit.view}}</span>
+          <span
+            >추천수 :
+            <!-- 추후 추가 -->
+          </span>
+        </div>
+        <div id="post-content-area">
+          <div id="post-title">{{twit.title}}</div>
+          <hr />
+          <div id="post-content">{{twit.Content.content}}</div>
+        </div>
       </div>
-      <div class="post-content">content</div>
-    </div>
-    <!-- 본문구역 끝 -->
-    <!-- 댓글 구역 시작 -->
-    <div id="comments-area">
-      <div class="comment-form">
-        <textarea name="comment" id="comment" cols="60" rows="4"></textarea>
-        <button>댓글 등록</button>
+      <!-- 본문구역 끝 -->
+      <!-- 댓글 구역 시작 -->
+      <div id="comments-area">
+        <!-- 지금과 같이 완전히 안보이게 하는방식과 textarea와 댓글등록을 잠그고 -->
+        <!-- '로그인한 유저만 댓글을 쓰실 수 있습니다' 표기중 선택 -->
+        {% if user %}
+        <div id="comments-write-area">
+          <textarea name="comment-textarea" id="comment-textarea"></textarea>
+          <button type="submit" id="comment-submit-btn">댓글 등록</button>
+        </div>
+        {% endif %}
+        <hr />
+        <div id="comments-view-area">
+          {% for comment in comments %}
+          <div id="comment-meta-area">
+            <span>{{comment.User.userId}}</span>
+            <span>{{comment.createdAt}}</span>
+            {% if comment.User.id == user.id %}
+            <button id="comment-delete-btn">삭제</button>
+            {% endif %}
+          </div>
+          <div id="comment-content-area">{{comment.content}}</div>
+          {% endfor %}
+        </div>
       </div>
+      <!-- 댓글 구역 끝 -->
     </div>
-    <!-- 댓글 구역 시작 -->
     <!-- footer include -->
   </body>
+  <script>
+    const commentSubmitBtn = document.getElementById("comment-submit-btn");
+    const comment = document.getElementById("comment-textarea");
+    const postId = document.getElementById("postId").value;
+    const userId = document.getElementById("userId").value;
+    commentSubmitBtn.addEventListener("click", () => {
+      const commentData = {
+        commentContent: comment.value,
+        userId,
+      };
+      axios
+        .post("/posts/{{postId}}/comments", commentData)
+        .then((res) => {
+          // 기존 댓글 목록 삭제
+          const commentsViewArea = document.getElementById("comments-view-area");
+          commentsViewArea.innerHTML = "";
+
+          // 전달받은 댓글 목록을 순회하면서 새로운 댓글 목록 만들어 준다
+          // createElement, setAttribute, appendChild를 통해서 동적으로 생성
+          // 이와 같은 방식을 통해 페이지 전체를 로딩하지 않고
+          // 댓글 목록만 갱신할 수 있다.
+          res.data.forEach((comment) => {
+            const commentMetaArea = document.createElement("div");
+            commentMetaArea.setAttribute("id", "comment-meta-area");
+            const userIdSpan = document.createElement("span");
+            userIdSpan.textContent = comment.User.userId;
+            const createdAtSpan = document.createElement("span");
+            createdAtSpan.textContent = comment.createdAt;
+            commentMetaArea.appendChild(userIdSpan);
+            commentMetaArea.appendChild(createdAtSpan);
+            if( comment.User.id == userId ){
+              const commentDeleteBtn = document.createElement("button");
+              commentDeleteBtn.setAttribute("id", "comment-delete-btn");
+              commentDeleteBtn.textContent = "삭제";
+              commentMetaArea.appendChild(commentDeleteBtn);
+            }
+            const commentContentArea = document.createElement("div");
+            commentContentArea.setAttribute("id", "comment-content-area");
+            commentContentArea.textContent = comment.content;
+            commentsViewArea.appendChild(commentMetaArea);
+            commentsViewArea.appendChild(commentContentArea);
+          });
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    });
+  </script>
 </html>
 
 <!-- <!DOCTYPE html>
