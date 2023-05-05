@@ -1,4 +1,4 @@
-const e = require("express");
+const express = require("express");
 const { User, Post, Board, Content } = require("../models");
 
 exports.renderMain = async (req, res, next) => {
@@ -339,6 +339,80 @@ exports.renderModifyUser = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.renderAdminpost = async (req, res, next) => {
+  console.log("admin 진입");
+  try {
+    const posts = await Post.findAll({
+      include: [
+        {
+          model: User,
+          attributes: ["userId", "nickname"],
+        },
+        {
+          model: Board,
+          attributes: ["name"],
+        },
+        {
+          model: Content,
+          attributes: ["content"],
+        },
+      ],
+    });
+
+    res.render("admin_post", {
+      title: "게시글관리 페이지",
+      twits: posts,
+      user: req.user,
+    });
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+};
+
+exports.renderMember = async (req, res,next) => {
+  try {
+    const users = await User.findAll();
+    res.render("admin_member", {
+      title: "회원관리 페이지",
+      users:users,
+    });
+  } catch (err) {
+    console.error(err);
+    next(err)
+  }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 exports.popularList = async (req, res, next) => {
   try {
