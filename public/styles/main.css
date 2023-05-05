@@ -65,18 +65,20 @@
 }
 
 .main-box {
+  width: 80%;
+  margin: 10px auto;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  background-color: rgb(221, 221, 221);
   padding: 20px;
 }
 
+/*  지도  */
 .wrap {
   position: absolute;
   left: 0;
   bottom: 55px;
   width: auto;
-  height: 100px;
+  height: 110px;
   margin-left: -97px;
   text-align: left;
   font-size: 12px;
@@ -89,24 +91,33 @@
 }
 .wrap .infomation {
   width: 200px;
-  height: 100px;
+  height: auto;
+  min-height: 100px;
+  max-height: 120px;
   border-radius: 5px;
-  overflow: hidden;
   background: #fff;
+  position: relative;
 }
 .wrap .infomation:nth-child(1) {
   border: 0;
   box-shadow: 0px 1px 2px #888;
 }
 .infomation .title {
+  width: 200px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 5px 0px 5px 20px;
-  height: 30px;
-  background: hsl(194, 100%, 70%);
+  min-height: 30px;
+  max-height: 50px;
+  padding: 3px 0px 3px 20px;
+  background: hsl(0, 0%, 100%);
   border-bottom: 1px solid #ddd;
   font-weight: bold;
+}
+.infomation .title p {
+  width: 150px;
+  white-space: normal;
+  word-break: keep-all;
 }
 .infomation .close {
   margin-left: 20px;
@@ -124,17 +135,17 @@
 
 .desc .ellipsis {
   width: 80%;
-  margin: 10px auto;
   white-space: normal;
+  word-break: keep-all;
+  padding: 10px 20px;
 }
 .infomation:after {
   content: "";
   position: absolute;
   margin-left: -12px;
-  top: 100px;
+  top: 100%;
   left: 50%;
   width: 22px;
   height: 12px;
-  background-color: white;
   background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png");
 }

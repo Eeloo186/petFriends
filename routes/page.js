@@ -12,7 +12,8 @@ const {
   renderEditor,
   renderMypage,
   renderModifyUser,
-  popularList,
+  renderAdminpost,
+  renderMember,
 } = require("../controllers/page");
 
 router.use((req, res, next) => {
@@ -50,6 +51,8 @@ router.get("/page/mypage", renderMypage);
 // 유저정보 수정 페이지
 router.get("/page/users/:id", renderModifyUser);
 
-router.get("/popular/list", popularList);
+router.get("/page/admin_post", renderAdminpost);
+
+router.get("/admin_post/admin_member", renderMember);
 
 module.exports = router;

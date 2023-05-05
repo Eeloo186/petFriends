@@ -20,6 +20,13 @@
       <a href="/page/login">login</a>
     </div>
     {% endif %}
+    <h1 style="text-align: center; margin-bottom: 50px">인기 게시물</h1>
+    <div
+      class="popular-posts"
+      style="width: 80%; height: 300px; border-radius: 20px; margin: 0 auto"
+    >
+      <ol class="popular-posts-list"></ol>
+    </div>
     <div class="main-box">
       <div
         id="map"
@@ -30,19 +37,8 @@
           margin-left: 30px;
         "
       ></div>
-      <div
-        class="popular-posts"
-        style="
-          width: 800px;
-          height: 400px;
-          border-radius: 20px;
-          margin-left: 30px;
-          background-color: aqua;
-        "
-      >
-        <ul></ul>
-      </div>
     </div>
+    {% include 'footer.html' %}
   </body>
   <script
     type="text/javascript"

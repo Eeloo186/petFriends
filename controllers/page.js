@@ -1,4 +1,3 @@
-const e = require("express");
 const { User, Post, Board, Content } = require("../models");
 
 exports.renderMain = async (req, res, next) => {
@@ -7,7 +6,7 @@ exports.renderMain = async (req, res, next) => {
     const kakao = process.env.KAKAO_ID;
     const posts = await Post.findAll({
       order: [["view", "DESC"]],
-      limit: 5,
+      limit: 10,
       include: [
         {
           model: User,
@@ -340,13 +339,44 @@ exports.renderModifyUser = async (req, res, next) => {
   }
 };
 
-exports.popularList = async (req, res, next) => {
+exports.renderAdminpost = async (req, res, next) => {
+  console.log("admin 진입");
   try {
-    const popularList = await Post.findAll({
-      order: [["view", "DESC"]],
-      limit: 10,
+    const posts = await Post.findAll({
+      include: [
+        {
+          model: User,
+          attributes: ["userId", "nickname"],
+        },
+        {
+          model: Board,
+          attributes: ["name"],
+        },
+        {
+          model: Content,
+          attributes: ["content"],
+        },
+      ],
     });
-    res.json({ popularList }); // popularList를 객체 형태로 응답합니다.
+
+    res.render("admin_post", {
+      title: "게시글관리 페이지",
+      twits: posts,
+      user: req.user,
+    });
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+};
+
+exports.renderMember = async (req, res, next) => {
+  try {
+    const users = await User.findAll();
+    res.render("admin_member", {
+      title: "회원관리 페이지",
+      users: users,
+    });
   } catch (err) {
     console.error(err);
     next(err);
