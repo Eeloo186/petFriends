@@ -74,12 +74,11 @@
 .wrap {
   position: absolute;
   left: 0;
-  bottom: 40px;
+  bottom: 55px;
   width: auto;
-  height: 132px;
-  margin-left: -70px;
+  height: 100px;
+  margin-left: -97px;
   text-align: left;
-  overflow: hidden;
   font-size: 12px;
   font-family: "Malgun Gothic", dotum, "돋움", sans-serif;
   line-height: 1.5;
@@ -89,11 +88,9 @@
   margin: 0;
 }
 .wrap .infomation {
-  width: 150px;
-  height: 120px;
+  width: 200px;
+  height: 100px;
   border-radius: 5px;
-  border-bottom: 2px solid #ccc;
-  border-right: 1px solid #ccc;
   overflow: hidden;
   background: #fff;
 }
@@ -102,46 +99,42 @@
   box-shadow: 0px 1px 2px #888;
 }
 .infomation .title {
-  padding-left: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 0px 5px 20px;
   height: 30px;
-  background: #eee;
+  background: hsl(194, 100%, 70%);
   border-bottom: 1px solid #ddd;
-  font-size: 18px;
   font-weight: bold;
 }
 .infomation .close {
-  position: absolute;
-  top: 5px;
-  right: 7px;
+  margin-left: 20px;
+  margin: 10px;
   color: #888;
-  width: 17px;
-  height: 17px;
+  width: 10px;
+  height: 10px;
   background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png");
   background-size: cover;
+  border: none;
 }
 .infomation .close:hover {
   cursor: pointer;
 }
-.infomation .body {
-  position: relative;
-  overflow: hidden;
-}
-.infomation .desc {
-  position: relative;
-  margin: 20px auto;
-}
+
 .desc .ellipsis {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  width: 80%;
+  margin: 10px auto;
+  white-space: normal;
 }
 .infomation:after {
   content: "";
   position: absolute;
   margin-left: -12px;
+  top: 100px;
   left: 50%;
-  bottom: 0;
   width: 22px;
   height: 12px;
+  background-color: white;
   background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png");
 }
