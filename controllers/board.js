@@ -27,3 +27,35 @@ exports.uploadPost = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.editPost = async (req, res, next) => {
+  try {
+    const { boardName, title, content, postId } = req.body;
+    console.log(`게시글 ${postId}번을 수정합니다`);
+    // posts 테이블에 데이터 수정
+    await Post.update(
+      {
+        title: title,
+        updatedAt: new Date(),
+      },
+      {
+        where: { id: postId },
+      }
+    );
+
+    // contents 테이블에 데이터 수정
+    await Content.update(
+      {
+        content: content,
+        updatedAt: new Date(),
+      },
+      {
+        where: { PostId: postId },
+      }
+    );
+
+    return res.status(200).end();
+  } catch (err) {
+    console.error(err);
+  }
+};

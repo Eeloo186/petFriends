@@ -7,6 +7,7 @@ const {
   renderInfo,
   renderCommunity,
   renderCommunityView,
+  renderPostDetail,
   renderLogin,
   renderJoin,
   renderEditor,
@@ -44,10 +45,13 @@ router.get("/page/info", renderInfo);
 router.get("/page/community", renderCommunity);
 
 // 개별 상세보기 페이지
-router.get("/page/communityView/:postId", renderCommunityView);
+// router.get("/page/communityView/:postId", renderCommunityView);
+router.get("/page/:boardName/:postId",renderPostDetail);
+
 
 // 글쓰기(에디터) 페이지
 router.get("/page/editor", renderEditor);
+// router.get("/page/editor/:postId");
 
 // 마이페이지
 router.get("/page/mypage", renderMypage);

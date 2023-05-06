@@ -7,24 +7,19 @@
     <title>{{title}}</title>
   </head>
   <body>
-    <input
-      id="board-name"
-      name="board-name"
-      type="hidden"
-      value="{{boardName}}"
-    />
+    <input id="board-name" name="board-name" type="hidden" value="{{boardName}}" />
+    <input id="content" name="content" type="hidden" data-content="{{content}}" />
+    <input id="post-title" name="post-title" type="hidden" data-posttitle="{{postTitle}}" />
     <div id="container">
       <h1>에디터 페이지</h1>
-      <label for="title"
-        >글제목 <input id="title" type="text" style="width: 549px"
-      /></label>
+      <label for="title">글제목 <input id="title" type="text" style="width: 549px" /></label>
       <textarea name="editor" id="editor" rows="10" cols="100"></textarea>
       <button id="writeBtn">글쓰기</button>
       <button id="backBtn">돌아가기</button>
     </div>
   </body>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-  <script src="../CKEditor5/build/ckeditor.js"></script>
+  <script src="../../CKEditor5/build/ckeditor.js"></script>
   <script type="text/javascript">
     // CKEditor5 설정
     let editor;
@@ -45,6 +40,7 @@
       const title = document.getElementById("title").value;
       const boardName = document.getElementById("board-name").value;
       const content = editor.getData();
+      const postId = "{{postId}}";
 
       // 유효성 검사 추가
       if (title == "") {
@@ -57,16 +53,31 @@
             title,
             content,
             boardName,
+            postId,
           };
-          axios
-            .post(`/boards/${boardName}/posts`, data)
-            .then((res) => {
-              // 작성글 정보 db에 등록 완료했으면 원래 있던 곳으로 이동
-              location.href = `/page/${boardName}?currentPage=1`;
-            })
-            .catch((err) => {
-              console.error(err);
-            });
+
+          if ("{{type}}" == "write") {
+            // 글 작성
+            axios
+              .post(`/boards/${boardName}/posts`, data)
+              .then((res) => {
+                // 작성글 정보 db에 등록 완료했으면 원래 있던 곳으로 이동
+                location.href = `/page/${boardName}?currentPage=1`;
+              })
+              .catch((err) => {
+                console.error(err);
+              });
+          } else {
+            // 글 수정
+            axios.put(`/boards/${boardName}/posts`, data)
+              .then((res) => {
+                // 작성글 정보 db에 등록 완료했으면 원래 있던 곳으로 이동
+                location.href = `/page/${boardName}?currentPage=1`;
+              })
+              .catch((err) => {
+                console.error(err);
+              });
+          }
         }
       }
     });
@@ -87,5 +98,13 @@
         }
       }
     });
+
+    window.onload = () => {
+      const title = document.getElementById("title");
+      const content = document.getElementById('content');
+      const postTitle = document.getElementById('post-title');
+      title.value = postTitle.dataset.posttitle;
+      editor.setData(content.dataset.content);
+    };
   </script>
 </html>

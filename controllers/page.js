@@ -176,15 +176,82 @@ exports.renderInfo = async (req, res, next) => {
   }
 };
 
-exports.renderCommunityView = async (req, res, next) => {
-  const { postId } = req.params;
+// exports.renderCommunityView = async (req, res, next) => {
+//   const { postId } = req.params;
+//   try {
+//     // 게시글 정보 가져옴
+//     const post = await Post.findOne({
+//       include: [
+//         {
+//           model: User,
+//           attributes: ["userId", "nickname"],
+//         },
+//         {
+//           model: Board,
+//           attributes: ["name"],
+//         },
+//         {
+//           model: Content,
+//           attributes: ["content"],
+//         },
+//       ],
+//       where: {
+//         id: postId,
+//       },
+//     });
+
+//     // 댓글 정보 가져옴
+//     const comments = await Comment.findAll({
+//       include: [
+//         {
+//           model: User,
+//           attributes: ["id", "userId", "nickname"],
+//         },
+//         {
+//           model: Post,
+//           attributes: ["id"],
+//           where: { id: postId },
+//         }
+//       ]
+//     });
+
+//     // 날짜를 필요한 형태로 바꿈
+//     reformatDate(post, "full");
+//     comments.forEach((comment) => {
+//       reformatDate(comment, "full");
+//     })
+
+//     // 해당 게시글의 조회수 +1 처리
+//     await Post.update({
+//       view: post.view + 1,
+//     }, {
+//       where: { id: postId},
+//     });
+
+
+
+//     res.render("communityView", {
+//       title: "메인페이지",
+//       twit: post,
+//       comments,
+//       boardName: "communityView",
+//       postId: postId,
+//     });
+//   } catch (err) {
+//     console.error(err);
+//     next(err);
+//   }
+// };
+
+exports.renderPostDetail = async (req, res, next) => {
+  const { boardName, postId } = req.params;
   try {
     // 게시글 정보 가져옴
     const post = await Post.findOne({
       include: [
         {
           model: User,
-          attributes: ["userId", "nickname"],
+          attributes: ["id", "userId", "nickname"],
         },
         {
           model: Board,
@@ -228,13 +295,13 @@ exports.renderCommunityView = async (req, res, next) => {
       where: { id: postId},
     });
 
+    console.log(JSON.stringify(post));
 
-
-    res.render("communityView", {
-      title: "메인페이지",
+    res.render("postDetail", {
+      title: "게시글 상세 정보",
       twit: post,
       comments,
-      boardName: "communityView",
+      boardName,
       postId: postId,
     });
   } catch (err) {
@@ -338,10 +405,37 @@ exports.renderJoin = async (req, res, next) => {
   }
 };
 
-exports.renderEditor = (req, res) => {
+exports.renderEditor = async (req, res) => {
+  // req.query로 변수 초기화
+  const boardName = req.query["board-name"];
+  let postTitle = "";
+  let content = "";
+  let type = "write";
+  let postId = "";
+
+  if( req.query.postId ){
+    // 게시글 수정(=postId 정보가 있음) 
+    postId = req.query.postId;
+
+    // postId로 title과 content 구한다
+    const postRow = await Post.findOne({
+      where: { id: postId},
+    });
+    const contentRow = await Content.findOne({
+      where: { PostId: postId},
+    });
+    postTitle = postRow.dataValues.title;
+    content = contentRow.dataValues.content;
+    type = "edit";
+  }
+
   res.render("editor", {
     title: "글쓰기(에디터) 페이지",
-    boardName: req.query["board-name"],
+    postId,
+    boardName,
+    postTitle,
+    content,
+    type,
   });
 };
 

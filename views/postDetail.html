@@ -124,7 +124,8 @@
     {% include 'top.html' %}
     <input type="hidden" id="postId" name="postId" value="{{ postId }}" />
     <input type="hidden" id="userId" name="userId" value="{{ user.id }}" />
-    <input type="hidden" id="post-content-html" value="{{twit.Content.content}}" />
+    <input type="hidden" id="boardName" name="boardName" value="{{ boardName }}" />
+    <input type="hidden" id="content-html" value="{{twit.Content.content}}" />
     <div id="post-details-area">
       <!-- 본문구역 시작 -->
       <div id="post-info-area">
@@ -144,6 +145,7 @@
         </div>
       </div>
       <div id="button-container">
+        {% if twit.User.id == user.id %}
         <button id="post-edit-btn">게시글 수정</button>
         <button id="post-delete-btn">게시글 삭제</button>
         {% endif %}
@@ -171,7 +173,8 @@
               <button class="comment-delete-btn">삭제</button>
               {% endif %}
             </div>
-            <div class="comment-content-area"></div>
+            <div class="comment-content-area">{{comment.content}}</div>
+            <input type="hidden" class="comment-content-html" value="{{comment.content}}" />
           </div>
           {% endfor %}
         </div>
@@ -218,7 +221,7 @@
           userId,
         };
         // 빈 댓글이 아닐 때만 댓글 등록 가능
-        if ( comment.value.trim() !== "" ) {
+        if (comment.value.trim() !== "") {
           comment.value = "";
           axios
             .post(`/posts/${postId}/comments`, commentData)
@@ -280,35 +283,38 @@
       });
     }
 
-
     // 게시글 수정
-    const editPostBtn = document.getElementById('post-edit-btn');
-    editPostBtn.addEventListener('click', () => {
-      // 에디터를 열면서 현재 게시글의 분문과 제목을 불러와서 덮어씌움
-    });
+    if ( document.getElementById("post-edit-btn") ) {
+      const editPostBtn = document.getElementById("post-edit-btn");
+      editPostBtn.addEventListener("click", () => {
+        const boardName = document.getElementById('boardName');
+      
+      // boardName, postId 정보담아 GET 요청을 보낸다
+      window.location.href = `/page/editor/?board-name=${boardName.value}&postId=${postId}`;
+      });
 
-    // 게시글 삭제
-
+      // 게시글 삭제
+    }
   </script>
   <script>
+    // 본문 로딩
     window.addEventListener("DOMContentLoaded", () => {
-      // 본문 HTML 처리
       const contentHTML = document.getElementById("content-html");
       const postContent = document.querySelector("#post-content");
       postContent.innerHTML = contentHTML.value;
+
+      // 댓글 HTML 처리
+      console.log("시작");
+      const commentContentArea = document.querySelectorAll(".comment-content-area");
+      const commentContentHTML = document.querySelectorAll(".comment-content-html");
+      for (let i = 0; i < commentContentArea.length; i++) {
+        commentContentArea[i].innerHTML = commentContentHTML[i].value;
+      }
     });
   </script>
 </html>
 
-
-
-
-
-
-
 <!-- 백업  -->
-
-
 
 <!-- <!DOCTYPE html>
 <html lang="en">

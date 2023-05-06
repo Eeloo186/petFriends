@@ -21,7 +21,8 @@
     {% for twit in twits %}
     <tr>
         <td>게시글번호 : {{twit.id}}</td>
-        <td><a href="/page/communityView/{{twit.id}}">게시물 : {{twit.title}}</a></td>
+        <!-- <td><a href="/page/communityView/{{twit.id}}">게시물 : {{twit.title}}</a></td> -->
+        <td><a href="/page/{{boardName}}/{{twit.id}}">게시물 : {{twit.title}}</a></td>
         <td> 작성자닉네임 : {{twit.User.nickname}} </td>
         <td>작성일 : {{twit.createdAt}}</td>
     </tr>
