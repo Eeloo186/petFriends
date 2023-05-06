@@ -4,7 +4,7 @@ const path = require('path');
 const fs = require('fs');
 const router = express.Router();
 
-const { afterUploadImage, uploadComment } = require('../controllers/post');
+const { afterUploadImage, uploadComment, deleteComment } = require('../controllers/post');
 
 
 try {
@@ -30,6 +30,7 @@ const upload = multer({
 router.post('/img', upload.any(), afterUploadImage);
 
 router.post('/:postId/comments', uploadComment);
+router.delete('/:postId/comments/:commentId', deleteComment);
 
 
 

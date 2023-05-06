@@ -1,4 +1,4 @@
-const { reformatDate } = require('../utils');
+const { reformatDate } = require("../utils");
 const { Comment, User, Post } = require("../models");
 
 exports.afterUploadImage = (req, res) => {
@@ -16,30 +16,49 @@ exports.uploadComment = async (req, res, next) => {
       content: commentContent,
       UserId: userId,
       PostId: postId,
-    });
-
-    // 댓글 목록 갱신을 위해서 댓글 목록을 읽어와서 json 형식으로 되돌려준다
-    const comments = await Comment.findAll({
-      include: [
-        {
-          model: User,
-          attributes: ["id", "userId", "nickname"],
-        },
-        {
-          model: Post,
-          attributes: ["id"],
-          where: { id: postId },
-        },
-      ],
-    });
-
-    // 날짜를 필요한 형태로 바꿈
-    comments.forEach((comment) => {
-      reformatDate(comment, "full");
     })
-    return res.json(comments);
+      .then(() => {
+        const comment = Comment.findOne({
+          include: [
+            {
+              model: User,
+              attributes: ["id", "userId", "nickname"],
+            },
+          ],
+          where: { UserId: userId, PostId: postId },
+          order: [["createdAt", "DESC"]],
+        })
+          .then((comment) => {
+            // 날짜를 필요한 형태로 바꿈
+            reformatDate(comment, "full");
+            res.json(comment);
+          })
+          .catch((err) => {
+            console.error(err);
+            res.status(500).send("댓글 검색 실패");
+          });
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(500).send("댓글 등록 실패");
+      });
   } catch (err) {
     console.error(err);
     next(err);
   }
+};
+
+exports.deleteComment = (req, res, next) => {
+  const { postId, commentId } = req.params;
+  Comment.destroy({
+    where: {id : commentId},
+  })
+  .then(() => {
+    // 삭제 성공 시 처리
+    return res.status(200).json({ postId, commentId, message: "삭제 성공" });
+  })
+  .catch((err) => {
+    // 삭제 실패 시 처리
+    return res.status(500).json({ postId, commentId, message: "삭제 실패" });
+  });
 };
