@@ -72,6 +72,21 @@
   padding: 20px;
 }
 
+.post {
+  width: 230px;
+  height: 150px;
+  display: inline-block;
+  border: 5px solid powderblue;
+  border-radius: 20px;
+  margin: 5px;
+}
+
+.post-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 /*  지도  */
 .wrap {
   position: absolute;

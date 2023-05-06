@@ -14,6 +14,8 @@ const {
   renderModifyUser,
   renderAdminpost,
   renderMember,
+  popularList,
+  highNum,
 } = require("../controllers/page");
 
 router.use((req, res, next) => {
@@ -54,5 +56,8 @@ router.get("/page/users/:id", renderModifyUser);
 router.get("/page/admin_post", renderAdminpost);
 
 router.get("/admin_post/admin_member", renderMember);
+
+//메인 조회수
+router.get("/page/popular", popularList);
 
 module.exports = router;

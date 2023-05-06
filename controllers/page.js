@@ -382,3 +382,22 @@ exports.renderMember = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.popularList = async (req, res, next) => {
+  try {
+    const viewlist = await Post.findAll({
+      order: [["view", "DESC"]],
+      limit: 10,
+      include: [
+        {
+          model: User,
+          attributes: ["userId", "nickname"],
+        },
+      ],
+    });
+    res.send(viewlist);
+  } catch (err) {
+    console.error(err);
+    next();
+  }
+};
