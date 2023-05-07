@@ -282,18 +282,37 @@
         }
       });
     }
-
-    // 게시글 수정
-    if ( document.getElementById("post-edit-btn") ) {
+    /////////////////
+    // 게시글 수정 //
+    /////////////////
+    if (document.getElementById("post-edit-btn")) {
       const editPostBtn = document.getElementById("post-edit-btn");
       editPostBtn.addEventListener("click", () => {
-        const boardName = document.getElementById('boardName');
-      
-      // boardName, postId 정보담아 GET 요청을 보낸다
-      window.location.href = `/page/editor/?board-name=${boardName.value}&postId=${postId}`;
+        const boardName = document.getElementById("boardName");
+
+        // boardName, postId 정보담아 GET 요청을 보낸다
+        window.location.href = `/page/editor/?board-name=${boardName.value}&postId=${postId}`;
       });
 
-      // 게시글 삭제
+    /////////////////
+    // 게시글 삭제 //
+    /////////////////
+      if (document.getElementById("post-delete-btn")) {
+        const deletePostBtn = document.getElementById("post-delete-btn");
+        deletePostBtn.addEventListener("click", () => {
+          const confirmed = confirm("정말 게시글을 삭제하시겠습니까?");
+          if (confirmed) {
+            axios
+              .delete(`/boards/{{boardName}}/posts/{{postId}}`)
+              .then((res) => {
+                window.location.href = `/page/${res.data.boardName}?currentPage=1`;
+              })
+              .catch((err) => {
+                console.error(err);
+              });
+          }
+        });
+      }
     }
   </script>
   <script>
