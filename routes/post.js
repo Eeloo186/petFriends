@@ -36,6 +36,4 @@ router.post("/img", upload.any(), afterUploadImage);
 router.post("/:postId/comments", uploadComment);
 router.delete("/:postId/comments/:commentId", deleteComment);
 
-router.put("/:id/views", addView);
-
 module.exports = router;

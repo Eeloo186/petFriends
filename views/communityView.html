@@ -271,8 +271,9 @@
       const contentHTML = document.getElementById("content-html");
       const postContent = document.querySelector("#post-content");
       postContent.innerHTML = contentHTML.value;
-    });
+        });
   </script>
+ 
 </html>
 
 
@@ -366,25 +367,3 @@
     });
 </script>
 
-<!--  조회수 up-->
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-  const postId = window.location.pathname.split('/').pop();
-  console.log(postId)
-  axios.put(`/posts/${postId}/views`)
-    .then((response) => {
-      console.log(response.data); // 서버 응답 확인
-      console.log(1)
-    })
-    .catch((error) => {
-      console.error(error);
-      console.log(0)
-    });
-});
-</script>
-</html>
-
-
-
-
- -->

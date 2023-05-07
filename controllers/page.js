@@ -418,11 +418,67 @@ exports.renderMember = async (req, res, next) => {
   }
 };
 
-exports.popularList = async (req, res, next) => {
+//커뮤니티 번호순 정렬
+
+//높은뷰
+exports.highViewList = async (req, res, next) => {
   try {
     const viewlist = await Post.findAll({
       order: [["view", "DESC"]],
-      limit: 10,
+      include: [
+        {
+          model: User,
+          attributes: ["userId", "nickname"],
+        },
+      ],
+    });
+    res.send(viewlist);
+  } catch (err) {
+    console.error(err);
+    next();
+  }
+};
+//낮은뷰
+exports.rowViewList = async (req, res, next) => {
+  try {
+    const viewlist = await Post.findAll({
+      order: [["view"]],
+      include: [
+        {
+          model: User,
+          attributes: ["userId", "nickname"],
+        },
+      ],
+    });
+    res.send(viewlist);
+  } catch (err) {
+    console.error(err);
+    next();
+  }
+};
+//최신순
+exports.newestList = async (req, res, next) => {
+  try {
+    const viewlist = await Post.findAll({
+      order: [["createdAt", "DESC"]],
+      include: [
+        {
+          model: User,
+          attributes: ["userId", "nickname"],
+        },
+      ],
+    });
+    res.send(viewlist);
+  } catch (err) {
+    console.error(err);
+    next();
+  }
+};
+//오래된순
+exports.oldList = async (req, res, next) => {
+  try {
+    const viewlist = await Post.findAll({
+      order: [["createdAt"]],
       include: [
         {
           model: User,

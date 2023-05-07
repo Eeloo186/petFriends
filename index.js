@@ -46,6 +46,12 @@ app.use(morgan("dev")); // 배포시 dev 수정 필요
 app.use(express.static(path.join(__dirname, "public"))); // static 경로 설정
 app.use("/img", express.static(path.join(__dirname, "uploads"))); // '/'로 접근시 public으로, '/img'로 접근시 uploads로
 
+app.use(express.static("public", { maxAge: "1d", immutable: true })); //뒤로가기 했을 때 캐시 제어 후 바뀐 데이터 가져오는 코드
+app.use((req, res, next) => {
+  res.set("Cache-Control", "no-store");
+  next();
+});
+
 // body-parser 설정
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

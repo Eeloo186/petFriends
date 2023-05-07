@@ -3,22 +3,30 @@
 <head>
   {% include 'head.html' %}
   <link rel="stylesheet" href="/styles/postslist.css">
+  <script src="/javascript/community.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
     {% include 'top.html' %}
-    <h1>커뮤니티 페이지</h1>
+    <h1 style="text-align: center;">커뮤니티 페이지</h1>
+    <ul class="sort-btn-list">
+        <li><div class="sort-btn newest sort-btn-click">최신 순</div></li>
+        <li><div class="sort-btn old">오래된 순</div></li>
+        <li><div class="sort-btn highView">높은 조회수</div></li>
+        <li><div class="sort-btn rowView">낮은 조회수</div></li>
+    </ul>
 <table>
     <thead>
-    <tr>
+    <tr >
         <th>번호</th>
+        <th>조회수</th>
         <th>제목</th>
         <th>작성자</th>
         <th>작성일</th>
     </tr>
     </thead>
-    <tbody>
-    {% for twit in twits %}
+    <tbody class="commu-list">
+    <!-- {% for twit in twits %}
     <tr>
         <td>게시글번호 : {{twit.id}}</td>
         <td>조회수 : {{twit.view}}</td>
@@ -26,7 +34,7 @@
         <td> 작성자닉네임 : {{twit.User.nickname}} </td>
         <td>작성일 : {{twit.createdAt}}</td>
     </tr>
-    {% endfor %}
+    {% endfor %} -->
     </tbody>
 </table><br>
 <form action="/page/editor" id="write-form" method="get">
@@ -74,7 +82,4 @@
         {% endif %}
 </div>
 </body>
-<script>
-
-</script>
 </html>

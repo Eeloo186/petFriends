@@ -14,8 +14,10 @@ const {
   renderModifyUser,
   renderAdminpost,
   renderMember,
-  popularList,
-  highNum,
+  highViewList,
+  rowViewList,
+  newestList,
+  oldList,
 } = require("../controllers/page");
 
 router.use((req, res, next) => {
@@ -23,7 +25,7 @@ router.use((req, res, next) => {
   // 브라우저에 유출되지 않도록
   // 필요한 정보만 저장하는 방식으로 변경할 필요성이 있음
   res.locals.user = req.user;
-  next(); 
+  next();
 });
 
 // 메인 페이지
@@ -60,7 +62,10 @@ router.get("/page/admin_post", renderAdminpost);
 
 router.get("/admin_post/admin_member", renderMember);
 
-//메인 조회수
-router.get("/page/popular", popularList);
+//커뮤니티 순서 정렬
+router.get("/page/community/highView", highViewList);
+router.get("/page/community/rowView", rowViewList);
+router.get("/page/community/newest", newestList);
+router.get("/page/community/old", oldList);
 
 module.exports = router;

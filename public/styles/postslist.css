@@ -17,3 +17,29 @@ ul {
 li {
   display: inline-block;
 }
+
+.sort-btn-list {
+  display: flex;
+  justify-content: center;
+}
+
+.sort-btn {
+  font-weight: bold;
+  padding: 5px 10px;
+  background-color: white;
+  border: 3px solid black;
+  border-radius: 15px;
+  margin: 0 10px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.sort-btn:hover {
+  background-color: black;
+  color: white;
+}
+
+.sort-btn-click {
+  background-color: black;
+  color: white;
+}
