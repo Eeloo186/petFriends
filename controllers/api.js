@@ -6,8 +6,6 @@ const { Hospital } = require("../models");
 exports.getHospitalList = async (req, res) => {
   console.log("동물병원 진입");
   const hospitals = await Hospital.findAll();
-  console.log(hospitals);
-
   res.json(hospitals);
 };
 
