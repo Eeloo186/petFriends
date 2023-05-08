@@ -6,14 +6,6 @@ const rowView = document.querySelector(".rowView");
 const newest = document.querySelector(".newest");
 const old = document.querySelector(".old");
 
-// 각 버튼의 클릭 이벤트에 handleSortBtnClick 함수를 전달
-highView.addEventListener("click", () =>
-  handleSortBtnClick(highView, "highView")
-);
-rowView.addEventListener("click", () => handleSortBtnClick(rowView, "rowView"));
-newest.addEventListener("click", () => handleSortBtnClick(newest, "newest"));
-old.addEventListener("click", () => handleSortBtnClick(old, "old"));
-
 // 페이지가 로드될 때 데이터를 가져옴
 let changeNumberSort = "newest";
 listSort();
@@ -68,6 +60,14 @@ function handleSortBtnClick(clickedBtn, sortType) {
   }
   listSort();
 }
+
+// 각 버튼의 클릭 이벤트에 handleSortBtnClick 함수를 전달
+highView.addEventListener("click", () =>
+  handleSortBtnClick(highView, "highView")
+);
+rowView.addEventListener("click", () => handleSortBtnClick(rowView, "rowView"));
+newest.addEventListener("click", () => handleSortBtnClick(newest, "newest"));
+old.addEventListener("click", () => handleSortBtnClick(old, "old"));
 
 // 뒤로 가기 클릭 시 데이터를 다시 가져옴
 // window.addEventListener("popstate", (event) => {

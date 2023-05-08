@@ -554,7 +554,7 @@ exports.rowViewList = async (req, res, next) => {
 exports.newestList = async (req, res, next) => {
   try {
     const viewlist = await Post.findAll({
-      // order: [["createdAt", "DESC"]],
+      order: [["id", "DESC"]],
       include: [
         {
           model: User,
@@ -572,7 +572,7 @@ exports.newestList = async (req, res, next) => {
 exports.oldList = async (req, res, next) => {
   try {
     const viewlist = await Post.findAll({
-      // order: [[""]],
+      order: [["id"]],
       include: [
         {
           model: User,
