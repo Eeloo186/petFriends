@@ -296,37 +296,6 @@ exports.renderPostDetail = async (req, res, next) => {
       }
     );
 
-    // 댓글 정보 가져옴
-    const comments = await Comment.findAll({
-      include: [
-        {
-          model: User,
-          attributes: ["id", "userId", "nickname"],
-        },
-        {
-          model: Post,
-          attributes: ["id"],
-          where: { id: postId },
-        },
-      ],
-    });
-
-    // 날짜를 필요한 형태로 바꿈
-    reformatDate(post, "full");
-    comments.forEach((comment) => {
-      reformatDate(comment, "full");
-    });
-
-    // 해당 게시글의 조회수 +1 처리
-    await Post.update(
-      {
-        view: post.view + 1,
-      },
-      {
-        where: { id: postId },
-      }
-    );
-
     console.log(JSON.stringify(post));
 
     res.render("postDetail", {
@@ -585,7 +554,7 @@ exports.rowViewList = async (req, res, next) => {
 exports.newestList = async (req, res, next) => {
   try {
     const viewlist = await Post.findAll({
-      order: [["createdAt", "DESC"]],
+      // order: [["createdAt", "DESC"]],
       include: [
         {
           model: User,
@@ -603,7 +572,7 @@ exports.newestList = async (req, res, next) => {
 exports.oldList = async (req, res, next) => {
   try {
     const viewlist = await Post.findAll({
-      order: [["createdAt"]],
+      // order: [[""]],
       include: [
         {
           model: User,
