@@ -111,7 +111,7 @@ function listSort() {
         const postDiv = document.createElement("tr");
         postDiv.style.cursor = "pointer";
         postDiv.addEventListener("click", () => {
-          window.location.href = `/page/communityView/${list.id}`;
+          window.location.href = `/page/{{boardName}}/${list.id}`;
         });
         postDiv.innerHTML = `
               <td>게시글번호 : ${list.id}</td>

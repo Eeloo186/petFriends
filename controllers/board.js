@@ -92,76 +92,41 @@ exports.deletePost = (req, res, next) => {
 };
 
 exports.sortPost = async (req, res, next) => {
-  if (req.query.sortType == "newest") {
-    console.log(1);
-    try {
-      const viewlist = await Post.findAll({
-        order: [["id", "DESC"]],
-        include: [
-          {
-            model: User,
-            attributes: ["userId", "nickname"],
-          },
-        ],
-      });
-      viewlist.forEach((data) => {
-        reformatDate(data, "full");
-      });
-      res.send(viewlist);
-    } catch (err) {
-      console.error(err);
-      next();
-    }
-  } else if (req.query.sortType == "old") {
-    console.log(2);
-    try {
-      const viewlist = await Post.findAll({
-        order: [["id", "ASC"]],
-        include: [
-          {
-            model: User,
-            attributes: ["userId", "nickname"],
-          },
-        ],
-      });
-      res.send(viewlist);
-    } catch (err) {
-      console.error(err);
-      next();
-    }
-  } else if (req.query.sortType == "highView") {
-    console.log(3);
-    try {
-      const viewlist = await Post.findAll({
-        order: [["view", "DESC"]],
-        include: [
-          {
-            model: User,
-            attributes: ["userId", "nickname"],
-          },
-        ],
-      });
-      res.send(viewlist);
-    } catch (err) {
-      console.error(err);
-      next();
-    }
-  } else if (req.query.sortType == "rowView") {
-    console.log(4);
-    try {
-      const viewlist = await Post.findAll({
-        order: [["view"]],
-        include: [
-          {
-            model: User,
-            attributes: ["userId", "nickname"],
-          },
-        ],
-      });
-      res.send(viewlist);
-    } catch (err) {
-      console.error(err);
-      next();
-    }
+  let order = [];
+  switch (req.query.sortType) {
+    case "newest":
+      order = [["id", "DESC"]];
+      break;
+    case "old":
+      order = [["id", "ASC"]];
+      break;
+    case "highView":
+      order = [["view", "DESC"]];
+      break;
+    case "rowView":
+      order = [["view"]];
+      break;
+    default:
+      order = [["id", "DESC"]];
+      break;
+  }
+
+  try {
+    const viewlist = await Post.findAll({
+      order: order,
+      include: [
+        {
+          model: User,
+          attributes: ["userId", "nickname"],
+        },
+      ],
+    });
+    viewlist.forEach((data) => {
+      reformatDate(data, "full");
+    });
+    res.send(viewlist);
+  } catch (err) {
+    console.error(err);
+    next();
   }
 };
