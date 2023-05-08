@@ -20,6 +20,10 @@
       <a href="/page/login">login</a>
     </div>
     {% endif %}
+    <div
+      class="popular-posts"
+      style="width: 80%; height: 300px; border-radius: 20px; margin: 0 auto"
+    ></div>
     <div class="main-box">
       <div
         id="map"
@@ -30,19 +34,8 @@
           margin-left: 30px;
         "
       ></div>
-      <div
-        class="popular-posts"
-        style="
-          width: 800px;
-          height: 400px;
-          border-radius: 20px;
-          margin-left: 30px;
-          background-color: aqua;
-        "
-      >
-        <ul></ul>
-      </div>
     </div>
+    {% include 'footer.html' %}
   </body>
   <script
     type="text/javascript"
@@ -103,30 +96,29 @@
                     content.className = "wrap";
                     var infomation = document.createElement("div");
                     infomation.className = "infomation";
-                    var title = document.createElement("div");
-                    title.className = "title";
-                    title.appendChild(
-                      document.createTextNode(hospital.company_name)
-                    );
+                    var titleBox = document.createElement("div");
+                    const title = document.createElement("p");
+                    title.textContent = `${hospital.company_name}`;
+                    titleBox.className = "title";
+                    titleBox.appendChild(title);
+                    // document.createTextNode(hospital.company_name)
                     var body = document.createElement("div");
                     body.className = "body";
                     var desc = document.createElement("div");
                     desc.className = "desc";
                     var ellipsis = document.createElement("div");
                     ellipsis.className = "ellipsis";
-                    ellipsis.appendChild(
-                      document.createTextNode(hospital.location)
-                    );
+                    ellipsis.textContent = hospital.location;
                     var closeBtn = document.createElement("button");
                     closeBtn.className = "close";
                     closeBtn.onclick = function () {
                       overlay.setMap(null);
                     };
                     content.appendChild(closeBtn);
-                    title.appendChild(closeBtn);
+                    titleBox.appendChild(closeBtn);
                     desc.appendChild(ellipsis);
                     body.appendChild(desc);
-                    infomation.appendChild(title);
+                    infomation.appendChild(titleBox);
                     infomation.appendChild(body);
                     content.appendChild(infomation);
 

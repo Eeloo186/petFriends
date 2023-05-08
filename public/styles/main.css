@@ -65,21 +65,37 @@
 }
 
 .main-box {
+  width: 80%;
+  margin: 10px auto;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  background-color: rgb(221, 221, 221);
   padding: 20px;
 }
 
+.post {
+  width: 230px;
+  height: 150px;
+  display: inline-block;
+  border: 5px solid powderblue;
+  border-radius: 20px;
+  margin: 5px;
+}
+
+.post-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/*  지도  */
 .wrap {
   position: absolute;
   left: 0;
-  bottom: 40px;
+  bottom: 55px;
   width: auto;
-  height: 132px;
-  margin-left: -70px;
+  height: 110px;
+  margin-left: -97px;
   text-align: left;
-  overflow: hidden;
   font-size: 12px;
   font-family: "Malgun Gothic", dotum, "돋움", sans-serif;
   line-height: 1.5;
@@ -89,58 +105,61 @@
   margin: 0;
 }
 .wrap .infomation {
-  width: 150px;
-  height: 120px;
+  width: 200px;
+  height: auto;
+  min-height: 100px;
+  max-height: 120px;
   border-radius: 5px;
-  border-bottom: 2px solid #ccc;
-  border-right: 1px solid #ccc;
-  overflow: hidden;
   background: #fff;
+  position: relative;
 }
 .wrap .infomation:nth-child(1) {
   border: 0;
   box-shadow: 0px 1px 2px #888;
 }
 .infomation .title {
-  padding-left: 5px;
-  height: 30px;
-  background: #eee;
+  width: 200px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 30px;
+  max-height: 50px;
+  padding: 3px 0px 3px 20px;
+  background: hsl(0, 0%, 100%);
   border-bottom: 1px solid #ddd;
-  font-size: 18px;
   font-weight: bold;
 }
+.infomation .title p {
+  width: 150px;
+  white-space: normal;
+  word-break: keep-all;
+}
 .infomation .close {
-  position: absolute;
-  top: 5px;
-  right: 7px;
+  margin-left: 20px;
+  margin: 10px;
   color: #888;
-  width: 17px;
-  height: 17px;
+  width: 10px;
+  height: 10px;
   background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png");
   background-size: cover;
+  border: none;
 }
 .infomation .close:hover {
   cursor: pointer;
 }
-.infomation .body {
-  position: relative;
-  overflow: hidden;
-}
-.infomation .desc {
-  position: relative;
-  margin: 20px auto;
-}
+
 .desc .ellipsis {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  width: 80%;
+  white-space: normal;
+  word-break: keep-all;
+  padding: 10px 20px;
 }
 .infomation:after {
   content: "";
   position: absolute;
   margin-left: -12px;
+  top: 100%;
   left: 50%;
-  bottom: 0;
   width: 22px;
   height: 12px;
   background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png");

@@ -10,8 +10,12 @@
     {% if user %}
     <div id="mypage-box">
       <a href="/page/mypage" class="mypage-btn"> 마이페이지 </a>
+    </div>
+    {% if user.rank == '5' %}
+    <div>
       <a href="/page/admin_post" id="admin-btn"> 관리자페이지</a>
     </div>
+    {% endif %}
     {% if user.provider == 'kakao' %}
     <div id="kakaoLogout-box">
       <a
@@ -31,7 +35,7 @@
     {% endif %}
   </div>
 </div>
-<div style="width: 100%; height: 50px; "></div>
+<div style="width: 100%; height:1px; "></div>
 {% if user %}
 <div class="weather-area">
   <div class="weather-img">

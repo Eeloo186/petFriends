@@ -51,14 +51,14 @@ exports.uploadComment = async (req, res, next) => {
 exports.deleteComment = (req, res, next) => {
   const { postId, commentId } = req.params;
   Comment.destroy({
-    where: {id : commentId},
+    where: { id: commentId },
   })
-  .then(() => {
-    // 삭제 성공 시 처리
-    return res.status(200).json({ postId, commentId, message: "삭제 성공" });
-  })
-  .catch((err) => {
-    // 삭제 실패 시 처리
-    return res.status(500).json({ postId, commentId, message: "삭제 실패" });
-  });
+    .then(() => {
+      // 삭제 성공 시 처리
+      return res.status(200).json({ postId, commentId, message: "삭제 성공" });
+    })
+    .catch((err) => {
+      // 삭제 실패 시 처리
+      return res.status(500).json({ postId, commentId, message: "삭제 실패" });
+    });
 };

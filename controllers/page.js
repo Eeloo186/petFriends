@@ -1,5 +1,5 @@
 const express = require("express");
-const { reformatDate } = require('../utils');
+const { reformatDate } = require("../utils");
 const { User, Post, Board, Content, Comment } = require("../models");
 
 exports.renderMain = async (req, res, next) => {
@@ -8,7 +8,7 @@ exports.renderMain = async (req, res, next) => {
     const kakao = process.env.KAKAO_ID;
     const posts = await Post.findAll({
       order: [["view", "DESC"]],
-      limit: 5,
+      limit: 10,
       include: [
         {
           model: User,
@@ -228,8 +228,6 @@ exports.renderInfo = async (req, res, next) => {
 //       where: { id: postId},
 //     });
 
-
-
 //     res.render("communityView", {
 //       title: "메인페이지",
 //       twit: post,
@@ -278,22 +276,56 @@ exports.renderPostDetail = async (req, res, next) => {
           model: Post,
           attributes: ["id"],
           where: { id: postId },
-        }
-      ]
+        },
+      ],
     });
 
     // 날짜를 필요한 형태로 바꿈
     reformatDate(post, "full");
     comments.forEach((comment) => {
       reformatDate(comment, "full");
-    })
+    });
 
     // 해당 게시글의 조회수 +1 처리
-    await Post.update({
-      view: post.view + 1,
-    }, {
-      where: { id: postId},
+    await Post.update(
+      {
+        view: post.view + 1,
+      },
+      {
+        where: { id: postId },
+      }
+    );
+
+    // 댓글 정보 가져옴
+    const comments = await Comment.findAll({
+      include: [
+        {
+          model: User,
+          attributes: ["id", "userId", "nickname"],
+        },
+        {
+          model: Post,
+          attributes: ["id"],
+          where: { id: postId },
+        },
+      ],
     });
+
+    // 날짜를 필요한 형태로 바꿈
+    reformatDate(post, "full");
+    comments.forEach((comment) => {
+      reformatDate(comment, "full");
+    });
+
+    // 해당 게시글의 조회수 +1 처리
+    await Post.update(
+      {
+        view: post.view + 1,
+      },
+      {
+        where: { id: postId },
+      }
+    );
 
     console.log(JSON.stringify(post));
 
@@ -413,16 +445,16 @@ exports.renderEditor = async (req, res) => {
   let type = "write";
   let postId = "";
 
-  if( req.query.postId ){
-    // 게시글 수정(=postId 정보가 있음) 
+  if (req.query.postId) {
+    // 게시글 수정(=postId 정보가 있음)
     postId = req.query.postId;
 
     // postId로 title과 content 구한다
     const postRow = await Post.findOne({
-      where: { id: postId},
+      where: { id: postId },
     });
     const contentRow = await Content.findOne({
-      where: { PostId: postId},
+      where: { PostId: postId },
     });
     postTitle = postRow.dataValues.title;
     content = contentRow.dataValues.content;
@@ -511,15 +543,77 @@ exports.renderMember = async (req, res, next) => {
   }
 };
 
-exports.popularList = async (req, res, next) => {
+//커뮤니티 번호순 정렬
+
+//높은뷰
+exports.highViewList = async (req, res, next) => {
   try {
-    const popularList = await Post.findAll({
+    const viewlist = await Post.findAll({
       order: [["view", "DESC"]],
-      limit: 10,
+      include: [
+        {
+          model: User,
+          attributes: ["userId", "nickname"],
+        },
+      ],
     });
-    res.json({ popularList }); // popularList를 객체 형태로 응답합니다.
+    res.send(viewlist);
   } catch (err) {
     console.error(err);
-    next(err);
+    next();
+  }
+};
+//낮은뷰
+exports.rowViewList = async (req, res, next) => {
+  try {
+    const viewlist = await Post.findAll({
+      order: [["view"]],
+      include: [
+        {
+          model: User,
+          attributes: ["userId", "nickname"],
+        },
+      ],
+    });
+    res.send(viewlist);
+  } catch (err) {
+    console.error(err);
+    next();
+  }
+};
+//최신순
+exports.newestList = async (req, res, next) => {
+  try {
+    const viewlist = await Post.findAll({
+      order: [["createdAt", "DESC"]],
+      include: [
+        {
+          model: User,
+          attributes: ["userId", "nickname"],
+        },
+      ],
+    });
+    res.send(viewlist);
+  } catch (err) {
+    console.error(err);
+    next();
+  }
+};
+//오래된순
+exports.oldList = async (req, res, next) => {
+  try {
+    const viewlist = await Post.findAll({
+      order: [["createdAt"]],
+      include: [
+        {
+          model: User,
+          attributes: ["userId", "nickname"],
+        },
+      ],
+    });
+    res.send(viewlist);
+  } catch (err) {
+    console.error(err);
+    next();
   }
 };
