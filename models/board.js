@@ -13,7 +13,7 @@ class Board extends Sequelize.Model {
       underscored: false,
       modelName: 'Board',
       tableName: 'boards',
-      paranoid: true,
+      paranoid: false,
       charset: 'utf8',
       collate: 'utf8_general_ci',
     });

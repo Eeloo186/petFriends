@@ -8,7 +8,6 @@ const {
   afterUploadImage,
   uploadComment,
   deleteComment,
-  addView,
 } = require("../controllers/post");
 
 try {

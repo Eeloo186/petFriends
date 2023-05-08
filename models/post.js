@@ -19,7 +19,7 @@ class Post extends Sequelize.Model {
       underscored: false,
       modelName: 'Post',
       tableName: 'posts',
-      paranoid: true,
+      paranoid: false,
       charset: 'utf8',
       collate: 'utf8_general_ci',
     });
