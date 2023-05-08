@@ -66,9 +66,9 @@ router.get("/page/admin_post", renderAdminpost);
 router.get("/admin_post/admin_member", renderMember);
 
 //커뮤니티 순서 정렬
-router.get("/page/community/highView", highViewList);
-router.get("/page/community/rowView", rowViewList);
-router.get("/page/community/newest", newestList);
-router.get("/page/community/old", oldList);
+// router.get("/page/community/list/highView", highViewList);
+// router.get("/page/community/list/rowView", rowViewList);
+// router.get("/page/community/list/newest", newestList);
+// router.get("/page/community/list/old", oldList);
 
 module.exports = router;

@@ -1,5 +1,5 @@
-// const { User, Post, Board, Content } = require("../models");
-const { Board, Post, Content } = require("../models");
+const { Board, Post, Content, User } = require("../models");
+const { reformatDate } = require("../utils");
 
 exports.uploadPost = async (req, res, next) => {
   try {
@@ -67,14 +67,14 @@ exports.deletePost = (req, res, next) => {
   console.log(`게시판이름ID : ${boardName}`);
   // 게시글 삭제
   // postId로 Post테이블에서 삭제할 행 검색
-  
+
   // DB에서 물리적인 삭제가 아닌 deleteAt을 통한 논리적인 삭제 방식이
   // 적용되어있기 때문에 posts 테이블과 연관된 테이블들의 데이터 삭제를
   // 위해서는 수동으로 찾아서 삭제해줄 필요가 있다.
   // 이 과정에서 일부 작업만 성공하고 끝나버리는 문제를 막기 위해
   // 트랜잭션을 도입해서 처리해야한다.
   // 혹은 물리적인 삭제로 변경해야한다. 이 경우 삭제된 정보 복구를 위해서는
-  // 삭제와 동시에 백업용 테이블에 정보를 옮겨둘 필요가 있다. 
+  // 삭제와 동시에 백업용 테이블에 정보를 옮겨둘 필요가 있다.
 
   // 지금은 paranoid: false로 변경해 물리적 삭제로 변경해서 문제를 해결
   Post.destroy({
@@ -89,4 +89,79 @@ exports.deletePost = (req, res, next) => {
       console.error(err);
       next(err);
     });
+};
+
+exports.sortPost = async (req, res, next) => {
+  if (req.query.sortType == "newest") {
+    console.log(1);
+    try {
+      const viewlist = await Post.findAll({
+        order: [["id", "DESC"]],
+        include: [
+          {
+            model: User,
+            attributes: ["userId", "nickname"],
+          },
+        ],
+      });
+      viewlist.forEach((data) => {
+        reformatDate(data, "full");
+      });
+      res.send(viewlist);
+    } catch (err) {
+      console.error(err);
+      next();
+    }
+  } else if (req.query.sortType == "old") {
+    console.log(2);
+    try {
+      const viewlist = await Post.findAll({
+        order: [["id", "ASC"]],
+        include: [
+          {
+            model: User,
+            attributes: ["userId", "nickname"],
+          },
+        ],
+      });
+      res.send(viewlist);
+    } catch (err) {
+      console.error(err);
+      next();
+    }
+  } else if (req.query.sortType == "highView") {
+    console.log(3);
+    try {
+      const viewlist = await Post.findAll({
+        order: [["view", "DESC"]],
+        include: [
+          {
+            model: User,
+            attributes: ["userId", "nickname"],
+          },
+        ],
+      });
+      res.send(viewlist);
+    } catch (err) {
+      console.error(err);
+      next();
+    }
+  } else if (req.query.sortType == "rowView") {
+    console.log(4);
+    try {
+      const viewlist = await Post.findAll({
+        order: [["view"]],
+        include: [
+          {
+            model: User,
+            attributes: ["userId", "nickname"],
+          },
+        ],
+      });
+      res.send(viewlist);
+    } catch (err) {
+      console.error(err);
+      next();
+    }
+  }
 };
