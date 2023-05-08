@@ -1,5 +1,6 @@
 const { Board, Post, Content, User } = require("../models");
 const { reformatDate } = require("../utils");
+const { Op } = require("sequelize");
 
 exports.uploadPost = async (req, res, next) => {
   try {
@@ -130,3 +131,132 @@ exports.sortPost = async (req, res, next) => {
     next();
   }
 };
+
+//검색기능 구현 코드
+exports.searchPost = async (req, res) => {
+  const { searchType, searchQuery } = req.query;
+
+  try {
+    let posts;
+    switch (searchType) {
+      case "title":
+        posts = await Post.findAll({
+          where: {
+            title: { [Op.like]: `%${searchQuery}%` },
+          },
+          include: [{ model: User, attributes: ["nickname"] }],
+          order: [["id", "DESC"]],
+        });
+        break;
+      case "titleDetail":
+        console.log(searchQuery);
+        posts = await Post.findAll({
+          where: {
+            [Op.or]: [
+              { title: { [Op.like]: `%${searchQuery}%` } },
+              { "$Content.content$": { [Op.like]: `%${searchQuery}%` } },
+            ],
+          },
+          include: [
+            {
+              model: Content,
+              attributes: ["content"],
+              where: { content: { [Op.like]: `%${searchQuery}%` } },
+            },
+            {
+              model: User,
+              attributes: ["nickname"],
+            },
+          ],
+          order: [["id", "DESC"]],
+        });
+        break;
+
+      case "nickname":
+        posts = await Post.findAll({
+          include: [
+            {
+              model: User,
+              attributes: ["nickname"],
+              where: { nickname: { [Op.like]: `%${searchQuery}%` } },
+            },
+          ],
+          order: [["id", "DESC"]],
+        });
+        break;
+      default:
+        posts = await Post.findAll({
+          where: {
+            [Op.or]: [
+              { title: { [Op.like]: `%${searchQuery}%` } },
+              { content: { [Op.like]: `%${searchQuery}%` } },
+            ],
+          },
+          include: [{ model: User, attributes: ["nickname"] }],
+          order: [["id", "DESC"]],
+        });
+        break;
+    }
+
+    res.json(posts);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+// exports.searchPost = async (req, res) => {
+//   const { boardName } = req.params;
+//   const { searchType, searchValue } = req.query;
+
+//   try {
+//     let posts;
+//     switch (searchType) {
+//       case "title":
+//         posts = await Post.findAll({
+//           where: { boardName, title: { [Op.like]: `%${searchValue}%` } },
+//           include: [{ model: User, attributes: ["userId", "nickname"] }],
+//           order: [["id", "DESC"]],
+//         });
+//         break;
+//       case "titleDetail":
+//         posts = await Post.findAll({
+//           where: {
+//             boardName,
+//             [Op.or]: [
+//               { title: { [Op.like]: `%${searchValue}%` } },
+//               { content: { [Op.like]: `%${searchValue}%` } },
+//             ],
+//           },
+//           include: [{ model: User, attributes: ["userId", "nickname"] }],
+//           order: [["id", "DESC"]],
+//         });
+//         break;
+//       case "nickname":
+//         posts = await Post.findAll({
+//           where: { boardName },
+//           include: [
+//             {
+//               model: User,
+//               attributes: ["userId", "nickname"],
+//               where: { nickname: { [Op.like]: `%${searchValue}%` } },
+//             },
+//           ],
+//           order: [["id", "DESC"]],
+//         });
+//         break;
+//       default:
+//         posts = await Post.findAll({
+//           where: { boardName },
+//           include: [{ model: User, attributes: ["userId", "nickname"] }],
+//           order: [["id", "DESC"]],
+//         });
+//         break;
+//     }
+
+//     res.json(posts);
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ message: "Server error" });
+//   }
+// };

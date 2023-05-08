@@ -43,3 +43,7 @@ li {
   background-color: black;
   color: white;
 }
+
+.search-box {
+  text-align: center;
+}

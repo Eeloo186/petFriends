@@ -42,6 +42,16 @@
     <button type="submit" class="btn btn-primary">글쓰기 버튼</button>
 </form>
 
+<div class="search-box">
+    <select id="searchType">
+        <option value="titleDetail">제목+내용</option>
+        <option value="title">제목</option>
+        <option value="nickname">작성자</option>
+    </select>
+    <input type="text" id="searchQuery" placeholder="검색어를 입력하세요">
+    <button id="searchBtn">검색</button>
+</div>
+
 
 <div class='text-center'>
         {% if pagingData.totalPages != 0  %}
@@ -82,77 +92,4 @@
         {% endif %}
 </div>
 </body>
-<script>
-    console.log(2222);
-const numberSelet = document.getElementById("number-sort");
-const highNum = document.querySelector(".highNum");
-const rowNum = document.querySelector(".rowNum");
-const highView = document.querySelector(".highView");
-const rowView = document.querySelector(".rowView");
-const newest = document.querySelector(".newest");
-const old = document.querySelector(".old");
-
-// 페이지가 로드될 때 데이터를 가져옴
-let changeNumberSort = "newest";
-console.log(2222);
-listSort();
-
-// 주소값에 따른 번호 순 함수
-function listSort() {
-  console.log(2222);
-  axios
-    .get(`/boards/{{boardName}}/posts?sortType=${changeNumberSort}`)
-    .then((response) => {
-      console.log(response.data); // 서버 응답 확인
-      const lists = response.data;
-      const container = document.querySelector(".commu-list");
-      container.innerHTML = ""; // 이전 데이터 삭제
-      lists.forEach((list) => {
-        const postDiv = document.createElement("tr");
-        postDiv.style.cursor = "pointer";
-        postDiv.addEventListener("click", () => {
-          window.location.href = `/page/{{boardName}}/${list.id}`;
-        });
-        postDiv.innerHTML = `
-              <td>게시글번호 : ${list.id}</td>
-              <td>조회수 : ${list.view}</td>
-              <td>게시물 : ${list.title}</td>
-              <td> 작성자닉네임 : ${list.User.nickname} </td>
-              <td>작성일 : ${list.createdAt}</td>`;
-        container.appendChild(postDiv);
-      });
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-}
-
-// 버튼 눌렀을 때 css변경&axios로 데이터 불러오기
-
-const sortBtns = document.querySelectorAll(".sort-btn");
-
-function handleSortBtnClick(clickedBtn, sortType) {
-  if (clickedBtn.classList.contains("sort-btn-click")) {
-    clickedBtn.classList.remove("sort-btn-click");
-  } else {
-    clickedBtn.classList.add("sort-btn-click");
-    changeNumberSort = sortType;
-    sortBtns.forEach((otherBtn) => {
-      if (otherBtn !== clickedBtn) {
-        // 다른버튼 !== 클릭한버튼
-        otherBtn.classList.remove("sort-btn-click");
-      }
-    });
-  }
-  listSort();
-}
-
-// 각 버튼의 클릭 이벤트에 handleSortBtnClick 함수를 전달
-highView.addEventListener("click", () =>
-  handleSortBtnClick(highView, "highView")
-);
-rowView.addEventListener("click", () => handleSortBtnClick(rowView, "rowView"));
-newest.addEventListener("click", () => handleSortBtnClick(newest, "newest"));
-old.addEventListener("click", () => handleSortBtnClick(old, "old"));
-</script>
 </html>
