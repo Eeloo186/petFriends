@@ -1,6 +1,6 @@
 const express = require("express");
-const { reformatDate } = require("../utils");
-const { User, Post, Board, Content, Comment } = require("../models");
+const { reformatDate } = require('../utils');
+const { User, Post, Board, Content, Comment, Like } = require("../models");
 
 exports.renderMain = async (req, res, next) => {
   console.log("renderMain 진입");
@@ -8,7 +8,7 @@ exports.renderMain = async (req, res, next) => {
     const kakao = process.env.KAKAO_ID;
     const posts = await Post.findAll({
       order: [["view", "DESC"]],
-      limit: 10,
+      limit: 5,
       include: [
         {
           model: User,
@@ -228,6 +228,8 @@ exports.renderInfo = async (req, res, next) => {
 //       where: { id: postId},
 //     });
 
+
+
 //     res.render("communityView", {
 //       title: "메인페이지",
 //       twit: post,
@@ -277,24 +279,26 @@ exports.renderPostDetail = async (req, res, next) => {
           attributes: ["id"],
           where: { id: postId },
         },
-      ],
+      ]
+    });
+
+    // 추천 정보 가져옴
+    const likeCount = await Like.count({
+      where: { PostId: postId },
     });
 
     // 날짜를 필요한 형태로 바꿈
     reformatDate(post, "full");
     comments.forEach((comment) => {
       reformatDate(comment, "full");
-    });
+    })
 
     // 해당 게시글의 조회수 +1 처리
-    await Post.update(
-      {
-        view: post.view + 1,
-      },
-      {
-        where: { id: postId },
-      }
-    );
+    await Post.update({
+      view: post.view + 1,
+    }, {
+      where: { id: postId},
+    });
 
     console.log(JSON.stringify(post));
 
@@ -304,6 +308,7 @@ exports.renderPostDetail = async (req, res, next) => {
       comments,
       boardName,
       postId: postId,
+      likeCount,
     });
   } catch (err) {
     console.error(err);
@@ -414,16 +419,16 @@ exports.renderEditor = async (req, res) => {
   let type = "write";
   let postId = "";
 
-  if (req.query.postId) {
-    // 게시글 수정(=postId 정보가 있음)
+  if( req.query.postId ){
+    // 게시글 수정(=postId 정보가 있음) 
     postId = req.query.postId;
 
     // postId로 title과 content 구한다
     const postRow = await Post.findOne({
-      where: { id: postId },
+      where: { id: postId},
     });
     const contentRow = await Content.findOne({
-      where: { PostId: postId },
+      where: { PostId: postId},
     });
     postTitle = postRow.dataValues.title;
     content = contentRow.dataValues.content;
@@ -506,6 +511,19 @@ exports.renderMember = async (req, res, next) => {
       title: "회원관리 페이지",
       users: users,
     });
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+};
+
+exports.popularList = async (req, res, next) => {
+  try {
+    const popularList = await Post.findAll({
+      order: [["view", "DESC"]],
+      limit: 10,
+    });
+    res.json({ popularList }); // popularList를 객체 형태로 응답합니다.
   } catch (err) {
     console.error(err);
     next(err);

@@ -26,6 +26,7 @@ router.use((req, res, next) => {
   // 브라우저에 유출되지 않도록
   // 필요한 정보만 저장하는 방식으로 변경할 필요성이 있음
   res.locals.user = req.user;
+  res.locals.likedPostList = req.user?.Likes?.map((f) => f.PostId) || [];
   next();
 });
 
