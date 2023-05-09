@@ -113,6 +113,13 @@ exports.sortPost = async (req, res, next) => {
   }
 
   try {
+    // 페이지 번호를 가져옵니다. 기본값은 1입니다.
+    const pageNum = parseInt(req.query.pageNum, 10) || 1;
+    // 한 페이지당 보여줄 게시물 수입니다.
+    const perPage = 10;
+    // 가져올 게시물의 시작 인덱스를 계산합니다.
+    const startIndex = (pageNum - 1) * perPage;
+
     const viewlist = await Post.findAll({
       order: order,
       include: [
@@ -121,10 +128,18 @@ exports.sortPost = async (req, res, next) => {
           attributes: ["userId", "nickname"],
         },
       ],
+      where: {
+        boardId: 3,
+      },
+      // 페이지네이션을 위해 offset과 limit 옵션을 추가합니다.
+      offset: startIndex,
+      limit: perPage,
     });
+
     viewlist.forEach((data) => {
       reformatDate(data, "full");
     });
+
     res.send(viewlist);
   } catch (err) {
     console.error(err);
@@ -149,24 +164,20 @@ exports.searchPost = async (req, res) => {
         });
         break;
       case "titleDetail":
-        console.log(searchQuery);
         posts = await Post.findAll({
           where: {
             [Op.or]: [
               { title: { [Op.like]: `%${searchQuery}%` } },
-              { "$Content.content$": { [Op.like]: `%${searchQuery}%` } },
+              {
+                "$Content.content$": {
+                  [Op.like]: `%${searchQuery}%`,
+                },
+              },
             ],
           },
           include: [
-            {
-              model: Content,
-              attributes: ["content"],
-              where: { content: { [Op.like]: `%${searchQuery}%` } },
-            },
-            {
-              model: User,
-              attributes: ["nickname"],
-            },
+            { model: User, attributes: ["nickname"] },
+            { model: Content, attributes: [] },
           ],
           order: [["id", "DESC"]],
         });

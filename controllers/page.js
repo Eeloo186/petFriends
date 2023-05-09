@@ -449,6 +449,7 @@ exports.renderMypage = (req, res) => {
 };
 
 exports.renderModifyUser = async (req, res, next) => {
+  console.log("-------------------------------------------------------");
   try {
     const user = await User.findOne({ where: { id: req.user.id } });
     // console.log(user);

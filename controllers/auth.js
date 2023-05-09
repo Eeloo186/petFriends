@@ -69,7 +69,9 @@ exports.login = (req, res, next) => {
         console.error(loginError);
         return next(loginError);
       }
-      return res.redirect("/");
+      const returnTo = req.session.returnTo || "/";
+      delete req.session.returnTo;
+      return res.redirect(returnTo);
     });
   })(req, res, next); // 미들웨어 내의 미들웨어에는 (req, res, next)를 붙입니다.
 };
@@ -78,4 +80,9 @@ exports.logout = (req, res) => {
   req.logout(() => {
     res.redirect("/");
   });
+};
+
+exports.saveReturnTo = (req, res, next) => {
+  req.session.returnTo = req.header("Referer") || "/";
+  next();
 };
