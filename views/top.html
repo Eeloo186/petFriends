@@ -1,6 +1,6 @@
 <div id="menu-box">
   <div id="logo-box">
-    <a href="/" id="login-btn">로고</a>
+    <a href="/" id="logo">로고</a>
   </div>
   <div id="menu-list">
     <a href="/">홈</a>
@@ -29,9 +29,15 @@
       <a id="logout" href="/auth/logout">로그아웃</a>
     </div>
     {% endif %} {% else %}
-    <div id="login-box">
+    <form action="/page/login" method="post" id="login-form">
+      <input type="hidden" name="currUrl" value="">
+      <div id="login-box">
+        <button type="submit" id="login-btn">로그인</button>
+      </div>
+    </form>
+    <!-- <div id="login-box">
       <a href="/page/login" id="login-btn"> 로그인 </a>
-    </div>
+    </div> -->
     {% endif %}
   </div>
 </div>

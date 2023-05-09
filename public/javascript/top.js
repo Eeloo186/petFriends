@@ -17,3 +17,14 @@ function handleScroll() {
 }
 
 window.addEventListener("scroll", handleScroll);
+
+
+
+const loginForm = document.getElementById('login-form');
+const loginBtn = document.getElementById('login-btn');
+loginBtn.addEventListener('click', (ev) => {
+  ev.preventDefault();
+  console.log(ev.target.parentNode.parentNode.querySelector('input[name="currUrl"]'));
+  ev.target.parentNode.parentNode.querySelector('input[name="currUrl"]').value = window.location.href;
+  loginForm.submit();
+});

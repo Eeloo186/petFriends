@@ -34,7 +34,8 @@ router.use((req, res, next) => {
 router.get("/", renderMain);
 
 // 로그인 페이지
-router.get("/page/login", renderLogin);
+// router.get("/page/login", renderLogin);
+router.post("/page/login", renderLogin);
 
 // 회원 가입 페이지
 router.get("/page/join", renderJoin);

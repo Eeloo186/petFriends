@@ -397,6 +397,7 @@ getPagingDataCount = (totalItems, page, limit) => {
 };
 
 exports.renderLogin = (req, res) => {
+  req.session.prevUrl = req.body.currUrl;
   res.render("login", { title: "로그인 페이지" });
 };
 
