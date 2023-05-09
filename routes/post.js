@@ -8,6 +8,8 @@ const {
   afterUploadImage,
   uploadComment,
   deleteComment,
+  likePost,
+  deletePost,
 } = require("../controllers/post");
 
 try {
@@ -34,5 +36,8 @@ router.post("/img", upload.any(), afterUploadImage);
 
 router.post("/:postId/comments", uploadComment);
 router.delete("/:postId/comments/:commentId", deleteComment);
+
+router.post("/:postId/likes", likePost);
+router.delete("/:postId/likes", deletePost);
 
 module.exports = router;

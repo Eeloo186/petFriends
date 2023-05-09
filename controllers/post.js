@@ -1,5 +1,5 @@
 const { reformatDate } = require("../utils");
-const { Comment, User, Post } = require("../models");
+const { Comment, User, Post, Like } = require("../models");
 
 exports.afterUploadImage = (req, res) => {
   console.log(req.files[0].mimetype);
@@ -62,3 +62,42 @@ exports.deleteComment = (req, res, next) => {
       return res.status(500).json({ postId, commentId, message: "삭제 실패" });
     });
 };
+
+
+
+exports.likePost = (req, res, next) => {
+  const PostId = req.params.postId;
+  const UserId = req.user.id;
+
+  Like.create({
+    UserId,
+    PostId, 
+  })
+  .then(() => {
+    console.log("게시글 추천 작업 성공");
+    return res.status(201).json({ UserId, PostId });
+  })
+  .catch((err) => {
+    console.log("게시글 추천 중 오류 발생");
+    console.error(err);
+    // return res.status(500).json({ UserId, PostId });
+  });
+};
+
+exports.deletePost = (req, res, next) => {
+  const PostId = req.params.postId;
+  const UserId = req.user.id;
+
+  Like.destroy({
+    where: { UserId, PostId },
+  })
+  .then(() => {
+    console.log("게시글 추천해제 작업 성공");
+    return res.status(204).json({ UserId, PostId });
+  })
+  .catch((err) => {
+    console.log("게시글 추천해제 작업 중 오류 발생");
+    console.error(err);
+    // return res.status(500).json({ UserId, PostId });
+  });
+}
