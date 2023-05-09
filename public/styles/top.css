@@ -97,7 +97,9 @@
   justify-content: left;
   margin-bottom: 20px;
   padding-bottom: 10px;
-  box-shadow: 0 3px 6px -6px #000000;
+  width: 80%;
+  margin: 0 auto;
+  background-color: white;
 }
 
 .weather-area span {

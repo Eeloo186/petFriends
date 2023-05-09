@@ -8,23 +8,28 @@
   </head>
   <body>
     {% include 'top.html' %}
-    <ul class="sort-btn-list">
-      <li><div class="sort-btn newest sort-btn-click">최신 순</div></li>
-      <li><div class="sort-btn old">오래된 순</div></li>
-      <li><div class="sort-btn highView">높은 조회수</div></li>
-      <li><div class="sort-btn rowView">낮은 조회수</div></li>
-    </ul>
-    <table>
-      <thead>
-        <tr>
-          <th>번호</th>
-          <th>조회수</th>
-          <th>제목</th>
-          <th>작성자</th>
-          <th>작성일</th>
-        </tr>
-      </thead>
-      <tbody class="commu-list">
+    <div
+      style="width: 80%; height: 100%; margin: 0 auto; background-color: white"
+    >
+      <ul class="sort-btn-list">
+        <li><div class="sort-btn newest sort-btn-click">최신 순</div></li>
+        <li><div class="sort-btn old">오래된 순</div></li>
+        <li><div class="sort-btn highView">높은 조회수</div></li>
+        <li><div class="sort-btn rowView">낮은 조회수</div></li>
+      </ul>
+      <div style="height: 1600px">
+        <div class="commu-list"></div>
+        <!-- <table>
+          <thead>
+            <tr>
+              <th>번호</th>
+              <th>조회수</th>
+              <th>제목</th>
+              <th>작성자</th>
+              <th>작성일</th>
+            </tr>
+          </thead>
+          <tbody class="commu-list"> -->
         <!-- {% for twit in twits %}
     <tr>
         <td>게시글번호 : {{twit.id}}</td>
@@ -34,30 +39,22 @@
         <td>작성일 : {{twit.createdAt}}</td>
     </tr>
     {% endfor %} -->
-      </tbody>
-    </table>
-    <br />
-    <form action="/page/editor" id="write-form" method="get">
-      <input
-        type="hidden"
-        id="board-name"
-        name="board-name"
-        value="{{ boardName }}"
-      />
-      <button type="submit" class="btn btn-primary">글쓰기 버튼</button>
-    </form>
+        <!-- </tbody>
+        </table> -->
+      </div>
+      <div class="search-box">
+        <select id="searchType">
+          <option value="titleDetail">제목+내용</option>
+          <option value="title">제목</option>
+          <option value="nickname">작성자</option>
+        </select>
+        <input type="text" id="searchQuery" placeholder="검색어를 입력하세요" />
+        <button id="searchBtn">검색</button>
+      </div>
 
-    <div class="search-box">
-      <select id="searchType">
-        <option value="titleDetail">제목+내용</option>
-        <option value="title">제목</option>
-        <option value="nickname">작성자</option>
-      </select>
-      <input type="text" id="searchQuery" placeholder="검색어를 입력하세요" />
-      <button id="searchBtn">검색</button>
-    </div>
+      <div id="pagination"></div>
 
-    <!-- <div class='text-center'>
+      <!-- <div class='text-center'>
         {% if pagingData.totalPages != 0  %}
         <div class="" style="text-align:center;">
             <ul class="pagination justify-content-center">
@@ -95,6 +92,20 @@
         </div>
         {% endif %}
 </div> -->
+    </div>
+    <div class="sidebar">
+      <form action="/page/editor" id="write-form" method="get">
+        <input
+          type="hidden"
+          id="board-name"
+          name="board-name"
+          value="{{ boardName }}"
+        />
+        <button type="submit" class="btn btn-primary">글쓰기 버튼</button>
+      </form>
+      <div class="scrollup"><a href="#">맨위로</a></div>
+      <div class="scrolldown"><a href="#pagination">맨아래로</a></div>
+    </div>
   </body>
   <script>
     const numberSelet = document.getElementById("number-sort");
@@ -104,37 +115,12 @@
     const rowView = document.querySelector(".rowView");
     const newest = document.querySelector(".newest");
     const old = document.querySelector(".old");
+
+    let page = 1;
+    let currentPage = 1;
     // 페이지가 로드될 때 데이터를 가져옴
     let changeNumberSort = "newest";
     listSort();
-
-    // 주소값에 따른 번호 순 함수
-    function listSort() {
-      axios
-        .get(`/boards/{{boardName}}/posts?sortType=${changeNumberSort}`)
-        .then((response) => {
-          const lists = response.data;
-          const container = document.querySelector(".commu-list");
-          container.innerHTML = ""; // 이전 데이터 삭제
-          lists.forEach((list) => {
-            const postDiv = document.createElement("tr");
-            postDiv.style.cursor = "pointer";
-            postDiv.addEventListener("click", () => {
-              window.location.href = `/page/{{boardName}}/${list.id}`;
-            });
-            postDiv.innerHTML = `
-              <td>${list.id}</td>
-              <td>${list.view}</td>
-              <td>${list.title}</td>
-              <td>${list.User.nickname} </td>
-              <td>${list.createdAt}</td>`;
-            container.appendChild(postDiv);
-          });
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    }
 
     // 버튼 눌렀을 때 css변경&axios로 데이터 불러오기
 
@@ -168,21 +154,78 @@
     );
     old.addEventListener("click", () => handleSortBtnClick(old, "old"));
 
-    // 뒤로 가기 클릭 시 데이터를 다시 가져옴
-    // window.addEventListener("popstate", (event) => {
-    //   const state = event.state;
-    //   if (state) {
-    //     changeNumberSort = state.sortType;
-    //     sortBtns.forEach((btn) => {
-    //       if (btn.dataset.sort === changeNumberSort) {
-    //         btn.classList.add("sort-btn-click");
-    //       } else {
-    //         btn.classList.remove("sort-btn-click");
-    //       }
-    //     });
-    //     listSort();
-    //   }
-    // });
+    // 페이지 로드 함수
+
+    //페이지 로드 시 모든 페이지 수를 가져와서 페이지버튼, 게시물리스트 함수에 뿌려주는 함수
+    function init() {
+      axios
+        .get("/boards/totalPages")
+        .then((response) => {
+          const totalPages = response.data;
+          loadPageNumbers(totalPages);
+          listSort(currentPage);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+    // 게시물 개수에 따른 버튼 생성함수
+    function loadPageNumbers(totalPages) {
+      const paginationEl = document.querySelector("#pagination");
+      for (let i = 1; i <= totalPages; i++) {
+        const pageNumberEl = document.createElement("button");
+        pageNumberEl.textContent = i;
+        pageNumberEl.addEventListener("click", function () {
+          currentPage = i;
+          console.log(currentPage);
+          listSort(currentPage);
+        });
+        paginationEl.appendChild(pageNumberEl);
+      }
+    }
+
+    // 주소값에 따른 번호 순 함수
+    function listSort(page) {
+      axios
+        .get(
+          `/boards/{{boardName}}/posts?sortType=${changeNumberSort}&page=${page}`
+        )
+        .then((response) => {
+          const posts = response.data;
+          const container = document.querySelector(".commu-list");
+          container.innerHTML = ""; // 이전 데이터 삭제
+          posts.forEach((post) => {
+            // tr 생성 하고 아래 td 생성
+            const postDiv = document.createElement("div");
+            postDiv.classList.add("zero-box");
+            postDiv.addEventListener("click", () => {
+              window.location.href = `/page/{{boardName}}/${post.id}`;
+            });
+            //td 내용
+            postDiv.innerHTML = `
+            <div class='first-box'>
+              <div>${post.id}.</div>
+              <div>${post.title}</div>
+              </div>
+            <div class='second-box'>
+              <div class='third-box'>
+                <div>${post.User.nickname}</div>
+                <div>${post.createdAt}</div>
+                <div> 조회수: ${post.view}</div>
+                <div>댓글개수: </div>
+              </div>
+              <div>like</div>
+            </div>
+                `;
+            container.appendChild(postDiv);
+          });
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+
+    init();
 
     //검색 기능 구현 코드
     const searchType = document.getElementById("searchType");
@@ -201,17 +244,26 @@
           const posts = response.data;
           commuList.innerHTML = ""; // 이전 데이터 삭제
           posts.forEach((post) => {
-            const postDiv = document.createElement("tr");
+            const postDiv = document.createElement("div");
             postDiv.style.cursor = "pointer";
             postDiv.addEventListener("click", () => {
               window.location.href = `/page/{{boardName}}/${post.id}`;
             });
             postDiv.innerHTML = `
-          <td>${post.id}</td>
-          <td>${post.view}</td>
-          <td>${post.title}</td>
-          <td>${post.User.nickname}</td>
-          <td>${post.createdAt}</td>`;
+            <div class='first-box'>
+              <div>${post.id}.</div>
+              <div>${post.title}</div>
+              </div>
+            <div class='second-box'>
+              <div class='third-box'>
+                <div>${post.User.nickname}</div>
+                <div>${post.createdAt}</div>
+                <div> 조회수: ${post.view}</div>
+                <div>댓글개수: </div>
+              </div>
+              <div>like</div>
+            </div>
+                `;
             commuList.appendChild(postDiv);
           });
         })

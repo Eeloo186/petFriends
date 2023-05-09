@@ -92,7 +92,21 @@ exports.deletePost = (req, res, next) => {
     });
 };
 
+exports.totalPage = async (req, res, next) => {
+  try {
+    const count = await Post.count({ where: { boardId: 3 } });
+    const totalPages = Math.ceil(count / 10);
+    res.json(totalPages);
+  } catch (err) {
+    console.error(err);
+    next();
+  }
+};
+
 exports.sortPost = async (req, res, next) => {
+  const page = parseInt(req.query.page) || 1;
+  const limit = 10;
+  const offset = (page - 1) * limit;
   let order = [];
   switch (req.query.sortType) {
     case "newest":
@@ -113,14 +127,7 @@ exports.sortPost = async (req, res, next) => {
   }
 
   try {
-    // 페이지 번호를 가져옵니다. 기본값은 1입니다.
-    const pageNum = parseInt(req.query.pageNum, 10) || 1;
-    // 한 페이지당 보여줄 게시물 수입니다.
-    const perPage = 10;
-    // 가져올 게시물의 시작 인덱스를 계산합니다.
-    const startIndex = (pageNum - 1) * perPage;
-
-    const viewlist = await Post.findAll({
+    const posts = await Post.findAll({
       order: order,
       include: [
         {
@@ -131,16 +138,13 @@ exports.sortPost = async (req, res, next) => {
       where: {
         boardId: 3,
       },
-      // 페이지네이션을 위해 offset과 limit 옵션을 추가합니다.
-      offset: startIndex,
-      limit: perPage,
+      limit,
+      offset,
     });
-
-    viewlist.forEach((data) => {
+    posts.forEach((data) => {
       reformatDate(data, "full");
     });
-
-    res.send(viewlist);
+    res.json(posts);
   } catch (err) {
     console.error(err);
     next();
