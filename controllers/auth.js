@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const passport = require("passport");
 const { User, Pet } = require("../models");
+const { isLoggedIn, isNotLoggedIn } = require("../middlewares");
 
 exports.join = async (req, res, next) => {
   const {
@@ -69,13 +70,25 @@ exports.login = (req, res, next) => {
         console.error(loginError);
         return next(loginError);
       }
-      return res.redirect("/");
+      console.log('-------------------------');
+      console.log(`로그인 완료 ${req.cookies.prevUrl}로 돌아갑니다`)
+      console.log('-------------------------');
+
+      return res.redirect(`${req.cookies.prevUrl}`);
     });
   })(req, res, next); // 미들웨어 내의 미들웨어에는 (req, res, next)를 붙입니다.
 };
 
 exports.logout = (req, res) => {
   req.logout(() => {
-    res.redirect("/");
+    // if 주소에 마이페이지 등 있음. => 메인 페이지로
+    // else 주소에 마이페이지 등 없음. => 기존 페이지로
+    const url = req.headers.referer;
+    if(url.includes('mypage') || url.includes('admin')) {
+      return res.redirect('/');
+    } else{
+      return res.redirect(url);
+    }
+    // res.redirect(req.headers.referer);
   });
 };

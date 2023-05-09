@@ -25,9 +25,15 @@
       >
     </div>
     {% else %}
-    <div id="nomarl-logout">
+    <form action="/auth/logout" method="post" id="logout-form">
+      <input type="hidden" name="currUrl" value="">
+      <div id="logout-box">
+        <button type="submit" id="logout-btn">로그아웃</button>
+      </div>
+    </form>
+    <!-- <div id="nomarl-logout">
       <a id="logout" href="/auth/logout">로그아웃</a>
-    </div>
+    </div> -->
     {% endif %} {% else %}
     <form action="/page/login" method="post" id="login-form">
       <input type="hidden" name="currUrl" value="">

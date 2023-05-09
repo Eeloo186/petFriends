@@ -397,9 +397,13 @@ getPagingDataCount = (totalItems, page, limit) => {
 };
 
 exports.renderLogin = (req, res) => {
-  req.session.prevUrl = req.body.currUrl;
+  res.cookie('prevUrl', req.body.currUrl);
+  // req.session.prevUrl = req.body.currUrl;
+  // console.log('---------------------------');
+  // console.log(req.session.prevUrl);
+  // console.log('---------------------------');
   res.render("login", { title: "로그인 페이지" });
-};
+};  
 
 exports.renderJoin = async (req, res, next) => {
   try {

@@ -13,7 +13,8 @@ router.post("/join", isNotLoggedIn, join);
 router.post("/login", isNotLoggedIn, login);
 
 // GET /auth/logout
-router.get("/logout", isLoggedIn, logout);
+// router.get("/logout", isLoggedIn, logout);
+router.post("/logout", isLoggedIn, logout);
 
 // GET /auth/kakao
 router.get("/kakao", passport.authenticate("kakao"));
