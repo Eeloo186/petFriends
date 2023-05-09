@@ -534,3 +534,44 @@ exports.popularList = async (req, res, next) => {
     next(err);
   }
 };
+
+
+exports.renderPicture = (req, res, next) => {
+  const posts = Post.findAll({
+    include: [
+      {
+        model: User,
+        attributes: ["userId", "nickname"],
+      },
+      {
+        model: Board,
+        attributes: ["name"],
+        where: { name: "picture" },
+      },
+      {
+        model: Content,
+        attributes: ["content"],
+      },
+      {
+        model: Like,
+        attributes: ["PostId"],
+      },
+    ],
+  })
+  .then((posts) => {
+
+
+    posts.forEach((post) => {
+      reformatDate(post, "full");
+    })
+    res.render("picture", {
+      title: "사진 페이지",
+      posts,
+      boardName: "picture",
+    });
+  })
+  .catch((err) => {
+    console.error(err);
+  })
+
+};
