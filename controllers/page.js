@@ -1,5 +1,5 @@
 const express = require("express");
-const { reformatDate } = require('../utils');
+const { reformatDate } = require("../utils");
 const { User, Post, Board, Content, Comment, Like } = require("../models");
 
 exports.renderMain = async (req, res, next) => {
@@ -228,8 +228,6 @@ exports.renderInfo = async (req, res, next) => {
 //       where: { id: postId},
 //     });
 
-
-
 //     res.render("communityView", {
 //       title: "메인페이지",
 //       twit: post,
@@ -279,7 +277,7 @@ exports.renderPostDetail = async (req, res, next) => {
           attributes: ["id"],
           where: { id: postId },
         },
-      ]
+      ],
     });
 
     // 추천 정보 가져옴
@@ -291,14 +289,17 @@ exports.renderPostDetail = async (req, res, next) => {
     reformatDate(post, "full");
     comments.forEach((comment) => {
       reformatDate(comment, "full");
-    })
+    });
 
     // 해당 게시글의 조회수 +1 처리
-    await Post.update({
-      view: post.view + 1,
-    }, {
-      where: { id: postId},
-    });
+    await Post.update(
+      {
+        view: post.view + 1,
+      },
+      {
+        where: { id: postId },
+      }
+    );
 
     console.log(JSON.stringify(post));
 
@@ -397,13 +398,13 @@ getPagingDataCount = (totalItems, page, limit) => {
 };
 
 exports.renderLogin = (req, res) => {
-  res.cookie('prevUrl', req.body.currUrl);
+  res.cookie("prevUrl", req.body.currUrl);
   // req.session.prevUrl = req.body.currUrl;
   // console.log('---------------------------');
   // console.log(req.session.prevUrl);
   // console.log('---------------------------');
   res.render("login", { title: "로그인 페이지" });
-};  
+};
 
 exports.renderJoin = async (req, res, next) => {
   try {
@@ -424,16 +425,16 @@ exports.renderEditor = async (req, res) => {
   let type = "write";
   let postId = "";
 
-  if( req.query.postId ){
-    // 게시글 수정(=postId 정보가 있음) 
+  if (req.query.postId) {
+    // 게시글 수정(=postId 정보가 있음)
     postId = req.query.postId;
 
     // postId로 title과 content 구한다
     const postRow = await Post.findOne({
-      where: { id: postId},
+      where: { id: postId },
     });
     const contentRow = await Content.findOne({
-      where: { PostId: postId},
+      where: { PostId: postId },
     });
     postTitle = postRow.dataValues.title;
     content = contentRow.dataValues.content;
@@ -442,6 +443,40 @@ exports.renderEditor = async (req, res) => {
 
   res.render("editor", {
     title: "글쓰기(에디터) 페이지",
+    postId,
+    boardName,
+    postTitle,
+    content,
+    type,
+  });
+};
+
+exports.renderPictureEditor = async (req, res) => {
+  // req.query로 변수 초기화
+  const boardName = req.query["board-name"];
+  let postTitle = "";
+  let content = "";
+  let type = "write";
+  let postId = "";
+
+  if (req.query.postId) {
+    // 게시글 수정(=postId 정보가 있음)
+    postId = req.query.postId;
+
+    // postId로 title과 content 구한다
+    const postRow = await Post.findOne({
+      where: { id: postId },
+    });
+    const contentRow = await Content.findOne({
+      where: { PostId: postId },
+    });
+    postTitle = postRow.dataValues.title;
+    content = contentRow.dataValues.content;
+    type = "edit";
+  }
+
+  res.render("pictureEditor", {
+    title: "사진(에디터) 페이지",
     postId,
     boardName,
     postTitle,
@@ -535,8 +570,8 @@ exports.popularList = async (req, res, next) => {
   }
 };
 
-
 exports.renderPicture = (req, res, next) => {
+  const offset = 12;
   const posts = Post.findAll({
     include: [
       {
@@ -552,26 +587,27 @@ exports.renderPicture = (req, res, next) => {
         model: Content,
         attributes: ["content"],
       },
-      {
-        model: Like,
-        attributes: ["PostId"],
-      },
+      // {
+      //   model: Like,
+      //   attributes: ["UserId", "PostId"],
+      // },
     ],
+    order: [["createdAt", "DESC"]],
+    limit: offset,
   })
-  .then((posts) => {
-
-
-    posts.forEach((post) => {
-      reformatDate(post, "full");
+    .then((posts) => {
+      posts.forEach((post) => {
+        reformatDate(post, "full");
+        console.log(post);
+      });
+      res.render("picture", {
+        title: "사진 페이지",
+        posts,
+        boardName: "picture",
+        offset,
+      });
     })
-    res.render("picture", {
-      title: "사진 페이지",
-      posts,
-      boardName: "picture",
+    .catch((err) => {
+      console.error(err);
     });
-  })
-  .catch((err) => {
-    console.error(err);
-  })
-
 };

@@ -13,6 +13,10 @@ class Post extends Sequelize.Model {
             allowNull: false,
             defaultValue: 0,
         },
+        imgUrl: {
+          type: Sequelize.STRING(100),
+          allowNull: true,
+        },
     }, {
       sequelize,
       timestamps: true,

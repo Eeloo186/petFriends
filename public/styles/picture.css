@@ -3,12 +3,16 @@
   flex-wrap: wrap;
 }
 
-.box {
+.picture-box {
     width:250px;
+    height:250px ;
   padding-bottom: 26.67%; /* 3:4 비율 */
   margin: 2.5% 2.5%;
   position: relative;
-  background-color: #ccc; /* 임시 색상 */
+  background-size:contain;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  background-color: antiquewhite;
 }
 
 .box button.transparent-button {
@@ -18,7 +22,7 @@
   opacity: 0.5;
 }
 
-.box .bottom-area {
+.picture-box .bottom-area {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -31,16 +35,16 @@
   padding: 0 10px;
 }
 
-.box .view-count {
+.picture-box .view-count {
   font-size: 14px;
   font-weight: bold;
 }
-.box .like-count {
+.picture-box .like-count {
   font-size: 14px;
   font-weight: bold;
 }
 
-.box .icon-button {
+.picture-box .icon-button {
   border: none;
   background-color: transparent;
   font-size: 20px;

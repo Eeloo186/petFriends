@@ -37,10 +37,12 @@
     {% endfor %} -->
     </tbody>
 </table><br>
+{% if user %}
 <form action="/page/editor" id="write-form" method="get">
     <input type="hidden" id="board-name" name="board-name" value="{{ boardName }}">
     <button type="submit" class="btn btn-primary">글쓰기 버튼</button>
 </form>
+{% endif %}
 
 <div class="search-box">
     <select id="searchType">

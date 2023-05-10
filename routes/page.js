@@ -12,6 +12,7 @@ const {
   renderLogin,
   renderJoin,
   renderEditor,
+  renderPictureEditor,
   renderMypage,
   renderModifyUser,
   renderAdminpost,
@@ -57,6 +58,8 @@ router.get("/page/community", renderCommunity);
 
 // 글쓰기(에디터) 페이지
 router.get("/page/editor", renderEditor);
+router.get("/page/pictureEditor", renderPictureEditor);
+
 // router.get("/page/editor/:postId");
 
 // 마이페이지
