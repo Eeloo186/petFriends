@@ -1,10 +1,11 @@
 .post-title-box {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 #post-title {
-  font-size: 24px;
+  font-size: 26px;
   font-weight: bold;
   padding: 20px;
 }
@@ -12,7 +13,9 @@
 #post-meta-area {
   width: 100%;
   height: 50px;
-  border: 1px solid black;
+  padding: 10px;
+  border: 2px solid rgb(223, 223, 223);
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -61,7 +64,8 @@
 }
 
 #button-container {
-  border: 1px solid rgb(0, 0, 0);
+  border: 2px solid rgb(223, 223, 223);
+  border-radius: 12px;
   display: flex;
   flex-direction: row;
   justify-content: left;
@@ -69,7 +73,7 @@
   width: 50%;
   margin: 0 auto;
   padding: 10px 20px;
-  font-size: 24px;
+  font-size: 20px;
 }
 
 #button-container div:nth-child(1) {
@@ -87,9 +91,10 @@
 #comments-write-area {
   display: flex;
   flex-direction: row;
-  align-items: center;
-  padding: 20px;
+  padding: 10px;
   margin-top: 10px;
+  border: 2px solid rgb(223, 223, 223);
+  border-radius: 10px;
 }
 
 #comment-textarea {
@@ -97,6 +102,8 @@
   resize: none;
   margin: 10px;
   padding: 10px;
+  border: none;
+  outline: none;
 }
 
 #comment-submit-btn {
@@ -104,6 +111,12 @@
   margin-right: 10px;
   background-color: inherit;
   border: none;
+  background-color: rgb(204, 0, 255);
+  color: white;
+  height: 40px;
+  border-radius: 20px;
+  margin-top: 20px;
+  font-weight: bold;
 }
 
 #comments-view-area {
@@ -126,18 +139,18 @@
 }
 
 .comment-meta-area span:nth-child(2) {
-  font-size: 30px;
+  font-size: 20px;
   font-weight: bold;
 }
 
 .comment-meta-area span:nth-child(3) {
-  font-size: 20px;
+  font-size: 14px;
   color: rgb(103, 103, 103);
 }
 
 .comment-delete-btn {
   margin-left: 20px;
-  font-size: 20px;
+  font-size: 14px;
   border: none;
   background-color: inherit;
 }
@@ -155,7 +168,8 @@
   cursor: pointer;
   border: none;
   background-color: inherit;
-  color: red;
+  color: rgb(204, 0, 255);
+  margin-left: 20px;
 }
 
 #comment-btn {
@@ -169,4 +183,10 @@
   border: none;
   background-color: inherit;
   font-size: 12px;
+  background-color: rgb(204, 0, 255);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  margin-top: 20px;
+  font-weight: bold;
 }

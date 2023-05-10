@@ -68,20 +68,20 @@
 .community-event-box span {
   font-size: 60px;
   text-shadow: 0 0 3px rgb(255, 238, 164);
-  color: var(--bs-link-color);
+  color: rgb(204, 0, 255);
 }
 
 .community-event-box a {
-  border: 3px solid var(--bs-link-color);
+  border: 3px solid rgb(204, 0, 255);
   padding: 10px 40px;
   font-size: 40px;
   border-radius: 20px;
-  color: var(--bs-link-color);
+  color: rgb(204, 0, 255);
 }
 
 .community-event-box a:hover {
-  border: 2px solid rgb(65, 119, 125);
-  color: rgb(65, 119, 125);
+  border: 2px solid rgb(150, 0, 188);
+  color: rgb(150, 0, 188);
 }
 
 .community-event-box p {

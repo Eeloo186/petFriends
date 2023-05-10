@@ -1,6 +1,7 @@
 const passport = require("passport");
 const local = require("./localStrategy");
 const kakao = require("./kakaoStrategy");
+const google = require("./googleStrategy");
 const User = require("../models/user");
 const Like = require("../models/like");
 
@@ -12,7 +13,7 @@ module.exports = () => {
 
   passport.deserializeUser((id, done) => {
     console.log("deserialize");
-    
+
     User.findOne({
       where: { id },
       include: [
@@ -39,5 +40,6 @@ module.exports = () => {
   });
 
   local();
-  // kakao();
+  kakao();
+  google();
 };

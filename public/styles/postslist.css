@@ -49,6 +49,7 @@
   font-size: 22px;
   padding: 0 20px;
   margin: 10px;
+  color: rgb(204, 0, 255);
 }
 
 .third-box :nth-child(2) {
@@ -67,15 +68,16 @@
   padding: 10px 0;
   margin: 0 auto;
   list-style: none;
-  border-top: 1px solid rgb(149, 149, 149);
-  border-bottom: 1px solid rgb(149, 149, 149);
+  border: 2px solid rgb(219, 219, 219);
+  border-radius: 12px;
+  margin-bottom: 80px;
 }
 
 .sort-btn {
   padding: 5px;
   background-color: white;
   margin: 0 10px;
-  font-size: 14px;
+  font-size: 17px;
   cursor: pointer;
   text-align: center;
 }
@@ -86,17 +88,62 @@
 
 .sort-btn-click {
   font-weight: bold;
-  color: rgb(132, 0, 255);
+  color: rgb(204, 0, 255);
 }
 
 .search-box {
-  padding-top: 50px;
+  padding-top: 80px;
   text-align: center;
 }
 
+#searchType {
+  appearance: none;
+  padding: 5px 10px;
+  border-radius: 10px;
+  text-align-last: center;
+  border: 2px solid rgb(185, 185, 185);
+  font-weight: bold;
+}
+
+#searchQuery {
+  width: 300px;
+  padding: 5px 10px;
+  border-radius: 10px;
+  border: 2px solid rgb(185, 185, 185);
+}
+
+#searchBtn {
+  padding: 8px 20px;
+  border-radius: 10px;
+  text-align-last: center;
+  background-color: rgb(204, 0, 255);
+  color: white;
+  border: none;
+  font-weight: bold;
+}
+
 #pagination {
-  padding-top: 50px;
+  padding: 100px 0;
   text-align: center;
+}
+
+#pagination button {
+  padding: 5px 13px;
+  border: 2px solid rgb(204, 0, 255);
+  background-color: white;
+  color: rgb(204, 0, 255);
+  font-weight: bold;
+  border-radius: 13px;
+  margin: 3px;
+}
+
+.pageBtn {
+  padding: 5px 13px;
+  background-color: rgb(204, 0, 255) !important;
+  border: 2px solid rgb(204, 0, 255);
+  color: white !important;
+  font-weight: bold;
+  border-radius: 13px;
 }
 
 .sidebar {
@@ -108,9 +155,26 @@
   z-index: 5;
   transition: all 0.5s ease-in-out;
   background-color: #ffffff;
-  border: 1px solid #878787;
+  border: 2px solid #a3a3a3;
   border-radius: 25px;
   text-align: center;
+}
+
+#write-form {
+  border-bottom: 2px solid rgb(185, 185, 185);
+}
+
+.btn-primary {
+  background-color: rgb(204, 0, 255);
+  border: none;
+  font-weight: bold;
+  border-radius: 20px;
+  padding: 10px 20px;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-primary:hover {
+  background-color: rgb(127, 0, 159);
 }
 
 .sidebar button {
@@ -124,42 +188,38 @@
 
 .scrollup,
 .scrolldown {
-  margin: 5px;
-  height: 50px;
+  line-height: 44px;
+  background-color: rgb(204, 0, 255);
+  border-radius: 20px;
+  margin: 15px auto 0;
 }
 
-table {
-  border-collapse: collapse;
-  width: 80%;
-  margin: 0 auto;
-}
-th,
-td {
-  padding: 8px;
-  text-align: left;
-  border-bottom: 1px solid #ddd;
-  text-align: center;
-  white-space: normal;
-  word-break: keep-all;
+.scrollup a:hover,
+.scrolldown a:hover {
+  background-color: rgb(127, 0, 159);
+  border-radius: 20px;
 }
 
-tr:hover {
-  background-color: #f5f5f5;
-}
-ul {
-  list-style-type: none;
-}
-li {
-  display: inline-block;
+.scrollup a,
+.scrolldown a {
+  display: block;
+  width: 125px;
+  height: 44px;
+  border: none;
+  font-weight: bold;
+  transition: all 0.2s ease-in-out;
+  color: white;
+  border-radius: 20px;
 }
 
 .fa-heart {
-  color: rgb(235, 0, 0);
+  color: rgb(204, 0, 255);
 }
 
 i.fa-eye,
 i.fa-comment {
   padding: 0 !important;
+  color: rgb(119, 119, 119) !important;
 }
 
 .fa-caret-up,

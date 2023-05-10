@@ -484,7 +484,7 @@ exports.renderPictureEditor = async (req, res) => {
   });
 };
 
-exports.renderMypage = (req, res) => {
+exports.renderMypage = async (req, res) => {
   // console.log(req.user);
   // res.render('mypage', {
   //   user: req.user,
@@ -502,7 +502,6 @@ exports.renderModifyUser = async (req, res, next) => {
     // console.log(req.user.id);
     //console.log(user);
     //console.log('----------------------------');
-
     res.render("modify", {
       title: "회원정보수정",
       user: user,

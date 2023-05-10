@@ -8,10 +8,11 @@
   <head>
     {% include 'head.html' %}
     <link rel="stylesheet" href="/styles/postDetail.css" />
-    <script src="/javascript/postDetail.js"></script>
+    <script src="/javascript/postDetail.js" defer></script>
   </head>
   <body>
     {% include 'top.html' %}
+    <div style="height: 100px"></div>
     <input type="hidden" id="postId" name="postId" value="{{ postId }}" />
     <input type="hidden" id="userId" name="userId" value="{{ user.id }}" />
     <input
@@ -52,7 +53,9 @@
           <button id="like-btn"><i class="far fa-heart"></i></button>
           <span>{{likeCount}}</span>
           {% elif user and likedPostList.includes(twit.id) %}
-          <button id="unlike-btn"><i class="fa fa-heart"></i></button>
+          <button id="unlike-btn">
+            <i class="fa fa-heart"></i>
+          </button>
           <span>{{likeCount}}</span>
           {% else %}
           <button disabled id="unlike-btn"><i class="fa fa-heart"></i></button>
@@ -72,7 +75,7 @@
         {% if user %}
         <div id="comments-write-area">
           <textarea name="comment-textarea" id="comment-textarea"></textarea>
-          <button type="submit" id="comment-submit-btn">댓글 등록</button>
+          <button type="submit" id="comment-submit-btn">등록</button>
         </div>
         {% endif %}
         <hr />

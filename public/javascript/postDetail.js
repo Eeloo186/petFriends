@@ -1,5 +1,11 @@
-const commnetHidden = document.querySelector("#comment-btn");
+const commentText = document.getElementById("comment-textarea");
 
-commnetHidden.addEventListener("click", () => {
-  const commentsBox = document.getElementById("comments-view-area");
+const writeArea = document.querySelector("#comments-write-area");
+
+commentText.addEventListener("focus", () => {
+  writeArea.style.border = "2px solid rgb(204, 0, 255)";
+});
+
+commentText.addEventListener("blur", () => {
+  writeArea.style.border = "";
 });

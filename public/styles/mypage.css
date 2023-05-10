@@ -7,19 +7,8 @@ p {
 
 .timeline {
   display: flex;
-  flex-direction: column;
   align-items: center;
-}
-
-.btn {
-  background-color: #007bff;
-  color: #fff;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 4px;
-  font-size: 16px;
-  cursor: pointer;
-  margin-bottom: 16px;
+  justify-content: space-between;
 }
 
 .myDIV {
@@ -42,11 +31,17 @@ h3 span {
   color: #007bff;
   font-weight: bold;
 }
+
 .mypage-box {
   margin: 10% auto;
   max-width: 800px;
-  padding: 20px;
+  padding: 40px;
   border: 1px solid #ddd;
+  border-radius: 10px;
+}
+
+.mypage-box h2 {
+  margin-bottom: 100px;
 }
 
 .user-info {
@@ -56,7 +51,7 @@ h3 span {
 
 .user-info h3 {
   font-size: 24px;
-  margin-bottom: 10px;
+  margin-bottom: 50px;
 }
 
 .user-info p {
@@ -67,13 +62,8 @@ h2 {
   text-align: center;
 }
 
-#logout {
-  align-self: flex-end;
-  margin-top: 10px;
-  transform: translate(-100%, 140%);
-}
 .btn {
-  background-color: rgb(128, 0, 255);
+  background-color: rgb(204, 0, 255);
   color: white;
   padding: 10px 40px;
   border: none;
@@ -88,7 +78,7 @@ h2 {
 }
 .container {
   display: flex;
-  justify-content: flex-end;
+  justify-content: end;
   align-items: center;
 }
 
@@ -107,24 +97,54 @@ h2 {
 h1 {
   text-align: center;
 }
-#mypostBtn {
-  /* position: absolute;
-    top: 50%;
-    left: 30%;
-
-
-    transform: translate(-90%, 195%); */
-  align-self: flex-start;
-  margin-top: 10px;
-  transform: translate(35%, 300%);
-}
 
 #post-list-div {
   display: none;
-  background-color: #f1f1f1;
   border-radius: 8px;
   padding: 16px;
-  margin-bottom: 16px;
-  width: 75%;
-  border: 1px solid black;
+  margin: 10px auto;
+  width: 60%;
+  /* border: 1px solid black; */
+}
+
+/* 작성한글 css  */
+.post-list li {
+  margin: 10px;
+}
+
+.title-box {
+  padding: 10px;
+  font-size: 32px;
+  font-weight: bold;
+}
+
+.info-box {
+  border: 2px solid rgb(203, 203, 203);
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 14px;
+  color: rgb(150, 150, 150);
+  margin-bottom: 20px;
+}
+
+.info-box span:first-child {
+  font-size: 20px;
+  font-weight: bold;
+  margin-right: 10px;
+  color: black;
+}
+
+.content-box {
+  border: 2px solid rgb(200, 200, 200);
+  border-radius: 12px;
+  margin-bottom: 50px;
+}
+
+.content-box h1 {
+  display: none;
+}
+
+.content-box p {
+  padding: 10px;
+  word-break: break-all;
 }
