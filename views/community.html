@@ -12,6 +12,7 @@
   </head>
   <body>
     {% include 'top.html' %}
+    <div style="height: 50px"></div>
     <div
       style="width: 80%; height: 100%; margin: 0 auto; background-color: white"
     >
@@ -21,30 +22,8 @@
         <li><div class="sort-btn highView">높은 조회수</div></li>
         <li><div class="sort-btn rowView">낮은 조회수</div></li>
       </ul>
-      <div style="height: 1600px">
+      <div>
         <div class="commu-list"></div>
-        <!-- <table>
-          <thead>
-            <tr>
-              <th>번호</th>
-              <th>조회수</th>
-              <th>제목</th>
-              <th>작성자</th>
-              <th>작성일</th>
-            </tr>
-          </thead>
-          <tbody class="commu-list"> -->
-        <!-- {% for twit in twits %}
-    <tr>
-        <td>게시글번호 : {{twit.id}}</td>
-        <td>조회수 : {{twit.view}}</td>
-        <td><a href="/page/communityView/{{twit.id}}">게시물 : {{twit.title}}</a></td>
-        <td> 작성자닉네임 : {{twit.User.nickname}} </td>
-        <td>작성일 : {{twit.createdAt}}</td>
-    </tr>
-    {% endfor %} -->
-        <!-- </tbody>
-        </table> -->
       </div>
       <div class="search-box">
         <select id="searchType">
@@ -57,45 +36,6 @@
       </div>
 
       <div id="pagination"></div>
-
-      <!-- <div class='text-center'>
-        {% if pagingData.totalPages != 0  %}
-        <div class="" style="text-align:center;">
-            <ul class="pagination justify-content-center">
-                <li {% if pagingData.currentPage == 1 %}
-                    class="disabled page-item"
-                    {% else %}
-                    class="waves-effect page-item"
-                    {% endif %}
-                >
-                    <a {% if pagingData.currentPage > 1 %}
-                        class="page-link"
-                        href="?currentPage={{pagingData.currentPage-1}}">
-                        {% endif %}
-                        prev</a>
-                </li>
-                {% for index in range(1 ,pagingData.totalPages+1)  %}
-                <li class="active page-item">
-                    {%  if(pagingData["currentPage"]) %}
-                    <a class="page-link" href="?currentPage={{index}}">{{index}}</a>
-                    {% endif %}
-                </li>
-                {% endfor %}
-                <li {% if(pagingData.currentPage == pagingData.totalPages+1) %}
-                    class="disabled page-item"
-                    {% else %}
-                    class="waves-effect page-item"
-                    {% endif %}>
-                    <a {% if pagingData.currentPage < pagingData.totalPages %}
-                    class="page-link"
-                    href="?currentPage={{pagingData.currentPage-(-1)}}">
-                    {% endif %}
-                    next</a>
-                </li>
-            </ul>
-        </div>
-        {% endif %}
-</div> -->
     </div>
     <div class="sidebar">
       <form action="/page/editor" id="write-form" method="get">
@@ -109,10 +49,10 @@
       </form>
       <div class="scroll-bo">
         <div class="scrollup">
-          <a href="#"><i class="fas fa-caret-up"></i></a>
+          <a href="#">맨 위로</a>
         </div>
         <div class="scrolldown">
-          <a href="#pagination"> <i class="fas fa-caret-down"></i></a>
+          <a href="#pagination">맨 아래로</a>
         </div>
       </div>
     </div>

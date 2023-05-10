@@ -115,11 +115,9 @@
 }
 
 .comment-meta-area {
-  /* border: 1px solid red; */
-  background-color: rgb(246, 230, 210);
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  align-items: end;
+  justify-content: left;
   width: 100%;
 }
 
@@ -127,15 +125,33 @@
   margin-left: 20px;
 }
 
-.comment-meta-area span:first-child {
-  margin-right: auto;
+.comment-meta-area span:nth-child(2) {
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.comment-meta-area span:nth-child(3) {
+  font-size: 20px;
+  color: rgb(103, 103, 103);
 }
 
 .comment-delete-btn {
   margin-left: 20px;
+  font-size: 20px;
+  border: none;
+  background-color: inherit;
 }
 
-#like-btn {
+.comment-content-area {
+  padding: 20px;
+  border-bottom: 1px solid rgb(187, 187, 187);
+  margin-bottom: 20px;
+  word-break: break-all;
+  white-space: normal;
+}
+
+#like-btn,
+#unlike-btn {
   cursor: pointer;
   border: none;
   background-color: inherit;

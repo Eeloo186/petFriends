@@ -284,6 +284,8 @@ exports.renderPostDetail = async (req, res, next) => {
     const likeCount = await Like.count({
       where: { PostId: postId },
     });
+    //댓글 개수
+    const comment = await Comment.count({ where: { PostId: post.id } });
 
     // 날짜를 필요한 형태로 바꿈
     reformatDate(post, "full");
@@ -310,6 +312,7 @@ exports.renderPostDetail = async (req, res, next) => {
       boardName,
       postId: postId,
       likeCount,
+      comment,
     });
   } catch (err) {
     console.error(err);

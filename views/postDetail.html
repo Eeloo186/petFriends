@@ -8,6 +8,7 @@
   <head>
     {% include 'head.html' %}
     <link rel="stylesheet" href="/styles/postDetail.css" />
+    <script src="/javascript/postDetail.js"></script>
   </head>
   <body>
     {% include 'top.html' %}
@@ -48,16 +49,19 @@
       <div id="button-container">
         <div>
           {% if user and not likedPostList.includes(twit.id) %}
-          <button id="like-btn"><i class="fa fa-heart"></i></button>
+          <button id="like-btn"><i class="far fa-heart"></i></button>
           <span>{{likeCount}}</span>
           {% elif user and likedPostList.includes(twit.id) %}
-          <button id="unlike-btn">게시글 추천해제</button>
+          <button id="unlike-btn"><i class="fa fa-heart"></i></button>
+          <span>{{likeCount}}</span>
+          {% else %}
+          <button disabled id="unlike-btn"><i class="fa fa-heart"></i></button>
           <span>{{likeCount}}</span>
           {% endif %}
         </div>
         <div>
           <button id="comment-btn"><i class="far fa-comment"></i></button>
-          <span>0</span>
+          <span>{{comment}}</span>
         </div>
       </div>
       <!-- 본문구역 끝 -->
@@ -162,6 +166,7 @@
               commentId.setAttribute("class", "commentId");
               commentId.setAttribute("name", "commentId");
               commentId.setAttribute("value", comment.id);
+              //title
               const userIdSpan = document.createElement("span");
               userIdSpan.textContent = comment.User.userId;
               const createdAtSpan = document.createElement("span");
@@ -241,7 +246,7 @@
 
     const likeBtn = document.getElementById("like-btn");
     const unlikeBtn = document.getElementById("unlike-btn");
-    console.log(likeBtn, unlikeBtn); 
+    console.log(likeBtn, unlikeBtn);
     if (likeBtn) {
       // likeBtn이 존재한다 = 추천버튼이 존재한다 = 추천 작업 등록
       /////////////////

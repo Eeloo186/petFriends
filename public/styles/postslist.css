@@ -35,13 +35,14 @@
 }
 
 .second-box :nth-child(2) {
-  font-size: 24px;
+  font-size: 20px;
 }
 
 .third-box {
   display: flex;
   align-items: center;
   justify-content: space-around;
+  color: rgb(119, 119, 119);
 }
 
 .third-box :first-child {
@@ -52,7 +53,6 @@
 
 .third-box :nth-child(2) {
   font-size: 16px;
-  color: black;
   padding: 0px 20px;
   border-left: 1px solid rgb(192, 192, 192);
 }
@@ -64,18 +64,16 @@
 .sort-btn-list {
   display: flex;
   justify-content: center;
-  padding: 100px 0 30px;
+  padding: 10px 0;
   margin: 0 auto;
   list-style: none;
+  border-top: 1px solid rgb(149, 149, 149);
+  border-bottom: 1px solid rgb(149, 149, 149);
 }
 
 .sort-btn {
-  width: 100px;
-  font-weight: bold;
-  padding: 5px 10px;
+  padding: 5px;
   background-color: white;
-  border: 2px solid black;
-  border-radius: 3px;
   margin: 0 10px;
   font-size: 14px;
   cursor: pointer;
@@ -83,13 +81,12 @@
 }
 
 .sort-btn:hover {
-  background-color: black;
-  color: white;
+  border-bottom: 1px solid black inset;
 }
 
 .sort-btn-click {
-  background-color: black;
-  color: white;
+  font-weight: bold;
+  color: rgb(132, 0, 255);
 }
 
 .search-box {
@@ -157,7 +154,7 @@ li {
 }
 
 .fa-heart {
-  color: red;
+  color: rgb(235, 0, 0);
 }
 
 i.fa-eye,
