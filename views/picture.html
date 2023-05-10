@@ -6,7 +6,6 @@
     <link rel="stylesheet" href="/styles/picture.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
- 
   </head>
   <body>
     {% include 'top.html' %}
@@ -43,15 +42,71 @@
       {% endfor %}
     </div>
     <!--  -->
-    <div class="search-box">
-      <select id="searchType">`
-        <option value="titleDetail">제목+내용</option>
-        <option value="title">제목</option>
-        <option value="nickname">작성자</option>
-      </select>
-      <input type="text" id="searchQuery" placeholder="검색어를 입력하세요" />
-      <button id="searchBtn">검색</button>
-    </div>
   </body>
   <script src="/javascript/picture.js"></script>
+  <script>
+    const highView = document.querySelector(".highView");
+    const rowView = document.querySelector(".rowView");
+    const newest = document.querySelector(".newest");
+    const old = document.querySelector(".old");
+
+    // 페이지 첫 진입 때는 최신순 정렬로 초기화
+    let changeNumberSort = "newest";
+    listSort();
+
+    // 정렬 버튼 클릭 이벤트에 handleSortBtnClick 함수를 전달
+    highView.addEventListener("click", () => handleSortBtnClick(highView, "highView"));
+    rowView.addEventListener("click", () => handleSortBtnClick(rowView, "rowView"));
+    newest.addEventListener("click", () => handleSortBtnClick(newest, "newest"));
+    old.addEventListener("click", () => handleSortBtnClick(old, "old"));
+    // 정렬 버튼 누르면 css 변경 & listSort 호출로 axios요청
+    const sortBtns = document.querySelectorAll(".sort-btn");
+    function handleSortBtnClick(clickedBtn, sortType) {
+      if (clickedBtn.classList.contains("sort-btn-click")) {
+        clickedBtn.classList.remove("sort-btn-click");
+      } else {
+        clickedBtn.classList.add("sort-btn-click");
+        changeNumberSort = sortType;
+        sortBtns.forEach((otherBtn) => {
+          if (otherBtn !== clickedBtn) {
+            // 다른버튼 !== 클릭한버튼
+            otherBtn.classList.remove("sort-btn-click");
+          }
+        });
+      }
+      listSort();
+    }
+
+    // 정렬된 게시물 요청&반환 함수
+    function listSort() {
+      axios
+        .get(`/boards/{{boardName}}/posts?sortType=${changeNumberSort}`)
+        .then((response) => {
+          const posts = response.data;
+          const picContainer = document.querySelector(".container");
+          picContainer.innerHTML = "";
+          posts.forEach((post) => {
+            // console.log(post);
+            const pictureBox = document.createElement("div");
+            pictureBox.setAttribute("class", "picture-box");
+            pictureBox.innerHTML = `
+            <input type="hidden" name="imgUrl" value="${post.imgUrl}" />
+            <input type="hidden" name="postId" value="${post.id}" />
+            <button class="transparent-button">버튼</button>
+            <div class="bottom-area">
+              <div class="view-count">조회수 : ${post.view}</div>
+              <button class="icon-button"><i class="fa fa-heart"></i></button>
+              <div class="like-count">${post.likeCount}</div>
+            </div>
+          `;
+            console.log(`pictureBox ${post.id} 추가`);
+            pictureBox.style.backgroundImage = `url('${post.imgUrl}')`;
+            picContainer.appendChild(pictureBox);
+          });
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  </script>
 </html>

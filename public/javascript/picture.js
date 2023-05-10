@@ -1,43 +1,11 @@
-// DOM 로딩 완료시
-window.addEventListener("DOMContentLoaded", () => {
-  // const pictureBoxContainer = document.querySelector(".container");
-  // const observer = new MutationObserver((mutations) => {
-  //   mutations.forEach((mutation) => {
-  //     mutation.addedNodes.forEach((node) => {
-  //       console.log("TEST");
-  //       if (node.classList.contains("picture-box")) {
-  //         node.style.backgoundImage = `url('/imgs/spinner.gif')`;
-  //       }
-  //     });
-  //   });
-  // });
-  // // picture-box-container 요소 관찰 시작
-  // observer.observe(pictureBoxContainer, { childList: true });
-
-  const pictures = document.querySelectorAll(".picture-box");
-  pictures.forEach((post) => {
-    // post.style.backgroundImage = `url('/imgs/spinner.gif')`;
-    post.style.backgroundImage = `url('${post.querySelector('input[name="imgUrl"]').value}')`;
-  });
-});
-
 // imgUrl, postId
 // 게시글 클릭 시
-const posts = document.querySelectorAll('.picture-box');
+const posts = document.querySelectorAll(".picture-box");
 posts.forEach((post) => {
-  post.addEventListener('click', () => {
-    axios.get(``)
-    .then()
-    .catch();
+  post.addEventListener("click", () => {
+    axios.get(``).then().catch();
   });
 });
-
-
-
-
-
-
-
 
 // 스크롤이 아래 끝까지 닿으면
 window.addEventListener("scroll", function () {
@@ -51,11 +19,32 @@ window.addEventListener("scroll", function () {
 });
 
 function loadMoreContent() {
-  // spinner는 로딩 이미지(모래시계, progress bar 등)
-  const spinner = document.getElementById("spinner");
-  spinner.style.display = "block";
-
   // AJAX 요청을 보내서 추가 콘텐츠를 불러옵니다.
   // (create element, appendchild 등을 통해 사진 box 생성)
-  // 요청이 끝난 후에는 spinner.style.display = "none";으로 로딩 스피너를 감추어줍니다.
+  const loadedPicCount = document.querySelectorAll(".picture-box").length;
+  axios
+    .get(`/boards/picture/posts?sortType=${changeNumberSort}&picCount=${loadedPicCount}`)
+    .then((response) => {
+      const posts = response.data;
+      const picContainer = document.querySelector(".container");
+      posts.forEach((post) => {
+        // console.log(post);
+        const pictureBox = document.createElement("div");
+        pictureBox.setAttribute("class", "picture-box");
+        pictureBox.innerHTML = `
+      <input type="hidden" name="imgUrl" value="${post.imgUrl}" />
+      <input type="hidden" name="postId" value="${post.id}" />
+      <button class="transparent-button">버튼</button>
+      <div class="bottom-area">
+        <div class="view-count">조회수 : ${post.view}</div>
+        <button class="icon-button"><i class="fa fa-heart"></i></button>
+        <div class="like-count">${post.likeCount}</div>
+      </div>
+    `;
+        console.log(`pictureBox ${post.id} 추가`);
+        pictureBox.style.backgroundImage = `url('${post.imgUrl}')`;
+        picContainer.appendChild(pictureBox);
+      });
+    })
+    .catch();
 }
