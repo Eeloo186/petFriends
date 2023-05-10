@@ -21,6 +21,8 @@ window.addEventListener("scroll", function () {
 function loadMoreContent() {
   // AJAX 요청을 보내서 추가 콘텐츠를 불러옵니다.
   // (create element, appendchild 등을 통해 사진 box 생성)
+
+  // 현재 불러온 post의 수를 체크해서 그 뒤에서부터 DB로부터 읽어들인다
   const loadedPicCount = document.querySelectorAll(".picture-box").length;
   axios
     .get(`/boards/picture/posts?sortType=${changeNumberSort}&picCount=${loadedPicCount}`)

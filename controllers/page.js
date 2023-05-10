@@ -420,7 +420,7 @@ exports.renderEditor = async (req, res) => {
   let content = "";
   let type = "write";
   let postId = "";
-
+  console.log(req.query.postId);
   if (req.query.postId) {
     // 게시글 수정(=postId 정보가 있음)
     postId = req.query.postId;
@@ -568,7 +568,7 @@ exports.popularList = async (req, res, next) => {
 };
 
 exports.renderPicture = (req, res, next) => {
-  const offset = 12;
+  const limit = 4;
   const posts = Post.findAll({
     include: [
       {
@@ -590,18 +590,18 @@ exports.renderPicture = (req, res, next) => {
       // },
     ],
     order: [["createdAt", "DESC"]],
-    limit: offset,
+    limit,
   })
     .then((posts) => {
       posts.forEach((post) => {
         reformatDate(post, "full");
-        console.log(post);
       });
+
       res.render("picture", {
         title: "사진 페이지",
         posts,
         boardName: "picture",
-        offset,
+        limit,
       });
     })
     .catch((err) => {

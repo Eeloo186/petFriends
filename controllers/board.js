@@ -23,7 +23,7 @@ exports.uploadPost = async (req, res, next) => {
       content,
       PostId: post.id,
     });
-    return res.end();
+    return res.status(200).end();
   } catch (err) {
     console.error(err);
     next(err);
@@ -105,11 +105,10 @@ exports.totalPage = async (req, res, next) => {
 };
 
 exports.sortPost = async (req, res, next) => {
-  // const { boardName } = req.params;
-  const boardName = "picture";
+  const { boardName } = req.params;
   const board = await Board.findOne({ where: { name: boardName } });
-  console.log(board);
-
+  console.log(`boardID는 ${board.id}`);
+  console.log(`page값은 ${req.query.page}`);
   // page 정보가 있으면(=커뮤니티 페이지)
   if (req.query.page) {
     const page = parseInt(req.query.page) || 1;
@@ -168,10 +167,10 @@ exports.sortPost = async (req, res, next) => {
     }
   } else {
     // page 정보가 없으면(=사진 페이지)
-    const limit = 3;
+    const limit = 4;
     const offset = parseInt(req.query.picCount);
     console.log('-----------------------------------');
-    console.log(offset);
+    console.log(`offset값은 ${offset}`);
     console.log('-----------------------------------');
 
     let order = [];

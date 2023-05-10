@@ -80,9 +80,12 @@
     // 정렬된 게시물 요청&반환 함수
     function listSort() {
       axios
-        .get(`/boards/{{boardName}}/posts?sortType=${changeNumberSort}`)
+        .get(`/boards/{{boardName}}/posts?sortType=${changeNumberSort}&picCount=0`)
         .then((response) => {
           const posts = response.data;
+          console.log('---------------tESt------------------');
+          console.log(posts);
+          console.log('----------------test---------------');
           const picContainer = document.querySelector(".container");
           picContainer.innerHTML = "";
           posts.forEach((post) => {
