@@ -1,37 +1,85 @@
-table {
-  border-collapse: collapse;
-  width: 100%;
+.zero-box {
+  cursor: pointer;
+  border-bottom: 1px solid rgb(185, 185, 185);
+  width: 70%;
+  margin: 0 auto;
+  padding: 10px;
 }
-th,
-td {
-  padding: 8px;
-  text-align: left;
-  border-bottom: 1px solid #ddd;
+
+.first-box {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  padding-bottom: 20px;
+  font-weight: bold;
 }
-tr:hover {
-  background-color: #f5f5f5;
+
+.first-box div:first-child {
+  font-size: 30px;
+  padding: 10px;
 }
-ul {
-  list-style-type: none;
+
+.first-box div:nth-child(2) {
+  font-size: 25px;
+  width: 600px;
+  padding: 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
-li {
-  display: inline-block;
+
+.second-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.second-box :nth-child(2) {
+  font-size: 24px;
+}
+
+.third-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.third-box :first-child {
+  font-size: 22px;
+  padding: 0 20px;
+  margin: 10px;
+}
+
+.third-box :nth-child(2) {
+  font-size: 16px;
+  color: black;
+  padding: 0px 20px;
+  border-left: 1px solid rgb(192, 192, 192);
+}
+
+.third-box :nth-child(3) {
+  padding: 0 20px;
 }
 
 .sort-btn-list {
   display: flex;
   justify-content: center;
+  padding: 100px 0 30px;
+  margin: 0 auto;
+  list-style: none;
 }
 
 .sort-btn {
+  width: 100px;
   font-weight: bold;
   padding: 5px 10px;
   background-color: white;
-  border: 3px solid black;
-  border-radius: 15px;
+  border: 2px solid black;
+  border-radius: 3px;
   margin: 0 10px;
   font-size: 14px;
   cursor: pointer;
+  text-align: center;
 }
 
 .sort-btn:hover {
@@ -45,5 +93,90 @@ li {
 }
 
 .search-box {
+  padding-top: 50px;
   text-align: center;
+}
+
+#pagination {
+  padding-top: 50px;
+  text-align: center;
+}
+
+.sidebar {
+  position: fixed;
+  width: 180px;
+  height: 230px;
+  top: 30%;
+  left: 83%;
+  z-index: 5;
+  transition: all 0.5s ease-in-out;
+  background-color: #ffffff;
+  border: 1px solid #878787;
+  border-radius: 25px;
+  text-align: center;
+}
+
+.sidebar button {
+  margin: 30px 0 20px;
+}
+
+.scroll-box {
+  display: flex;
+  flex-direction: column;
+}
+
+.scrollup,
+.scrolldown {
+  margin: 5px;
+  height: 50px;
+}
+
+table {
+  border-collapse: collapse;
+  width: 80%;
+  margin: 0 auto;
+}
+th,
+td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  text-align: center;
+  white-space: normal;
+  word-break: keep-all;
+}
+
+tr:hover {
+  background-color: #f5f5f5;
+}
+ul {
+  list-style-type: none;
+}
+li {
+  display: inline-block;
+}
+
+.fa-heart {
+  color: red;
+}
+
+i.fa-eye,
+i.fa-comment {
+  padding: 0 !important;
+}
+
+.fa-caret-up,
+.fa-caret-down {
+  font-size: 70px;
+  color: black;
+}
+
+.fa-caret-up:hover {
+  font-size: 65px;
+  color: black;
+}
+
+.fa-caret-down:hover {
+  font-size: 65px;
+  color: black;
 }

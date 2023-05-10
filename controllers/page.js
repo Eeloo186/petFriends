@@ -1,5 +1,5 @@
 const express = require("express");
-const { reformatDate } = require('../utils');
+const { reformatDate } = require("../utils");
 const { User, Post, Board, Content, Comment, Like } = require("../models");
 
 exports.renderMain = async (req, res, next) => {
@@ -228,8 +228,6 @@ exports.renderInfo = async (req, res, next) => {
 //       where: { id: postId},
 //     });
 
-
-
 //     res.render("communityView", {
 //       title: "메인페이지",
 //       twit: post,
@@ -279,7 +277,7 @@ exports.renderPostDetail = async (req, res, next) => {
           attributes: ["id"],
           where: { id: postId },
         },
-      ]
+      ],
     });
 
     // 추천 정보 가져옴
@@ -291,14 +289,17 @@ exports.renderPostDetail = async (req, res, next) => {
     reformatDate(post, "full");
     comments.forEach((comment) => {
       reformatDate(comment, "full");
-    })
+    });
 
     // 해당 게시글의 조회수 +1 처리
-    await Post.update({
-      view: post.view + 1,
-    }, {
-      where: { id: postId},
-    });
+    await Post.update(
+      {
+        view: post.view + 1,
+      },
+      {
+        where: { id: postId },
+      }
+    );
 
     console.log(JSON.stringify(post));
 
@@ -317,68 +318,64 @@ exports.renderPostDetail = async (req, res, next) => {
 };
 
 exports.renderCommunity = async (req, res, next) => {
-  const page = req.query.currentPage;
+  // const page = req.query.currentPage;
   try {
-    const posts = await Post.findAll({
-      include: [
-        {
-          model: User,
-          attributes: ["userId", "nickname"],
-        },
-        {
-          model: Board,
-          attributes: ["name"],
-          where: { name: "community" },
-        },
-        {
-          model: Content,
-          attributes: ["content"],
-        },
-      ],
-      limit: 10,
-      offset: (page - 1) * 10,
-    });
-    //console.log(posts);
+    //   const posts = await Post.findAll({
+    //     include: [
+    //       {
+    //         model: User,
+    //         attributes: ["userId", "nickname"],
+    //       },
+    //       {
+    //         model: Board,
+    //         attributes: ["name"],
+    //         where: { name: "community" },
+    //       },
+    //       {
+    //         model: Content,
+    //         attributes: ["content"],
+    //       },
+    //     ],
+    //     limit: 10,
+    //     offset: (page - 1) * 10,
+    //   });
+    //   //console.log(posts);
 
-    const postsCount = await Post.findAndCountAll({
-      nest: false,
-      include: [
-        {
-          model: User,
-          attributes: ["userId", "nickname"],
-        },
-        {
-          model: Board,
-          attributes: ["name"],
-          where: { name: "community" },
-        },
-        {
-          model: Content,
-          attributes: ["id", "content"],
-        },
-      ],
-      limit: 10,
-      offset: page * 10,
-    });
+    //   const postsCount = await Post.findAndCountAll({
+    //     nest: false,
+    //     include: [
+    //       {
+    //         model: User,
+    //         attributes: ["userId", "nickname"],
+    //       },
+    //       {
+    //         model: Board,
+    //         attributes: ["name"],
+    //         where: { name: "community" },
+    //       },
+    //       {
+    //         model: Content,
+    //         attributes: ["id", "content"],
+    //       },
+    //     ],
+    //     limit: 10,
+    //     offset: page * 10,
+    //   });
 
-    const { count } = postsCount;
-    let limit = 10;
+    //   const { count } = postsCount;
+    //   let limit = 10;
 
-    const pagingData = getPagingDataCount(count, page, limit);
+    //   const pagingData = getPagingDataCount(count, page, limit);
 
-    // DB createdAt에 들어있는 Date 정보 커스터마이징
-    posts.forEach((post) => {
-      let date = post["dataValues"]["createdAt"];
-      post["dataValues"][
-        "createdAt"
-      ] = `${date.getFullYear()}년 ${date.getMonth()}월 ${date.getDate()}일 ${date.getHours()}시 ${date.getMinutes()}분 ${date.getSeconds()}초`;
-    });
-
+    //   // DB createdAt에 들어있는 Date 정보 커스터마이징
+    //   posts.forEach((post) => {
+    //     let date = post["dataValues"]["createdAt"];
+    //     post["dataValues"][
+    //       "createdAt"
+    //     ] = `${date.getFullYear()}년 ${date.getMonth()}월 ${date.getDate()}일 ${date.getHours()}시 ${date.getMinutes()}분 ${date.getSeconds()}초`;
     res.render("community", {
       title: "커뮤니티페이지",
-      twits: posts,
       boardName: "community",
-      pagingData,
     });
   } catch (err) {
     console.error(err);
@@ -397,13 +394,13 @@ getPagingDataCount = (totalItems, page, limit) => {
 };
 
 exports.renderLogin = (req, res) => {
-  res.cookie('prevUrl', req.body.currUrl);
+  res.cookie("prevUrl", req.body.currUrl);
   // req.session.prevUrl = req.body.currUrl;
   // console.log('---------------------------');
   // console.log(req.session.prevUrl);
   // console.log('---------------------------');
   res.render("login", { title: "로그인 페이지" });
-};  
+};
 
 exports.renderJoin = async (req, res, next) => {
   try {
@@ -424,16 +421,16 @@ exports.renderEditor = async (req, res) => {
   let type = "write";
   let postId = "";
 
-  if( req.query.postId ){
-    // 게시글 수정(=postId 정보가 있음) 
+  if (req.query.postId) {
+    // 게시글 수정(=postId 정보가 있음)
     postId = req.query.postId;
 
     // postId로 title과 content 구한다
     const postRow = await Post.findOne({
-      where: { id: postId},
+      where: { id: postId },
     });
     const contentRow = await Content.findOne({
-      where: { PostId: postId},
+      where: { PostId: postId },
     });
     postTitle = postRow.dataValues.title;
     content = contentRow.dataValues.content;
@@ -459,6 +456,7 @@ exports.renderMypage = (req, res) => {
 };
 
 exports.renderModifyUser = async (req, res, next) => {
+  console.log("-------------------------------------------------------");
   try {
     const user = await User.findOne({ where: { id: req.user.id } });
     // console.log(user);

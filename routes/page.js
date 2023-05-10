@@ -15,10 +15,6 @@ const {
   renderModifyUser,
   renderAdminpost,
   renderMember,
-  highViewList,
-  rowViewList,
-  newestList,
-  oldList,
 } = require("../controllers/page");
 
 router.use((req, res, next) => {
@@ -49,8 +45,6 @@ router.get("/page/info", renderInfo);
 // 커뮤니티 페이지
 router.get("/page/community", renderCommunity);
 
-
-
 // 글쓰기(에디터) 페이지
 router.get("/page/editor", renderEditor);
 // router.get("/page/editor/:postId");
@@ -58,21 +52,15 @@ router.get("/page/editor", renderEditor);
 // 마이페이지
 router.get("/page/mypage", renderMypage);
 
-// 유저정보 수정 페이지
-router.get("/page/users/:id", renderModifyUser);
-
 router.get("/page/admin_post", renderAdminpost);
 
 router.get("/admin_post/admin_member", renderMember);
 
+// 유저정보 수정 페이지
+router.get("/page/users/:id", renderModifyUser);
+
 // 개별 상세보기 페이지
 // router.get("/page/communityView/:postId", renderCommunityView);
 router.get("/page/:boardName/:postId", renderPostDetail);
-
-//커뮤니티 순서 정렬
-// router.get("/page/community/list/highView", highViewList);
-// router.get("/page/community/list/rowView", rowViewList);
-// router.get("/page/community/list/newest", newestList);
-// router.get("/page/community/list/old", oldList);
 
 module.exports = router;

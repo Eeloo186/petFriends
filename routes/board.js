@@ -7,8 +7,9 @@ const {
   deletePost,
   sortPost,
   searchPost,
+  totalPage,
 } = require("../controllers/board");
-
+router.get("/totalPages", totalPage);
 router.get(`/:boardName/posts`, sortPost);
 router.post(`/:boardName/posts`, uploadPost);
 router.put(`/:boardName/posts`, editPost);

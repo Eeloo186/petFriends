@@ -70,9 +70,9 @@ exports.login = (req, res, next) => {
         console.error(loginError);
         return next(loginError);
       }
-      console.log('-------------------------');
-      console.log(`로그인 완료 ${req.cookies.prevUrl}로 돌아갑니다`)
-      console.log('-------------------------');
+      console.log("-------------------------");
+      console.log(`로그인 완료 ${req.cookies.prevUrl}로 돌아갑니다`);
+      console.log("-------------------------");
 
       return res.redirect(`${req.cookies.prevUrl}`);
     });
@@ -84,11 +84,16 @@ exports.logout = (req, res) => {
     // if 주소에 마이페이지 등 있음. => 메인 페이지로
     // else 주소에 마이페이지 등 없음. => 기존 페이지로
     const url = req.headers.referer;
-    if(url.includes('mypage') || url.includes('admin')) {
-      return res.redirect('/');
-    } else{
+    if (url.includes("mypage") || url.includes("admin")) {
+      return res.redirect("/");
+    } else {
       return res.redirect(url);
     }
     // res.redirect(req.headers.referer);
   });
+};
+
+exports.saveReturnTo = (req, res, next) => {
+  req.session.returnTo = req.header("Referer") || "/";
+  next();
 };

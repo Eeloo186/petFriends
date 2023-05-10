@@ -6,7 +6,7 @@
     <a href="/">홈</a>
     <a href="/page/notice?currentPage=1" class="notice-btn">공지사항 </a>
     <a href="/page/info?currentPage=1" class="info">정보글 </a>
-    <a href="/page/community?currentPage=1" class="community">커뮤니티 </a>
+    <a href="/page/community" class="community">커뮤니티 </a>
     {% if user %}
     <div id="mypage-box">
       <a href="/page/mypage" class="mypage-btn"> 마이페이지 </a>
@@ -47,7 +47,7 @@
     {% endif %}
   </div>
 </div>
-<div style="width: 100%; height:1px; "></div>
+<div style="width: 100%; height:0px; "></div>
 {% if user %}
 <div class="weather-area">
   <div class="weather-img">

@@ -7,149 +7,58 @@
 <html lang="ko">
   <head>
     {% include 'head.html' %}
-    <style>
-      #post-info-area {
-        border: 1px solid blue;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        align-items: center;
-        width: 50%;
-        margin: 0 auto;
-      }
-
-      #post-meta-area {
-        /* border: 1px solid red; */
-        background-color: rgb(246, 230, 210);
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        width: 100%;
-      }
-
-      #post-meta-area span {
-        margin-left: 25px;
-      }
-
-      #post-meta-area span:first-child {
-        margin-right: auto;
-      }
-
-      #post-meta-area span:last-child {
-        margin-right: 10px;
-      }
-
-      #post-content-area {
-        /* border: 1px solid green; */
-        flex: 1;
-        padding: 10px;
-        width: 100%;
-      }
-
-      #post-title {
-        font-size: 24px;
-        font-weight: bold;
-        margin-bottom: 20px;
-      }
-
-      #button-container {
-        border: 1px solid blue;
-        display: flex;
-        flex-direction: row;
-        justify-content: right;
-        align-items: center;
-        width: 50%;
-        margin: 0 auto;
-      }
-
-      #comments-area {
-        display: flex;
-        flex-direction: column;
-        width: 50%;
-        border: 1px solid blue;
-        margin: 0 auto;
-        margin-top: 10px;
-      }
-
-      #comments-write-area {
-        /* border: 1px solid green; */
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-      }
-
-      #comment-textarea {
-        width: 80%;
-        height: 100px;
-        resize: none;
-        margin: 10px;
-      }
-
-      #comment-submit-btn {
-        width: 100px;
-        height: 100px;
-        margin-right: 10px;
-      }
-
-      #comments-view-area {
-        display: flex;
-        flex-direction: column;
-        /* border: 1px solid yellowgreen; */
-        margin-top: 10px;
-      }
-
-      .comment-meta-area {
-        /* border: 1px solid red; */
-        background-color: rgb(246, 230, 210);
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        width: 100%;
-      }
-
-      .comment-meta-area span {
-        margin-left: 20px;
-      }
-
-      .comment-meta-area span:first-child {
-        margin-right: auto;
-      }
-
-      .comment-delete-btn {
-        margin-left: 20px;
-      }
-    </style>
+    <link rel="stylesheet" href="/styles/postDetail.css" />
   </head>
   <body>
     {% include 'top.html' %}
     <input type="hidden" id="postId" name="postId" value="{{ postId }}" />
     <input type="hidden" id="userId" name="userId" value="{{ user.id }}" />
-    <input type="hidden" id="boardName" name="boardName" value="{{ boardName }}" />
+    <input
+      type="hidden"
+      id="boardName"
+      name="boardName"
+      value="{{ boardName }}"
+    />
     <input type="hidden" id="content-html" value="{{twit.Content.content}}" />
     <div id="post-details-area">
       <!-- 본문구역 시작 -->
       <div id="post-info-area">
-        <div id="post-meta-area">
-          <span>{{twit.User.nickname}}</span>
-          <span>작성일 : {{twit.createdAt}}</span>
-          <span>조회수 : {{twit.view}}</span>
-          <span>추천수 : {{likeCount}}</span>
+        <div style="width: 100%">
+          <div class="post-title-box">
+            <div id="post-title">{{twit.title}}</div>
+            {% if twit.User.id == user.id %}
+            <div>
+              <button id="post-edit-btn">게시글 수정</button>
+              <button id="post-delete-btn">게시글 삭제</button>
+            </div>
+            {% endif %}
+          </div>
+          <div id="post-meta-area">
+            <div>
+              <span>{{twit.User.nickname}}</span>
+              <span><i class="fas fa-eye"></i> {{twit.view}}</span>
+            </div>
+            <span>작성일 : {{twit.createdAt}}</span>
+          </div>
         </div>
         <div id="post-content-area">
-          <div id="post-title">{{twit.title}}</div>
-          <hr />
           <div id="post-content"></div>
         </div>
       </div>
       <div id="button-container">
-        {% if user and not likedPostList.includes(twit.id) %}
-        <button id="like-btn">게시글 추천</button>
-        {% elif user and likedPostList.includes(twit.id) %}
-        <button id="unlike-btn">게시글 추천해제</button>
-        {% endif %} {% if twit.User.id == user.id %}
-        <button id="post-edit-btn">게시글 수정</button>
-        <button id="post-delete-btn">게시글 삭제</button>
-        {% endif %}
+        <div>
+          {% if user and not likedPostList.includes(twit.id) %}
+          <button id="like-btn"><i class="fa fa-heart"></i></button>
+          <span>{{likeCount}}</span>
+          {% elif user and likedPostList.includes(twit.id) %}
+          <button id="unlike-btn">게시글 추천해제</button>
+          <span>{{likeCount}}</span>
+          {% endif %}
+        </div>
+        <div>
+          <button id="comment-btn"><i class="far fa-comment"></i></button>
+          <span>0</span>
+        </div>
       </div>
       <!-- 본문구역 끝 -->
       <!-- 댓글 구역 시작 -->
@@ -167,7 +76,12 @@
           {% for comment in comments %}
           <div class="comment-container">
             <div class="comment-meta-area">
-              <input type="hidden" class="commentId" name="commentId" value="{{ comment.id }}" />
+              <input
+                type="hidden"
+                class="commentId"
+                name="commentId"
+                value="{{ comment.id }}"
+              />
               <span>{{comment.User.userId}}</span>
               <span>{{comment.createdAt}}</span>
               {% if comment.User.id == user.id %}
@@ -175,7 +89,11 @@
               {% endif %}
             </div>
             <div class="comment-content-area">{{comment.content}}</div>
-            <input type="hidden" class="comment-content-html" value="{{comment.content}}" />
+            <input
+              type="hidden"
+              class="comment-content-html"
+              value="{{comment.content}}"
+            />
           </div>
           {% endfor %}
         </div>
@@ -199,7 +117,9 @@
             .delete(`/posts/${postId}/comments/${commentId.value}`)
             .then((res) => {
               // db에서 삭제 됐으면 누른 삭제버튼을 포함하는 DOM 객체도 삭제함
-              console.log(`${res.data.postId}게시글의 ${res.data.commentId}댓글 ${res.data.message}`);
+              console.log(
+                `${res.data.postId}게시글의 ${res.data.commentId}댓글 ${res.data.message}`
+              );
               ev.target.parentNode.parentNode.remove();
             })
             .catch((err) => {
@@ -228,7 +148,8 @@
             .post(`/posts/${postId}/comments`, commentData)
             .then((res) => {
               const comment = res.data;
-              const commentsViewArea = document.getElementById("comments-view-area");
+              const commentsViewArea =
+                document.getElementById("comments-view-area");
 
               // 기존 댓글에 방금 추가한 댓글을 추가한다.
               // 동적으로 생성해서 추가해준다.
@@ -261,12 +182,15 @@
                 commentMetaArea.appendChild(commentDeleteBtn);
                 commentDeleteBtn.addEventListener("click", async (ev) => {
                   // 선택한 삭제 버튼의 부모의 자식중 commentId에서 comment.id를 추출해서 삭제 요청 보냄
-                  const commentId = ev.target.parentNode.querySelector(".commentId");
+                  const commentId =
+                    ev.target.parentNode.querySelector(".commentId");
                   await axios
                     .delete(`/posts/${postId}/comments/${commentId.value}`)
                     .then((res) => {
                       // db에서 삭제 됐으면 누른 삭제버튼을 포함하는 DOM 객체도 삭제함
-                      console.log(`${res.data.postId}게시글의 ${res.data.commentId}댓글 ${res.data.message}`);
+                      console.log(
+                        `${res.data.postId}게시글의 ${res.data.commentId}댓글 ${res.data.message}`
+                      );
                       ev.target.parentNode.parentNode.remove();
                     })
                     .catch((err) => {
@@ -333,7 +257,9 @@
           axios
             .post("/posts/{{postId}}/likes", data)
             .then((res) => {
-              console.log(`${res.data.UserId}유저가 ${res.data.PostId}게시글을 추천하셨습니다`);
+              console.log(
+                `${res.data.UserId}유저가 ${res.data.PostId}게시글을 추천하셨습니다`
+              );
               location.reload();
             })
             .catch((err) => {
@@ -352,7 +278,9 @@
           axios
             .delete("/posts/{{postId}}/likes")
             .then((res) => {
-              console.log(`${res.data.UserId}유저가 ${res.data.PostId}게시글을 추천해제 하셨습니다`);
+              console.log(
+                `${res.data.UserId}유저가 ${res.data.PostId}게시글을 추천해제 하셨습니다`
+              );
               location.reload();
             })
             .catch((err) => {
@@ -371,8 +299,12 @@
 
       // 댓글 HTML 처리
       console.log("시작");
-      const commentContentArea = document.querySelectorAll(".comment-content-area");
-      const commentContentHTML = document.querySelectorAll(".comment-content-html");
+      const commentContentArea = document.querySelectorAll(
+        ".comment-content-area"
+      );
+      const commentContentHTML = document.querySelectorAll(
+        ".comment-content-html"
+      );
       for (let i = 0; i < commentContentArea.length; i++) {
         commentContentArea[i].innerHTML = commentContentHTML[i].value;
       }

@@ -1,4 +1,4 @@
-const { Board, Post, Content, User } = require("../models");
+const { Board, Post, Content, User, Like, Comment } = require("../models");
 const { reformatDate } = require("../utils");
 const { Op } = require("sequelize");
 
@@ -92,7 +92,21 @@ exports.deletePost = (req, res, next) => {
     });
 };
 
+exports.totalPage = async (req, res, next) => {
+  try {
+    const count = await Post.count({ where: { boardId: 3 } });
+    const totalPages = Math.ceil(count / 10);
+    res.json(totalPages);
+  } catch (err) {
+    console.error(err);
+    next();
+  }
+};
+
 exports.sortPost = async (req, res, next) => {
+  const page = parseInt(req.query.page) || 1;
+  const limit = 10;
+  const offset = (page - 1) * limit;
   let order = [];
   switch (req.query.sortType) {
     case "newest":
@@ -113,7 +127,7 @@ exports.sortPost = async (req, res, next) => {
   }
 
   try {
-    const viewlist = await Post.findAll({
+    const posts = await Post.findAll({
       order: order,
       include: [
         {
@@ -121,11 +135,25 @@ exports.sortPost = async (req, res, next) => {
           attributes: ["userId", "nickname"],
         },
       ],
+      where: {
+        boardId: 3,
+      },
+      limit,
+      offset,
     });
-    viewlist.forEach((data) => {
+    posts.forEach((data) => {
       reformatDate(data, "full");
     });
-    res.send(viewlist);
+
+    const postsWithLikeCount = await Promise.all(
+      posts.map(async (post) => {
+        const likeCount = await Like.count({ where: { PostId: post.id } });
+        const comment = await Comment.count({ where: { PostId: post.id } });
+        return { ...post.toJSON(), likeCount, comment };
+      })
+    );
+
+    res.json(postsWithLikeCount);
   } catch (err) {
     console.error(err);
     next();
@@ -149,24 +177,20 @@ exports.searchPost = async (req, res) => {
         });
         break;
       case "titleDetail":
-        console.log(searchQuery);
         posts = await Post.findAll({
           where: {
             [Op.or]: [
               { title: { [Op.like]: `%${searchQuery}%` } },
-              { "$Content.content$": { [Op.like]: `%${searchQuery}%` } },
+              {
+                "$Content.content$": {
+                  [Op.like]: `%${searchQuery}%`,
+                },
+              },
             ],
           },
           include: [
-            {
-              model: Content,
-              attributes: ["content"],
-              where: { content: { [Op.like]: `%${searchQuery}%` } },
-            },
-            {
-              model: User,
-              attributes: ["nickname"],
-            },
+            { model: User, attributes: ["nickname"] },
+            { model: Content, attributes: [] },
           ],
           order: [["id", "DESC"]],
         });
