@@ -447,6 +447,40 @@ exports.renderEditor = async (req, res) => {
   });
 };
 
+exports.renderPictureEditor = async (req, res) => {
+  // req.query로 변수 초기화
+  const boardName = req.query["board-name"];
+  let postTitle = "";
+  let content = "";
+  let type = "write";
+  let postId = "";
+
+  if (req.query.postId) {
+    // 게시글 수정(=postId 정보가 있음)
+    postId = req.query.postId;
+
+    // postId로 title과 content 구한다
+    const postRow = await Post.findOne({
+      where: { id: postId },
+    });
+    const contentRow = await Content.findOne({
+      where: { PostId: postId },
+    });
+    postTitle = postRow.dataValues.title;
+    content = contentRow.dataValues.content;
+    type = "edit";
+  }
+
+  res.render("pictureEditor", {
+    title: "사진(에디터) 페이지",
+    postId,
+    boardName,
+    postTitle,
+    content,
+    type,
+  });
+};
+
 exports.renderMypage = (req, res) => {
   // console.log(req.user);
   // res.render('mypage', {
@@ -531,4 +565,46 @@ exports.popularList = async (req, res, next) => {
     console.error(err);
     next(err);
   }
+};
+
+exports.renderPicture = (req, res, next) => {
+  const offset = 12;
+  const posts = Post.findAll({
+    include: [
+      {
+        model: User,
+        attributes: ["userId", "nickname"],
+      },
+      {
+        model: Board,
+        attributes: ["name"],
+        where: { name: "picture" },
+      },
+      {
+        model: Content,
+        attributes: ["content"],
+      },
+      // {
+      //   model: Like,
+      //   attributes: ["UserId", "PostId"],
+      // },
+    ],
+    order: [["createdAt", "DESC"]],
+    limit: offset,
+  })
+    .then((posts) => {
+      posts.forEach((post) => {
+        reformatDate(post, "full");
+        console.log(post);
+      });
+      res.render("picture", {
+        title: "사진 페이지",
+        posts,
+        boardName: "picture",
+        offset,
+      });
+    })
+    .catch((err) => {
+      console.error(err);
+    });
 };

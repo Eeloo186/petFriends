@@ -28,6 +28,11 @@ module.exports = {
       createdAt: new Date(),
       updatedAt: new Date(),
     },
+    {
+      name:'picture',
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
    ])
   },
 

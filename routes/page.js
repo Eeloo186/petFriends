@@ -5,12 +5,14 @@ const {
   renderMain,
   renderNotice,
   renderInfo,
+  renderPicture,
   renderCommunity,
   renderCommunityView,
   renderPostDetail,
   renderLogin,
   renderJoin,
   renderEditor,
+  renderPictureEditor,
   renderMypage,
   renderModifyUser,
   renderAdminpost,
@@ -42,11 +44,16 @@ router.get("/page/notice", renderNotice);
 // 정보제공 페이지
 router.get("/page/info", renderInfo);
 
+// 테스트 페이지
+router.get("/page/picture", renderPicture);
+
 // 커뮤니티 페이지
 router.get("/page/community", renderCommunity);
 
 // 글쓰기(에디터) 페이지
 router.get("/page/editor", renderEditor);
+router.get("/page/pictureEditor", renderPictureEditor);
+
 // router.get("/page/editor/:postId");
 
 // 마이페이지
