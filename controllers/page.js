@@ -496,6 +496,7 @@ exports.renderMypage = async (req, res) => {
   // res.render('mypage', {
   //   user: req.user,
   // });
+
   res.render("mypage");
 };
 
@@ -538,7 +539,9 @@ exports.renderAdminpost = async (req, res, next) => {
         },
       ],
     });
-
+    posts.forEach((post)=>{
+      reformatDate(post, "full")
+    })
     res.render("admin_post", {
       title: "게시글관리 페이지",
       twits: posts,
@@ -553,14 +556,129 @@ exports.renderAdminpost = async (req, res, next) => {
 exports.renderMember = async (req, res, next) => {
   try {
     const users = await User.findAll();
+    users.forEach((user)=>{
+      reformatDate(user,'full')
+    });
     res.render("admin_member", {
       title: "회원관리 페이지",
       users: users,
+
+    });
+
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+};
+
+//
+exports.renderAdminnotice = async (req, res, next) => {
+  try {
+    const posts = await Post.findAll({
+      include: [
+        {
+          model: User,
+          attributes: ["userId", "nickname"],
+        },
+        {
+          model: Board,
+          attributes: ["name"],
+          where: { name: "notice" },
+        },
+        {
+          model: Content,
+          attributes: ["content"],
+        },
+      ],
+    });
+    posts.forEach((post)=> {
+      reformatDate(post, "full")
+    });
+    res.render("admin_notice", {
+      title: "공지사항",
+      twits: posts,
+      boardName: "notice",
     });
   } catch (err) {
     console.error(err);
     next(err);
   }
+};
+// exports.renderNotice = async (req, res, next) => {
+//   try {
+//     const posts = await Post.findAll({
+//       include: [
+//         {
+//           model: User,
+//           attributes: ["userId", "nickname"],
+//         },
+//         {
+//           model: Board,
+//           attributes: ["name"],
+//           where: {name: "notice"},
+//         },
+//         {
+//           model: Content,
+//           attributes: ["content"],
+//         },
+//       ],
+//     })
+
+
+
+exports.popularList = async (req, res, next) => {
+  try {
+    const popularList = await Post.findAll({
+      order: [["view", "DESC"]],
+      limit: 10,
+    });
+    res.json({ popularList }); // popularList를 객체 형태로 응답합니다.
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+};
+
+exports.renderPicture = (req, res, next) => {
+  const limit = 4;
+  const posts = Post.findAll({
+    include: [
+      {
+        model: User,
+        attributes: ["userId", "nickname"],
+      },
+      {
+        model: Board,
+        attributes: ["name"],
+        where: { name: "picture" },
+      },
+      {
+        model: Content,
+        attributes: ["content"],
+      },
+      // {
+      //   model: Like,
+      //   attributes: ["UserId", "PostId"],
+      // },
+    ],
+    order: [["createdAt", "DESC"]],
+    limit,
+  })
+    .then((posts) => {
+      posts.forEach((post) => {
+        reformatDate(post, "full");
+      });
+
+      res.render("picture", {
+        title: "사진 페이지",
+        posts,
+        boardName: "picture",
+        limit,
+      });
+    })
+    .catch((err) => {
+      console.error(err);
+    });
 };
 
 exports.popularList = async (req, res, next) => {

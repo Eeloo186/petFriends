@@ -18,6 +18,11 @@ const {
   renderModifyUser,
   renderAdminpost,
   renderMember,
+  highViewList,
+  rowViewList,
+  newestList,
+  oldList,
+    renderAdminnotice,
 } = require("../controllers/page");
 
 router.use((req, res, next) => {
@@ -63,6 +68,14 @@ router.get("/page/mypage", renderMypage);
 router.get("/page/admin_post", renderAdminpost);
 
 router.get("/admin_post/admin_member", renderMember);
+router.get("/admin_post/admin_notice", renderAdminnotice);
+
+// 유저정보 수정 페이지
+router.get("/page/users/:id", renderModifyUser);
+
+
+
+
 
 // 유저정보 수정 페이지
 router.get("/page/users/:id", renderModifyUser);

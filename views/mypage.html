@@ -27,10 +27,8 @@
               <div>
                 <a href="#" id="mypostBtn" class="btn">내가 작성한 글보기</a>
                 <a href="/page/users/{{user.id}}" id="modify"class="btn">회원정보수정</a>
-              </div>
-              <div>
-                <a id="logoutBtn" href="/auth/logout" class="btn">로그아웃</a>
-              </div> 
+                <a id="logout" href="/auth/logout" class="btn">로그아웃</a>
+
             </div>
         </div>
         <!-- 첫 실행 체크용 변수 저장 -->
@@ -56,19 +54,10 @@ mypostButton.addEventListener("click", async () => {
         // 요소에 작성글 목록 추가
         posts.forEach((post) => {
           const postInfo = document.createElement("li");
+            postInfo.style.overflow = "auto";
+            postInfo.style.maxHeight = "200px";
           postInfo.style.listStyle = "none";
-          postInfo.innerHTML = `
-          <div class='li-box'>
-            <div class='title-box'>
-              <div>제목: ${post.title}</div>
-            </div>
-            <div class='info-box'>
-              <div><span>${post.User.nickname}(${post.User.userId})</span> <span>${post.createdAt}<span></div>
-            </div>
-            <div class='content-box'>
-              ${post.Content.content}
-            </div>
-          <div>`;
+          postInfo.innerHTML = `작성자 ID : ${post.User.userId}<br>작성자 닉네임 : ${post.User.nickname}<br>제목 : ${post.title}<br>글내용 : ${post.Content.content}<br>작성일 : ${post.createdAt}<hr>`;
           postList.appendChild(postInfo);
         });
       })
