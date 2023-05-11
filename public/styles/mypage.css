@@ -5,6 +5,10 @@ p {
   font-size: 30px;
 }
 
+ul {
+  margin: 0;
+}
+
 .timeline {
   display: flex;
   align-items: center;
@@ -63,7 +67,7 @@ h2 {
 }
 
 .btn {
-  background-color: rgb(204, 0, 255);
+  background-color: rgb(179, 132, 255);
   color: white;
   padding: 10px 40px;
   border: none;
@@ -99,7 +103,6 @@ h1 {
 }
 
 #post-list-div {
-  display: none;
   border-radius: 8px;
   padding: 16px;
   margin: 10px auto;
@@ -138,6 +141,7 @@ h1 {
   border: 2px solid rgb(200, 200, 200);
   border-radius: 12px;
   margin-bottom: 50px;
+  padding: 20px;
 }
 
 .content-box h1 {

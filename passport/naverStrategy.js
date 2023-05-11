@@ -1,31 +1,32 @@
 const passport = require("passport");
-const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const NaverStrategy = require("passport-naver").Strategy;
 
 const User = require("../models/user");
 
 module.exports = () => {
   passport.use(
-    new GoogleStrategy(
+    new NaverStrategy(
       {
-        clientID: process.env.GOOGLE_CLIENT_ID,
-        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-        callbackURL: "/auth/google/callback",
+        clientID: process.env.NAVER_CLIENT_ID,
+        clientSecret: process.env.NAVER_CLIENT_SECRET,
+        callbackURL: "/auth/naver/callback",
       },
       async (accessToken, refreshToken, profile, done) => {
-        console.log("google profile", profile);
+        console.log("naver profile", profile);
         try {
           const exUser = await User.findOne({
-            where: { snsId: profile.id, provider: "google" },
+            where: { snsId: profile.id, provider: "naver" },
           });
           if (exUser) {
             done(null, exUser);
           } else {
             const newUser = await User.create({
-              userId: "google",
-              nickname: `google-${profile.displayName}`,
+              userId: "naver",
+              nickname: `naver-${profile.displayName}`,
               snsId: profile.id,
-              provider: "google",
-              password: "google",
+              email: profile.email,
+              provider: "naver",
+              password: "naver",
             });
             done(null, newUser);
           }

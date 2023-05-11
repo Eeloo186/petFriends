@@ -14,7 +14,7 @@ class User extends Sequelize.Model {
           allowNull: false,
         },
         nickname: {
-          type: Sequelize.STRING(10),
+          type: Sequelize.STRING(15),
           allowNull: false,
           unique: true,
         },
@@ -35,12 +35,12 @@ class User extends Sequelize.Model {
           allowNull: true,
         },
         provider: {
-          type: Sequelize.ENUM("local", "kakao", "google"),
+          type: Sequelize.ENUM("local", "kakao", "google", "naver"),
           allowNull: false,
           defaultValue: "local",
         },
         snsId: {
-          type: Sequelize.STRING(20),
+          type: Sequelize.STRING(50),
           allowNull: true,
         },
         pet: {

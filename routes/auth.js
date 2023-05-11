@@ -22,6 +22,9 @@ router.get("/kakao", passport.authenticate("kakao"));
 // GET /auth/google
 router.get("/google", passport.authenticate("google", { scope: ["profile"] }));
 
+// GET /auth/naver
+router.get("/naver", passport.authenticate("naver", { scope: ["profile"] }));
+
 // GET /auth/kakao/callback
 router.get(
   "/kakao/callback",
@@ -38,6 +41,17 @@ router.get(
   "/google/callback",
   passport.authenticate("google", {
     failureRedirect: "/?loginError=구글로그인 실패",
+  }),
+  (req, res) => {
+    res.redirect("/"); // 성공 시에는 /로 이동
+  }
+);
+
+// GET /auth/naver/callback
+router.get(
+  "/naver/callback",
+  passport.authenticate("naver", {
+    failureRedirect: "/?loginError=네이버로그인 실패",
   }),
   (req, res) => {
     res.redirect("/"); // 성공 시에는 /로 이동

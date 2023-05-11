@@ -3,7 +3,7 @@
 <head>
  {% include 'head.html' %}
  <link rel="stylesheet" href="/styles/mypage.css">
- <script src="javascript/mypage.js"></script>
+ <script src="javascript/mypage.js" defer></script>
 </head>
 <body>
     {% include 'top.html' %}
@@ -44,7 +44,7 @@
 <script>
     const mypostButton = document.getElementById("mypostBtn");
 mypostButton.addEventListener("click", async () => {
-  const postList = document.getElementById("post-list-div");
+  const postList = document.getElementById("post-list");
   if (!parseInt(document.getElementById("check-first").value, 10)) {
     document.getElementById("check-first").value = 1;
     await axios

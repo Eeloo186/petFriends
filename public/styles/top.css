@@ -27,6 +27,7 @@
 #kakaoLogout {
   background-color: #fee500;
   border-radius: 12px;
+  padding: 5px 10px !important;
 }
 
 #kakaoLogout img {
@@ -131,4 +132,73 @@
 
 .weather-commu {
   opacity: 0;
+}
+
+/*  푸터 */
+footer {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  padding: 30px 20px;
+  margin-top: 200px;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-top: 1px solid rgb(183, 183, 183);
+  color: rgb(0, 0, 0);
+  font-size: 14px;
+}
+
+.footer-li1 {
+  margin: 0;
+  list-style: none;
+  display: flex;
+  justify-content: center;
+}
+
+.footer-li1 li {
+  padding: 0 10px;
+}
+
+.footer-li2 {
+  margin: 0;
+  list-style: none;
+  display: flex;
+  justify-content: center;
+}
+
+.footer-li2 li {
+  padding: 0 10px;
+  font-weight: bold;
+}
+
+.footer-social {
+  font-size: 40px;
+  color: black;
+}
+
+.team {
+  font-size: 14px;
+}
+
+.team div p {
+  margin: 0;
+  padding: 0;
+}
+
+.fa-crown {
+  font-size: 12px !important;
+  color: rgb(0, 0, 0) !important;
+  padding: 2px;
+}
+.leader {
+  display: flex;
+}
+
+.leader div {
+  padding: 0 10px;
+}
+
+.leader p {
+  margin: 0;
+  padding: 2px;
 }
