@@ -9,6 +9,8 @@
   </head>
   <body>
     {% include 'top.html' %}
+    <input type="hidden" name="userId" value="{{user.id}}" />
+    <input type="hidden" name="boardName" value="{{boardName}}" />
     <input type="hidden" name="likedPostList" value="{{likedPostList}}" />
     <h1 style="text-align: center">사진 페이지</h1>
     <ul class="sort-btn-list">
@@ -18,12 +20,6 @@
       <li><div class="sort-btn rowView">낮은 조회수</div></li>
     </ul>
     <br />
-    {% if user %}
-    <form action="/page/pictureEditor" id="write-form" method="get">
-      <input type="hidden" id="board-name" name="board-name" value="{{ boardName }}" />
-      <button type="submit" class="btn btn-primary">글쓰기 버튼</button>
-    </form>
-    {% endif %}
     <!--  -->
     <!-- title, posts, boardName, offset -->
     <div class="container">
@@ -43,6 +39,20 @@
       {% endfor %}
     </div>
     <!--  -->
+    <div class="sidebar">
+      <form action="/page/pictureEditor" id="write-form" method="get">
+        <input type="hidden" id="board-name" name="board-name" value="{{ boardName }}" />
+        <button type="submit" class="btn btn-primary">글쓰기 버튼</button>
+      </form>
+      <div class="scroll-box">
+        <div class="scrollup">
+          <a href="#">TOP</a>
+        </div>
+        <div class="scrolldown">
+          <a href="#pagination">BOTTOM</a>
+        </div>
+      </div>
+    </div>
   </body>
   <script src="/javascript/picture.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
@@ -87,9 +97,6 @@
         .get(`/boards/{{boardName}}/posts?sortType=${changeNumberSort}&picCount=0&reqPostCount=8`)
         .then((response) => {
           const posts = response.data;
-          console.log("---------------tESt------------------");
-          console.log(posts);
-          console.log("----------------test---------------");
           const picContainer = document.querySelector(".container");
           picContainer.innerHTML = "";
           posts.forEach((post) => {
@@ -107,9 +114,13 @@
               `;
             console.log(`pictureBox ${post.id} 추가`);
             pictureBox.style.backgroundImage = `url('${post.imgUrl}')`;
+            pictureBox.addEventListener("click", () => {
+              window.location.href = `/page/{{boardName}}/${post.id}`;
+            });
             picContainer.appendChild(pictureBox);
             const likeBtn = pictureBox.querySelector(".icon-button");
-            likeBtn.addEventListener("click", () => {
+            likeBtn.addEventListener("click", (ev) => {
+              ev.stopPropagation();
               if ("{{user.id}}") {
                 const confirmed = confirm("이 게시글을 추천하시겠습니까?");
                 if (confirmed) {
@@ -140,14 +151,13 @@
                 // alert("로그인 하셔야 추천하실 수 있습니다");
                 customAlert("로그인하셔야 추천하실 수 있습니다", "error", 2000);
               }
-            });
+            }, true);
           });
         })
         .catch((error) => {
           console.error(error);
         });
     }
-
 
     function customAlert(title, icon, timer) {
       const Toast = Swal.mixin({

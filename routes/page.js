@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const { isLoggedIn } = require("../middlewares");
 
 const {
   renderMain,
@@ -32,7 +33,7 @@ router.use((req, res, next) => {
 router.get("/", renderMain);
 
 // 로그인 페이지
-// router.get("/page/login", renderLogin);
+router.get("/page/login", renderLogin);
 router.post("/page/login", renderLogin);
 
 // 회원 가입 페이지
@@ -51,8 +52,8 @@ router.get("/page/picture", renderPicture);
 router.get("/page/community", renderCommunity);
 
 // 글쓰기(에디터) 페이지
-router.get("/page/editor", renderEditor);
-router.get("/page/pictureEditor", renderPictureEditor);
+router.get("/page/editor", isLoggedIn ,renderEditor);
+router.get("/page/pictureEditor", isLoggedIn, renderPictureEditor);
 
 // router.get("/page/editor/:postId");
 

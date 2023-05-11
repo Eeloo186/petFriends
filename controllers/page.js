@@ -302,10 +302,17 @@ exports.renderPostDetail = async (req, res, next) => {
         where: { id: postId },
       }
     );
+    // findOne으로 가져왔던 post의 조회수도 +1로 갱신
+    post.view += 1;
 
     console.log(JSON.stringify(post));
-
-    res.render("postDetail", {
+    let renderPage = "";
+    if(boardName == "picture"){
+      renderPage = "pictureDetail"
+    } else {
+      renderPage = "postDetail"
+    }
+    res.render(renderPage, {
       title: "게시글 상세 정보",
       twit: post,
       comments,
