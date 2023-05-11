@@ -39,67 +39,67 @@ exports.renderMain = async (req, res, next) => {
 };
 
 exports.renderNotice = async (req, res, next) => {
-  const page = req.query.currentPage;
+  // const page = req.query.currentPage;
   try {
-    const posts = await Post.findAll({
-      include: [
-        {
-          model: User,
-          attributes: ["userId", "nickname"],
-        },
-        {
-          model: Board,
-          attributes: ["name"],
-          where: { name: "notice" },
-        },
-        {
-          model: Content,
-          attributes: ["content"],
-        },
-      ],
-      limit: 10,
-      offset: (page - 1) * 10,
-    });
+    // const posts = await Post.findAll({
+    //   include: [
+    //     {
+    //       model: User,
+    //       attributes: ["userId", "nickname"],
+    //     },
+    //     {
+    //       model: Board,
+    //       attributes: ["name"],
+    //       where: { name: "notice" },
+    //     },
+    //     {
+    //       model: Content,
+    //       attributes: ["content"],
+    //     },
+    //   ],
+    //   limit: 10,
+    //   offset: (page - 1) * 10,
+    // });
 
-    const postsCount = await Post.findAndCountAll({
-      nest: false,
-      include: [
-        {
-          model: User,
-          attributes: ["userId", "nickname"],
-        },
-        {
-          model: Board,
-          attributes: ["name"],
-          where: { name: "notice" },
-        },
-        {
-          model: Content,
-          attributes: ["id", "content"],
-        },
-      ],
-      limit: 10,
-      offset: page * 10,
-    });
+    // const postsCount = await Post.findAndCountAll({
+    //   nest: false,
+    //   include: [
+    //     {
+    //       model: User,
+    //       attributes: ["userId", "nickname"],
+    //     },
+    //     {
+    //       model: Board,
+    //       attributes: ["name"],
+    //       where: { name: "notice" },
+    //     },
+    //     {
+    //       model: Content,
+    //       attributes: ["id", "content"],
+    //     },
+    //   ],
+    //   limit: 10,
+    //   offset: page * 10,
+    // });
 
-    const { count } = postsCount;
-    let limit = 10;
+    // const { count } = postsCount;
+    // let limit = 10;
 
-    const pagingData = getPagingDataCount(count, page, limit);
+    // const pagingData = getPagingDataCount(count, page, limit);
 
-    // DB createdAt에 들어있는 Date 정보 커스터마이징
-    posts.forEach((post) => {
-      let date = post["dataValues"]["createdAt"];
-      post["dataValues"][
-        "createdAt"
-      ] = `${date.getFullYear()}년 ${date.getMonth()}월 ${date.getDate()}일 ${date.getHours()}시 ${date.getMinutes()}분 ${date.getSeconds()}초`;
-    });
+    // // DB createdAt에 들어있는 Date 정보 커스터마이징
+    // posts.forEach((post) => {
+    //   let date = post["dataValues"]["createdAt"];
+    //   post["dataValues"][
+    //     "createdAt"
+    //   ] = `${date.getFullYear()}년 ${date.getMonth()}월 ${date.getDate()}일 ${date.getHours()}시 ${date.getMinutes()}분 ${date.getSeconds()}초`;
+    // });
 
     res.render("notice", {
       title: "공지사항페이지",
-      twits: posts,
+      // twits: posts,
       boardName: "notice",
-      pagingData,
+      // pagingData,
     });
   } catch (err) {
     console.error(err);
@@ -108,67 +108,67 @@ exports.renderNotice = async (req, res, next) => {
 };
 
 exports.renderInfo = async (req, res, next) => {
-  const page = req.query.currentPage;
+  // const page = req.query.currentPage;
   try {
-    const posts = await Post.findAll({
-      include: [
-        {
-          model: User,
-          attributes: ["userId", "nickname"],
-        },
-        {
-          model: Board,
-          attributes: ["name"],
-          where: { name: "info" },
-        },
-        {
-          model: Content,
-          attributes: ["content"],
-        },
-      ],
-      limit: 10,
-      offset: (page - 1) * 10,
-    });
+    // const posts = await Post.findAll({
+    //   include: [
+    //     {
+    //       model: User,
+    //       attributes: ["userId", "nickname"],
+    //     },
+    //     {
+    //       model: Board,
+    //       attributes: ["name"],
+    //       where: { name: "info" },
+    //     },
+    //     {
+    //       model: Content,
+    //       attributes: ["content"],
+    //     },
+    //   ],
+    //   limit: 10,
+    //   offset: (page - 1) * 10,
+    // });
 
-    const postsCount = await Post.findAndCountAll({
-      nest: false,
-      include: [
-        {
-          model: User,
-          attributes: ["userId", "nickname"],
-        },
-        {
-          model: Board,
-          attributes: ["name"],
-          where: { name: "info" },
-        },
-        {
-          model: Content,
-          attributes: ["id", "content"],
-        },
-      ],
-      limit: 10,
-      offset: page * 10,
-    });
+    // const postsCount = await Post.findAndCountAll({
+    //   nest: false,
+    //   include: [
+    //     {
+    //       model: User,
+    //       attributes: ["userId", "nickname"],
+    //     },
+    //     {
+    //       model: Board,
+    //       attributes: ["name"],
+    //       where: { name: "info" },
+    //     },
+    //     {
+    //       model: Content,
+    //       attributes: ["id", "content"],
+    //     },
+    //   ],
+    //   limit: 10,
+    //   offset: page * 10,
+    // });
 
-    const { count } = postsCount;
-    let limit = 10;
+    // const { count } = postsCount;
+    // let limit = 10;
 
-    const pagingData = getPagingDataCount(count, page, limit);
+    // const pagingData = getPagingDataCount(count, page, limit);
 
-    // DB createdAt에 들어있는 Date 정보 커스터마이징
-    posts.forEach((post) => {
-      let date = post["dataValues"]["createdAt"];
-      post["dataValues"][
-        "createdAt"
-      ] = `${date.getFullYear()}년 ${date.getMonth()}월 ${date.getDate()}일 ${date.getHours()}시 ${date.getMinutes()}분 ${date.getSeconds()}초`;
-    });
+    // // DB createdAt에 들어있는 Date 정보 커스터마이징
+    // posts.forEach((post) => {
+    //   let date = post["dataValues"]["createdAt"];
+    //   post["dataValues"][
+    //     "createdAt"
+    //   ] = `${date.getFullYear()}년 ${date.getMonth()}월 ${date.getDate()}일 ${date.getHours()}시 ${date.getMinutes()}분 ${date.getSeconds()}초`;
+    // });
 
     res.render("info", {
       title: "정보페이지",
-      twits: posts,
+      // twits: posts,
       boardName: "info",
-      pagingData,
+      // pagingData,
     });
   } catch (err) {
     console.error(err);

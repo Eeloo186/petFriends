@@ -37,7 +37,7 @@ router.post("/img", upload.any(), afterUploadImage);
 router.post("/:postId/comments", uploadComment);
 router.delete("/:postId/comments/:commentId", deleteComment);
 
-router.post("/:postId/likes", likePost);
-router.delete("/:postId/likes", deletePost);
+router.post("/:postId/likes", isLoggedIn, likePost);
+router.delete("/:postId/likes", isLoggedIn, deletePost);
 
 module.exports = router;

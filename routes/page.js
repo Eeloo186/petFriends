@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { isLoggedIn } = require("../middlewares");
+const { isLoggedIn, isNotLoggedIn } = require("../middlewares");
 
 const {
   renderMain,
@@ -50,7 +50,7 @@ router.get("/page/notice", renderNotice);
 // 정보제공 페이지
 router.get("/page/info", renderInfo);
 
-// 테스트 페이지
+// 사진게시판 페이지
 router.get("/page/picture", renderPicture);
 
 // 커뮤니티 페이지
@@ -63,22 +63,15 @@ router.get("/page/pictureEditor", isLoggedIn, renderPictureEditor);
 // router.get("/page/editor/:postId");
 
 // 마이페이지
-router.get("/page/mypage", renderMypage);
+router.get("/page/mypage", isLoggedIn, renderMypage);
 
-router.get("/page/admin_post", renderAdminpost);
+router.get("/page/admin_post", isLoggedIn, renderAdminpost);
 
-router.get("/page/admin_member", renderMember);
-router.get("/page/admin_notice", renderAdminnotice);
-
-// 유저정보 수정 페이지
-router.get("/page/users/:id", renderModifyUser);
-
-
-
-
+router.get("/page/admin_member", isLoggedIn, renderMember);
+router.get("/page/admin_notice", isLoggedIn, renderAdminnotice);
 
 // 유저정보 수정 페이지
-router.get("/page/users/:id", renderModifyUser);
+router.get("/page/users/:id", isLoggedIn, renderModifyUser);
 
 // 개별 상세보기 페이지
 // router.get("/page/communityView/:postId", renderCommunityView);

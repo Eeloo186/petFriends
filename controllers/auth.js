@@ -4,22 +4,7 @@ const { User, Pet } = require("../models");
 const { isLoggedIn, isNotLoggedIn } = require("../middlewares");
 
 exports.join = async (req, res, next) => {
-  const {
-    userId,
-    password,
-    nickname,
-    email,
-    address1,
-    address2,
-    address3,
-    provider,
-    pet,
-    petName,
-    petType,
-    petKind,
-    petAge,
-    petEtc,
-  } = req.body;
+  const { userId, password, nickname, email, address1, address2, address3, provider, pet, petName, petType, petKind, petAge, petEtc } = req.body;
   try {
     const exUser = await User.findOne({ where: { userId } });
     if (exUser) {
@@ -59,11 +44,7 @@ exports.login = (req, res, next) => {
     }
     if (!user) {
       console.error("없는 아이디입니다.");
-      return res
-        .status(401)
-        .send(
-          `<script>alert('아이디가 없거나 비밀번호가 잘못되었습니다.');history.back();</script>`
-        );
+      return res.status(401).send(`<script>alert('아이디가 없거나 비밀번호가 잘못되었습니다.');history.back();</script>`);
     }
     return req.login(user, (loginError) => {
       if (loginError) {
@@ -74,7 +55,11 @@ exports.login = (req, res, next) => {
       console.log(`로그인 완료 ${req.cookies.prevUrl}로 돌아갑니다`);
       console.log("-------------------------");
 
-      return res.redirect(`${req.cookies.prevUrl}`);
+      if (req.cookies.prevUrl == "undefined") {
+        return res.redirect("/");
+      } else {
+        return res.redirect(`${req.cookies.prevUrl}`);
+      }
     });
   })(req, res, next); // 미들웨어 내의 미들웨어에는 (req, res, next)를 붙입니다.
 };
