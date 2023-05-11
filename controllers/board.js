@@ -93,10 +93,19 @@ exports.deletePost = (req, res, next) => {
     });
 };
 
-exports.totalPage = async (req, res, next) => {
+exports.totalPage = async (req, res, next) => {  
+  const { boardName,  } = req.params;  
   try {
-    const count = await Post.count({ where: { boardId: 3 } });
-    const totalPages = Math.ceil(count / 10);
+    const count = await Post.count({
+      include: [
+        {
+          model: Board,
+          where: { name: boardName }, 
+        },
+      ],
+    });
+   
+    const totalPages = Math.ceil(count / 5);
     res.json(totalPages);
   } catch (err) {
     console.error(err);
@@ -112,7 +121,7 @@ exports.sortPost = async (req, res, next) => {
   // page 정보가 있으면(=커뮤니티 페이지)
   if (req.query.page) {
     const page = parseInt(req.query.page) || 1;
-    const limit = 10;
+    const limit = 5;
     const offset = (page - 1) * limit;
     let order = [];
     switch (req.query.sortType) {
