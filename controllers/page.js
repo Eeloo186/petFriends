@@ -440,11 +440,12 @@ exports.renderEditor = async (req, res) => {
   });
 };
 
-exports.renderMypage = (req, res) => {
+exports.renderMypage = async (req, res, next) => {
   // console.log(req.user);
   // res.render('mypage', {
   //   user: req.user,
   // });
+
   res.render("mypage");
 };
 
@@ -487,7 +488,9 @@ exports.renderAdminpost = async (req, res, next) => {
         },
       ],
     });
-
+    posts.forEach((post)=>{
+      reformatDate(post, "full")
+    })
     res.render("admin_post", {
       title: "게시글관리 페이지",
       twits: posts,
@@ -502,12 +505,72 @@ exports.renderAdminpost = async (req, res, next) => {
 exports.renderMember = async (req, res, next) => {
   try {
     const users = await User.findAll();
+    users.forEach((user)=>{
+      reformatDate(user,'full')
+    });
     res.render("admin_member", {
       title: "회원관리 페이지",
       users: users,
+
+    });
+
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+};
+
+//
+exports.renderAdminnotice = async (req, res, next) => {
+  try {
+    const posts = await Post.findAll({
+      include: [
+        {
+          model: User,
+          attributes: ["userId", "nickname"],
+        },
+        {
+          model: Board,
+          attributes: ["name"],
+          where: { name: "notice" },
+        },
+        {
+          model: Content,
+          attributes: ["content"],
+        },
+      ],
+    });
+    posts.forEach((post)=> {
+      reformatDate(post, "full")
+    });
+    res.render("admin_notice", {
+      title: "공지사항",
+      twits: posts,
+      boardName: "notice",
     });
   } catch (err) {
     console.error(err);
     next(err);
   }
 };
+// exports.renderNotice = async (req, res, next) => {
+//   try {
+//     const posts = await Post.findAll({
+//       include: [
+//         {
+//           model: User,
+//           attributes: ["userId", "nickname"],
+//         },
+//         {
+//           model: Board,
+//           attributes: ["name"],
+//           where: {name: "notice"},
+//         },
+//         {
+//           model: Content,
+//           attributes: ["content"],
+//         },
+//       ],
+//     })
+
+

@@ -1,8 +1,8 @@
 {
   "development": {
     "username": "root",
-    "password": "",
-    "database": "",
+    "password": "qw029953@@",
+    "database": "petFriends",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },

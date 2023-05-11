@@ -19,6 +19,7 @@ const {
   rowViewList,
   newestList,
   oldList,
+    renderAdminnotice,
 } = require("../controllers/page");
 
 router.use((req, res, next) => {
@@ -58,12 +59,17 @@ router.get("/page/editor", renderEditor);
 // 마이페이지
 router.get("/page/mypage", renderMypage);
 
-// 유저정보 수정 페이지
-router.get("/page/users/:id", renderModifyUser);
-
 router.get("/page/admin_post", renderAdminpost);
 
 router.get("/admin_post/admin_member", renderMember);
+router.get("/admin_post/admin_notice", renderAdminnotice);
+
+// 유저정보 수정 페이지
+router.get("/page/users/:id", renderModifyUser);
+
+
+
+
 
 //커뮤니티 순서 정렬
 // router.get("/page/community/list/highView", highViewList);

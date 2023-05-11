@@ -87,7 +87,9 @@ exports.editUser = async (req, res, next) => {
       {
         where: { id: id },
       }
+
     );
+
     return res.redirect("/page/mypage");
   } catch (error) {
     console.error(error);

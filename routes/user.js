@@ -8,10 +8,12 @@ router.get("/check", checkUser);
 
 // router.get("/check", checkUserNick);
 
+router.post("/:id", editUser);
+
 router.get("/:id/posts", getPost);
 
 // router.patch('/:id', updateUser);
 
-router.post("/:id", editUser);
+
 
 module.exports = router;
