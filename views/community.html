@@ -5,17 +5,12 @@
     <link rel="stylesheet" href="/styles/postslist.css" />
     <script src="/javascript/community.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
-    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
   </head>
   <body>
     {% include 'top.html' %}
     <div style="height: 100px"></div>
-    <div
-      style="width: 80%; height: 100%; margin: 0 auto; background-color: white"
-    >
+    <div style="width: 80%; height: 100%; margin: 0 auto; background-color: white">
       <ul class="sort-btn-list">
         <li><div class="sort-btn newest sort-btn-click">최신 순</div></li>
         <li><div class="sort-btn old">오래된 순</div></li>
@@ -31,11 +26,7 @@
           <option value="title">제목</option>
           <option value="nickname">작성자</option>
         </select>
-        <input
-          type="text"
-          id="searchQuery"
-          placeholder="검색어를 입력하세요."
-        />
+        <input type="text" id="searchQuery" placeholder="검색어를 입력하세요." />
         <button id="searchBtn">검색</button>
       </div>
 
@@ -43,12 +34,7 @@
     </div>
     <div class="sidebar">
       <form action="/page/editor" id="write-form" method="get">
-        <input
-          type="hidden"
-          id="board-name"
-          name="board-name"
-          value="{{ boardName }}"
-        />
+        <input type="hidden" id="board-name" name="board-name" value="{{ boardName }}" />
         <button type="submit" class="btn btn-primary">글쓰기 버튼</button>
       </form>
       <div class="scroll-box">
@@ -95,15 +81,9 @@
     }
 
     // 각 버튼의 클릭 이벤트에 handleSortBtnClick 함수를 전달
-    highView.addEventListener("click", () =>
-      handleSortBtnClick(highView, "highView")
-    );
-    rowView.addEventListener("click", () =>
-      handleSortBtnClick(rowView, "rowView")
-    );
-    newest.addEventListener("click", () =>
-      handleSortBtnClick(newest, "newest")
-    );
+    highView.addEventListener("click", () => handleSortBtnClick(highView, "highView"));
+    rowView.addEventListener("click", () => handleSortBtnClick(rowView, "rowView"));
+    newest.addEventListener("click", () => handleSortBtnClick(newest, "newest"));
     old.addEventListener("click", () => handleSortBtnClick(old, "old"));
 
     // 페이지 로드 함수
@@ -150,10 +130,8 @@
       let currentPage = 1; // 초기 페이지
 
       function updatePaginationButtons() {
-        prevButton.style.display =
-          totalPages > 1 && currentPage > 1 ? "inline-block" : "none";
-        nextButton.style.display =
-          totalPages > 1 && currentPage < totalPages ? "inline-block" : "none";
+        prevButton.style.display = totalPages > 1 && currentPage > 1 ? "inline-block" : "none";
+        nextButton.style.display = totalPages > 1 && currentPage < totalPages ? "inline-block" : "none";
       }
 
       updatePaginationButtons();
@@ -185,9 +163,7 @@
     // 주소값에 따른 번호 순 함수
     function listSort(page) {
       axios
-        .get(
-          `/boards/{{boardName}}/posts?sortType=${changeNumberSort}&page=${page}`
-        )
+        .get(`/boards/{{boardName}}/posts?sortType=${changeNumberSort}&page=${page}`)
         .then((response) => {
           const posts = response.data;
           const container = document.querySelector(".commu-list");

@@ -1,4 +1,5 @@
 const express = require("express");
+const { isLoggedIn, isNotLoggedIn } = require("../middlewares");
 const multer = require("multer");
 const path = require("path");
 const fs = require("fs");

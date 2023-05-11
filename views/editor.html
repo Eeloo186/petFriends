@@ -60,7 +60,7 @@
             axios
               .post(`/boards/${boardName}/posts`, data)
               .then((res) => {
-                alert(`/page/${boardName}/${postId}`);
+                // alert(`/page/${boardName}/${postId}`);
                 // 작성글 정보 db에 등록 완료했으면 원래 있던 곳으로 이동
                 location.href = `/page/${boardName}/${postId}`;
               })
@@ -73,7 +73,7 @@
               .put(`/boards/${boardName}/posts`, data)
               .then((res) => {
                 // 작성글 정보 db에 등록 완료했으면 원래 있던 곳으로 이동
-                alert(`/page/${boardName}/${postId}`);
+                // alert(`/page/${boardName}/${postId}`);
                 location.href = `/page/${boardName}/${postId}`;
               })
               .catch((err) => {
