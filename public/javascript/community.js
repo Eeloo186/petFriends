@@ -28,3 +28,15 @@ document.querySelector(".scrollup").addEventListener("click", scrollToTop);
 function scrollToTop() {
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
+
+//셀렉트 보더 색
+const commentText = document.querySelector("#searchQuery");
+
+commentText.addEventListener("focus", () => {
+  commentText.style.border = "2px solid rgb(179, 132, 255)";
+  commentText.style.outline = "none";
+});
+
+commentText.addEventListener("blur", () => {
+  commentText.style.border = "";
+});

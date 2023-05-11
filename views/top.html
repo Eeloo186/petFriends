@@ -17,15 +17,6 @@
       <a href="/page/admin_post" id="admin-btn"> 관리자페이지</a>
     </div>
     {% endif %}
-    {% if user.provider == 'kakao' %}
-    <div id="kakaoLogout-box">
-      <a
-        id="kakaoLogout"
-        href="https://kauth.kakao.com/oauth/logout?client_id={{ kakao }}&logout_redirect_uri=http://localhost:8001/auth/logout"
-        ><img src="/imgs/kakaologout.png" alt="" /> 로그아웃</a
-      >
-    </div>
-    {% else %}
     <form action="/auth/logout" method="post" id="logout-form">
       <input type="hidden" name="currUrl" value="">
       <div id="logout-box">
@@ -35,7 +26,7 @@
     <!-- <div id="nomarl-logout">
       <a id="logout" href="/auth/logout">로그아웃</a>
     </div> -->
-    {% endif %} {% else %}
+  {% else %}
     <form action="/page/login" method="post" id="login-form">
       <input type="hidden" name="currUrl" value="">
       <div id="login-box">
@@ -65,3 +56,12 @@
   </div>
 </div>
 {% endif %}
+
+
+<!-- <div id="kakaoLogout-box">
+  <a
+    id="kakaoLogout"
+    href="https://kauth.kakao.com/oauth/logout?client_id={{ kakao }}&logout_redirect_uri=http://localhost:8001/auth/logout"
+    ><img src="/imgs/kakaologout.png" alt="" /> 로그아웃</a
+  >
+</div> -->

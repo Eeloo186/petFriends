@@ -107,7 +107,7 @@
       </div>
       <!-- 댓글 구역 끝 -->
     </div>
-    <!-- footer include -->
+    {% include 'footer.html' %}
   </body>
   <script>
     const postId = document.getElementById("postId").value;
@@ -171,7 +171,7 @@
               commentId.setAttribute("value", comment.id);
               //title
               const userIdSpan = document.createElement("span");
-              userIdSpan.textContent = comment.User.userId;
+              userIdSpan.textContent = comment.User.nickname;
               const createdAtSpan = document.createElement("span");
               createdAtSpan.textContent = comment.createdAt;
               commentMetaArea.appendChild(commentId);
