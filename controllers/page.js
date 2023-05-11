@@ -285,7 +285,9 @@ exports.renderPostDetail = async (req, res, next) => {
       where: { PostId: postId },
     });
     //댓글 개수
-    const comment = await Comment.count({ where: { PostId: post.id } });
+    const comment = await Comment.count({
+      where: { PostId: post.id },
+    });
 
     // 날짜를 필요한 형태로 바꿈
     reformatDate(post, "full");
@@ -493,12 +495,48 @@ exports.renderPictureEditor = async (req, res) => {
 
 exports.renderMypage = async (req, res,next) => {
   try {
-    const users = await User.findAll();
-    users.forEach((user)=>{
-      reformatDate(user,'full')
+    // const users = User.findAll();
+    // users.forEach((user)=>{
+    //   reformatDate(user,'full')
+    // });
+
+    const postCount = await User.count({
+      include: [
+        {
+          model: Post,
+          where: {UserId: req.user.id},
+        }
+      ]
+    });
+    console.log(`${req.user.id}유저의 게시글 수는 ${postCount}개`);
+
+    // const count = await Post.count({
+    //   include: [
+    //     {
+    //       model: Board,
+    //       where: { name: boardName }, 
+    //     },
+    //   ],
+    // });
+
+
+    const commentCount = await User.count({
+      include: [
+        {
+          model: Comment,
+          where: {UserId: req.user.id},
+
+        }
+      ]
     });
 
-  res.render("mypage");
+    console.log(`${req.user.id}유저의 댓글 수는 ${commentCount}개`);
+
+
+  res.render("mypage", {
+    postCount,
+    commentCount,
+  });
   } catch (err) {
     console.error(err);
     next(err);

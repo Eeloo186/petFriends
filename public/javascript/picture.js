@@ -37,7 +37,6 @@ function loadMoreContent() {
             pictureBox.innerHTML = `
             <input type="hidden" name="imgUrl" value="${post.imgUrl}" />
             <input type="hidden" name="postId" value="${post.id}" />
-            <button class="transparent-button">버튼</button>
             <div class="bottom-area">
               <div class="view-count">조회수 : ${post.view}</div>
               <div class='like-info'>

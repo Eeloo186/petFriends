@@ -54,7 +54,7 @@ exports.login = (req, res, next) => {
       console.log("-------------------------");
       console.log(`로그인 완료 ${req.cookies.prevUrl}로 돌아갑니다`);
       console.log("-------------------------");
-
+      
       if (req.cookies.prevUrl == "undefined") {
         return res.redirect("/");
       } else {
