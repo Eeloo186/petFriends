@@ -47,18 +47,15 @@
         res.redirect(`/?loginError=${info.message}`);
         넘어오면 받아서 처리하게 해야함 -->
         <div><input type="submit" value="로그인" class="submit-btn" /></div>
-        <div>
-          <a id="kakao" href="/auth/kakao" class="submit-btn social">
-            <img src="/imgs/kakao_login_medium_wide.png" alt="" class="kakao" />
-          </a>
-        </div>
-        <div>
-          <a id="google" href="/auth/google" class="submit-btn social">구글</a>
+        <div class="social-login-box">
+          <div>
+            <a id="kakao" href="/auth/kakao" class="social kakao"></a>
+          </div>
+          <div>
+            <a id="google" href="/auth/google" class="social google"></a>
+          </div>
         </div>
       </form>
-      <div class="links">
-        <a href="#">비밀번호를 잊어버리셨나요?</a>
-      </div>
       <div class="join">
         <a href="/page/join" target="_blank" class="join-btn">회원가입</a>
       </div>
