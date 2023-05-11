@@ -491,14 +491,20 @@ exports.renderPictureEditor = async (req, res) => {
   });
 };
 
-exports.renderMypage = async (req, res) => {
-  // console.log(req.user);
-  // res.render('mypage', {
-  //   user: req.user,
-  // });
+exports.renderMypage = async (req, res,next) => {
+  try {
+    const users = await User.findAll();
+    users.forEach((user)=>{
+      reformatDate(user,'full')
+    });
 
   res.render("mypage");
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
 };
+
 
 exports.renderModifyUser = async (req, res, next) => {
   console.log("-------------------------------------------------------");
@@ -521,7 +527,6 @@ exports.renderModifyUser = async (req, res, next) => {
 };
 
 exports.renderAdminpost = async (req, res, next) => {
-  console.log("admin 진입");
   try {
     const posts = await Post.findAll({
       include: [
