@@ -110,7 +110,7 @@
     //페이지 로드 시 모든 페이지 수를 가져와서 페이지버튼, 게시물리스트 함수에 뿌려주는 함수
     function init() {
       axios
-        .get("/boards/totalPages")
+        .get("/boards/{{boardName}}/totalPages")
         .then((response) => {
           const totalPages = response.data;
           loadPageNumbers(totalPages);
@@ -204,7 +204,7 @@
               <div>${post.id}.</div>
               <div>${post.title}</div>
               </div>
-            <div class='second-box'>
+            <div class='second-box'>boardName
               <div class='third-box'>
                 <div>${post.User.nickname}</div>
                 <div>${post.createdAt}</div>
