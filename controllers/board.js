@@ -23,7 +23,7 @@ exports.uploadPost = async (req, res, next) => {
       content,
       PostId: post.id,
     });
-    return res.end();
+    return res.status(200).end();
   } catch (err) {
     console.error(err);
     next(err);
@@ -105,59 +105,124 @@ exports.totalPage = async (req, res, next) => {
 };
 
 exports.sortPost = async (req, res, next) => {
-  const page = parseInt(req.query.page) || 1;
-  const limit = 10;
-  const offset = (page - 1) * limit;
-  let order = [];
-  switch (req.query.sortType) {
-    case "newest":
-      order = [["id", "DESC"]];
-      break;
-    case "old":
-      order = [["id", "ASC"]];
-      break;
-    case "highView":
-      order = [["view", "DESC"]];
-      break;
-    case "rowView":
-      order = [["view"]];
-      break;
-    default:
-      order = [["id", "DESC"]];
-      break;
-  }
+  const { boardName,  } = req.params;
+  const board = await Board.findOne({ where: { name: boardName } });
+  console.log(`boardID는 ${board.id}`);
+  console.log(`page값은 ${req.query.page}`);
+  // page 정보가 있으면(=커뮤니티 페이지)
+  if (req.query.page) {
+    const page = parseInt(req.query.page) || 1;
+    const limit = 10;
+    const offset = (page - 1) * limit;
+    let order = [];
+    switch (req.query.sortType) {
+      case "newest":
+        order = [["id", "DESC"]];
+        break;
+      case "old":
+        order = [["id", "ASC"]];
+        break;
+      case "highView":
+        order = [["view", "DESC"]];
+        break;
+      case "rowView":
+        order = [["view"]];
+        break;
+      default:
+        order = [["id", "DESC"]];
+        break;
+    }
 
-  try {
-    const posts = await Post.findAll({
-      order: order,
-      include: [
-        {
-          model: User,
-          attributes: ["userId", "nickname"],
+    try {
+      const posts = await Post.findAll({
+        order: order,
+        include: [
+          {
+            model: User,
+            attributes: ["userId", "nickname"],
+          },
+        ],
+        where: {
+          boardId: board.id,
         },
-      ],
-      where: {
-        boardId: 3,
-      },
-      limit,
-      offset,
-    });
-    posts.forEach((data) => {
-      reformatDate(data, "full");
-    });
+        limit,
+        offset,
+      });
+      posts.forEach((data) => {
+        reformatDate(data, "full");
+      });
 
-    const postsWithLikeCount = await Promise.all(
-      posts.map(async (post) => {
-        const likeCount = await Like.count({ where: { PostId: post.id } });
-        const comment = await Comment.count({ where: { PostId: post.id } });
-        return { ...post.toJSON(), likeCount, comment };
-      })
-    );
+      const postsWithLikeCount = await Promise.all(
+        posts.map(async (post) => {
+          const likeCount = await Like.count({ where: { PostId: post.id } });
+          const comment = await Comment.count({ where: { PostId: post.id } });
+          return { ...post.toJSON(), likeCount, comment };
+        })
+      );
 
-    res.json(postsWithLikeCount);
-  } catch (err) {
-    console.error(err);
-    next();
+      res.json(postsWithLikeCount);
+    } catch (err) {
+      console.error(err);
+      next();
+    }
+  } else {
+    // page 정보가 없으면(=사진 페이지)
+    const limit = parseInt(req.query.reqPostCount);
+    const offset = parseInt(req.query.picCount);
+    console.log('-----------------------------------');
+    console.log(`offset값은 ${offset}`);
+    console.log('-----------------------------------');
+
+    let order = [];
+    switch (req.query.sortType) {
+      case "newest":
+        order = [["id", "DESC"]];
+        break;
+      case "old":
+        order = [["id", "ASC"]];
+        break;
+      case "highView":
+        order = [["view", "DESC"]];
+        break;
+      case "rowView":
+        order = [["view"]];
+        break;
+      default:
+        order = [["id", "DESC"]];
+        break;
+    }
+    try {
+      const posts = await Post.findAll({
+        order: order,
+        include: [
+          {
+            model: User,
+            attributes: ["userId", "nickname"],
+          },
+        ],
+        where: {
+          boardId: board.id,
+        },
+        limit,
+        offset,
+      });
+      posts.forEach((data) => {
+        reformatDate(data, "full");
+      });
+
+      const postsWithLikeCount = await Promise.all(
+        posts.map(async (post) => {
+          const likeCount = await Like.count({ where: { PostId: post.id } });
+          const comment = await Comment.count({ where: { PostId: post.id } });
+          return { ...post.toJSON(), likeCount, comment };
+        })
+      );
+
+      res.json(postsWithLikeCount);
+    } catch (err) {
+      console.error(err);
+      next();
+    }
   }
 };
 
@@ -212,10 +277,7 @@ exports.searchPost = async (req, res) => {
       default:
         posts = await Post.findAll({
           where: {
-            [Op.or]: [
-              { title: { [Op.like]: `%${searchQuery}%` } },
-              { content: { [Op.like]: `%${searchQuery}%` } },
-            ],
+            [Op.or]: [{ title: { [Op.like]: `%${searchQuery}%` } }, { content: { [Op.like]: `%${searchQuery}%` } }],
           },
           include: [{ model: User, attributes: ["nickname"] }],
           order: [["id", "DESC"]],

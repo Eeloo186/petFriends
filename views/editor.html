@@ -7,28 +7,11 @@
   </head>
   <body>
     {% include 'top.html' %}
-    <input
-      id="board-name"
-      name="board-name"
-      type="hidden"
-      value="{{boardName}}"
-    />
-    <input
-      id="content"
-      name="content"
-      type="hidden"
-      data-content="{{content}}"
-    />
-    <input
-      id="post-title"
-      name="post-title"
-      type="hidden"
-      data-posttitle="{{postTitle}}"
-    />
+    <input id="board-name" name="board-name" type="hidden" value="{{boardName}}" />
+    <input id="content" name="content" type="hidden" data-content="{{content}}" />
+    <input id="post-title" name="post-title" type="hidden" data-posttitle="{{postTitle}}" />
     <div id="container">
-      <label for="title">
-        <input id="title" type="text" placeholder="제목을 입력해주세요."
-      /></label>
+      <label for="title"> <input id="title" type="text" placeholder="제목을 입력해주세요." /></label>
       <textarea name="editor" id="editor" rows="10" cols="100"></textarea>
       <button id="writeBtn">글쓰기</button>
       <button id="backBtn">돌아가기</button>
@@ -36,7 +19,7 @@
   </body>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <script src="../../CKEditor5/build/ckeditor.js"></script>
-  <script type="text/javascript">
+  <script type="text/javascript" defer>
     // CKEditor5 설정
     let editor;
     ClassicEditor.create(document.querySelector("#editor"), {
@@ -77,8 +60,9 @@
             axios
               .post(`/boards/${boardName}/posts`, data)
               .then((res) => {
+                alert(`/page/${boardName}/${postId}`);
                 // 작성글 정보 db에 등록 완료했으면 원래 있던 곳으로 이동
-                location.href = `/page/${boardName}?currentPage=1`;
+                location.href = `/page/${boardName}/${postId}`;
               })
               .catch((err) => {
                 console.error(err);
@@ -89,7 +73,8 @@
               .put(`/boards/${boardName}/posts`, data)
               .then((res) => {
                 // 작성글 정보 db에 등록 완료했으면 원래 있던 곳으로 이동
-                location.href = `/page/${boardName}?currentPage=1`;
+                alert(`/page/${boardName}/${postId}`);
+                location.href = `/page/${boardName}/${postId}`;
               })
               .catch((err) => {
                 console.error(err);
@@ -116,12 +101,13 @@
       }
     });
 
-    window.onload = () => {
+    // window.onload = () => {
+    document.addEventListener("DOMContentLoaded", () => {
       const title = document.getElementById("title");
       const content = document.getElementById("content");
       const postTitle = document.getElementById("post-title");
       title.value = postTitle.dataset.posttitle;
       editor.setData(content.dataset.content);
-    };
+    });
   </script>
 </html>

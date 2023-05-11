@@ -13,7 +13,10 @@
   background-repeat: no-repeat;
   background-position: 50% 50%;
   background-color: antiquewhite;
+  cursor: pointer;
 }
+
+
 
 .box button.transparent-button {
   position: absolute;
