@@ -25,7 +25,7 @@ function loadMoreContent() {
   // 현재 불러온 post의 수를 체크해서 그 뒤에서부터 DB로부터 읽어들인다
   const loadedPicCount = document.querySelectorAll(".picture-box").length;
   axios
-    .get(`/boards/picture/posts?sortType=${changeNumberSort}&picCount=${loadedPicCount}`)
+    .get(`/boards/picture/posts?sortType=${changeNumberSort}&picCount=${loadedPicCount}&reqPostCount=4`)
     .then((response) => {
       const posts = response.data;
       const picContainer = document.querySelector(".container");

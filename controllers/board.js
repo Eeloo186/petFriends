@@ -105,7 +105,7 @@ exports.totalPage = async (req, res, next) => {
 };
 
 exports.sortPost = async (req, res, next) => {
-  const { boardName } = req.params;
+  const { boardName,  } = req.params;
   const board = await Board.findOne({ where: { name: boardName } });
   console.log(`boardID는 ${board.id}`);
   console.log(`page값은 ${req.query.page}`);
@@ -167,7 +167,7 @@ exports.sortPost = async (req, res, next) => {
     }
   } else {
     // page 정보가 없으면(=사진 페이지)
-    const limit = 4;
+    const limit = parseInt(req.query.reqPostCount);
     const offset = parseInt(req.query.picCount);
     console.log('-----------------------------------');
     console.log(`offset값은 ${offset}`);
