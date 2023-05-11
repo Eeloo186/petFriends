@@ -30,7 +30,8 @@
         flex: 1;
         text-align: center;
         padding: 10px;
-        background-color: #ECECEC;
+        background-color: white;
+        color: black;
         border-radius: 5px;
         margin: 0 10px;
     }
@@ -64,7 +65,7 @@
     }
 
     aside {
-        background-color: #ECECEC;
+        background-color: white;
         padding: 20px;
         border-radius: 5px;
         margin-top: 20px;
@@ -73,7 +74,7 @@
     footer {
         text-align: center;
         padding: 20px 0;
-        background-color: #ECECEC;
+        background-color: white;
         border-radius: 5px;
         margin-top: 20px;
     }
@@ -93,8 +94,7 @@
         bottom: 10px;
         right: 10px;
     } .admin_notice_del {
-        background-color: #333;
-        position: absolute;
+        background-color: rgb(157, 0,255);
         color: white;
         padding: 5px 20px;
         border: none;
@@ -109,7 +109,7 @@
     }
 
     .memberinfo-btn {
-        background-color: #333;
+        background-color: rgb(157, 0, 255);
         color: white;
         padding: 5px 20px;
         border: none;
@@ -145,7 +145,7 @@
     }
 
     .postinfo-btn {
-        background-color: #333;
+        background-color: rgb(157, 0, 255);
         color: white;
         padding: 5px 20px;
         border: none;
@@ -159,7 +159,7 @@
         font-size: 20px;
     }
     .notice_editor{
-        background-color: #333;
+        background-color: rgb(157, 0, 255);
         color: white;
         padding: 5px 20px;
         border: none;
@@ -186,8 +186,35 @@
 
 
     }
+    .search-members{
+        height: 40px;
+        width: 300px;
+        padding: 5px 10px;
+        border-radius: 10px;
+        border: 2px solid rgb(185, 185, 185);
+    }
+
+    .search_posts{
+        width: 300px;
+        padding: 5px 10px;
+        border-radius: 10px;
+        border: 2px solid rgb(185, 185, 185);
+    }
+#mem-search-btn,
+    .post-search-btn{
+        padding: 8px 20px;
+        border-radius: 10px;
+        text-align-last: center;
+        background-color: rgb(157, 0, 255);
+        color: white;
+        border: none;
+        font-weight: bold;
+    }
+
+
+
     .noticeinfo-btn {
-        background-color: #333;
+        background-color: rgb(157, 0, 255);
         color: white;
         padding: 5px 20px;
         border: none;
@@ -197,3 +224,7 @@
         margin-right: 10px;
         font-weight: bold;
     }
+    div.border {
+        border: 1px solid black;
+    }
+

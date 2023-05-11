@@ -31,11 +31,11 @@ deleteNoticeBtns.forEach((deleteNoticeBtn) => {
         const confirmed = confirm("정말 게시글을 삭제하시겠습니까?");
         if (confirmed) {
             const postId = deleteNoticeBtn.getAttribute("data-id");
-            const boardName = "boardName";
+            const boardName = "notice";
             axios
                 .delete(`/boards/${boardName}/posts/${postId}`)
                 .then((res) => {
-                    window.location.href = "/page/admin_post/admin_notice";
+                    window.location.href = "/page/admin_notice";
                 })
                 .catch((err) => {
                     console.error(err);

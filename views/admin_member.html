@@ -10,26 +10,31 @@
 <div class="container">
   <header>
     <h1>관리자 페이지</h1>
+    <hr>
   </header>
   <nav>
     <ul>
       <li><a href="/page/admin_post">게시글관리</a></li>
-      <li><a href="/admin_post/admin_member">회원관리</a></li>
-      <li><a href="/admin_post/admin_notice">공지사항</a></li>
+      <li><a href="/page/admin_member">회원관리</a></li>
+      <li><a href="/page/admin_notice">공지사항</a></li>
     </ul>
+    <hr>
   </nav>
   <section>
     <div id="members">
       <h2>회원 관리</h2>
+
       <div class="admin_members">
         <input type="text" class="search-members" placeholder="검색 내용을 입력하세요" required />
         <button id="mem-search-btn">검색</button>
       </div>
+      <hr>
 
       <aside>
         {% for user in users %}
         <h3>아이디: {{ user.userId }} 닉네임: {{ user.nickname }} 가입일자: {{ user.createdAt }}</h3>
         <button type="button" class="memberinfo-btn" data-id="{{ user.userId }}">회원정보보기</button>
+
 
         <div class="popup">
           <div class="popup-content">
