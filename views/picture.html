@@ -108,8 +108,10 @@
                 <button class="transparent-button">버튼</button>
                 <div class="bottom-area">
                   <div class="view-count">조회수 : ${post.view}</div>
-                  <button class="icon-button"><i class="fa fa-heart"></i></button>
-                  <div class="like-count">${post.likeCount}</div>
+                  <div class='like-info'>
+                    <button class="icon-button"><i class="fa fa-heart"></i></button>
+                    <div class="like-count">${post.likeCount}</div>
+                  </div>
                 </div>
               `;
             console.log(`pictureBox ${post.id} 추가`);

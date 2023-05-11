@@ -521,7 +521,7 @@ exports.renderModifyUser = async (req, res, next) => {
 };
 
 exports.renderAdminpost = async (req, res, next) => {
-  console.log("admin 진입");
+  console.log("admin/post 진입");
   try {
     const posts = await Post.findAll({
       include: [
@@ -554,6 +554,7 @@ exports.renderAdminpost = async (req, res, next) => {
 };
 
 exports.renderMember = async (req, res, next) => {
+  console.log("admin/member 진입");
   try {
     const users = await User.findAll();
     users.forEach((user)=>{
@@ -573,6 +574,7 @@ exports.renderMember = async (req, res, next) => {
 
 //
 exports.renderAdminnotice = async (req, res, next) => {
+  console.log("admin/notice 진입");
   try {
     const posts = await Post.findAll({
       include: [

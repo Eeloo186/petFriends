@@ -35,15 +35,17 @@ function loadMoreContent() {
             const pictureBox = document.createElement("div");
             pictureBox.setAttribute("class", "picture-box");
             pictureBox.innerHTML = `
-                <input type="hidden" name="imgUrl" value="${post.imgUrl}" />
-                <input type="hidden" name="postId" value="${post.id}" />
-                <button class="transparent-button">버튼</button>
-                <div class="bottom-area">
-                  <div class="view-count">조회수 : ${post.view}</div>
-                  <button class="icon-button"><i class="fa fa-heart"></i></button>
-                  <div class="like-count">${post.likeCount}</div>
-                </div>
-              `;
+            <input type="hidden" name="imgUrl" value="${post.imgUrl}" />
+            <input type="hidden" name="postId" value="${post.id}" />
+            <button class="transparent-button">버튼</button>
+            <div class="bottom-area">
+              <div class="view-count">조회수 : ${post.view}</div>
+              <div class='like-info'>
+                <button class="icon-button"><i class="fa fa-heart"></i></button>
+                <div class="like-count">${post.likeCount}</div>
+              </div>
+            </div>
+          `;
             console.log(`pictureBox ${post.id} 추가`);
             pictureBox.style.backgroundImage = `url('${post.imgUrl}')`;
             pictureBox.addEventListener("click", (ev) => {
