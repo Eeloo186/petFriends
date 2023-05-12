@@ -260,6 +260,18 @@
   left: -100%;
 }
 
+.pet-hospital {
+  cursor: pointer;
+}
+
+.dogBtn {
+  cursor: pointer;
+}
+
+.catBtn {
+  cursor: pointer;
+}
+
 .dogitem {
   margin: 40px auto;
   border: 1px solid rgb(173, 173, 173);
