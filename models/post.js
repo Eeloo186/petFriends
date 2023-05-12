@@ -5,7 +5,7 @@ class Post extends Sequelize.Model {
     Post.init({
         // 좋아요 숫자 카운트 하는 칼럼 필요할 수도 있음(성능문제)
         title: {
-            type: Sequelize.STRING(100),
+            type: Sequelize.STRING(500),
             allowNull: false,
         },
         view: {
@@ -14,7 +14,7 @@ class Post extends Sequelize.Model {
             defaultValue: 0,
         },
         imgUrl: {
-          type: Sequelize.STRING(100),
+          type: Sequelize.STRING(500),
           allowNull: true,
         },
     }, {

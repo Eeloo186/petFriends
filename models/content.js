@@ -4,7 +4,7 @@ class Content extends Sequelize.Model {
   static initiate(sequelize) {
     Content.init({
         content: {
-            type: Sequelize.STRING(500),
+            type: Sequelize.STRING(5000),
             allowNull: false,
         },
     }, {

@@ -5,7 +5,7 @@ class User extends Sequelize.Model {
     User.init(
       {
         userId: {
-          type: Sequelize.STRING(20),
+          type: Sequelize.STRING(50),
           allowNull: false,
           unique: true,
         },
@@ -14,12 +14,12 @@ class User extends Sequelize.Model {
           allowNull: false,
         },
         nickname: {
-          type: Sequelize.STRING(15),
+          type: Sequelize.STRING(50),
           allowNull: false,
           unique: true,
         },
         email: {
-          type: Sequelize.STRING(50),
+          type: Sequelize.STRING(100),
           allowNull: true,
         },
         address1: {
@@ -40,7 +40,7 @@ class User extends Sequelize.Model {
           defaultValue: "local",
         },
         snsId: {
-          type: Sequelize.STRING(50),
+          type: Sequelize.STRING(500),
           allowNull: true,
         },
         pet: {

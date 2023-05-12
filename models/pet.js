@@ -20,7 +20,7 @@ class Pet extends Sequelize.Model {
             allowNull: false,
         },
         etc: {
-            type: Sequelize.STRING(50),
+            type: Sequelize.STRING(500),
             allowNull: true,
         },
     }, {
