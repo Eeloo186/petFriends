@@ -7,6 +7,7 @@ const session = require("express-session");
 const nunjucks = require("nunjucks");
 const dotenv = require("dotenv");
 const passport = require("passport");
+const cors = require("cors");
 
 // 초기 설정 init
 dotenv.config();
@@ -24,16 +25,12 @@ const passportConfig = require("./passport");
 const app = express();
 passportConfig(); // 패스포트 설정
 
-app.set("port", process.env.PORT || 8001); // 포트 설정
-app.set("view engine", "html"); // view engine -> nunjucks
-nunjucks.configure("views", {
-  express: app,
-  watch: true,
-});
+app.set("port", process.env.PORT || 4000); // 포트 설정
+
 sequelize
   .sync({ force: false }) // sequelize db-model sync
   .then(() => {
-    console.log("데이터베이스 연결 성공");
+    console.log("MySQL 연결 성공");
   })
   .catch((err) => {
     console.error(err);
@@ -45,6 +42,8 @@ sequelize
 app.use(morgan("dev")); // 배포시 dev 수정 필요
 app.use(express.static(path.join(__dirname, "public"))); // static 경로 설정
 app.use("/img", express.static(path.join(__dirname, "uploads"))); // '/'로 접근시 public으로, '/img'로 접근시 uploads로
+
+app.use(cors());
 
 app.use(express.static("public", { maxAge: "1d", immutable: true })); //뒤로가기 했을 때 캐시 제어 후 바뀐 데이터 가져오는 코드
 app.use((req, res, next) => {
@@ -97,7 +96,6 @@ app.use((err, req, res, next) => {
   res.locals.message = err.message;
   res.locals.error = process.env.NODE_ENV !== "production" ? err : {};
   res.status(err.status || 500);
-  res.render("error");
 });
 
 // port listen

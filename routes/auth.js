@@ -2,15 +2,22 @@ const express = require("express");
 const passport = require("passport");
 
 const { isLoggedIn, isNotLoggedIn } = require("../middlewares");
-const { join, login, logout, saveReturnTo } = require("../controllers/auth");
+const {
+  login,
+  logout,
+  saveReturnTo,
+  check,
+  register,
+} = require("../controllers/auth");
 
 const router = express.Router();
 
 // POST /auth/join
-router.post("/join", isNotLoggedIn, join);
+router.post("/register", isNotLoggedIn, register);
 
 // POST /auth/login
 router.post("/login", saveReturnTo, isNotLoggedIn, login);
+router.get("/check", check);
 
 // GET /auth/logout
 router.get("/logout", isLoggedIn, logout);

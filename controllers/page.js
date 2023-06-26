@@ -176,73 +176,8 @@ exports.renderInfo = async (req, res, next) => {
   }
 };
 
-// exports.renderCommunityView = async (req, res, next) => {
-//   const { postId } = req.params;
-//   try {
-//     // 게시글 정보 가져옴
-//     const post = await Post.findOne({
-//       include: [
-//         {
-//           model: User,
-//           attributes: ["userId", "nickname"],
-//         },
-//         {
-//           model: Board,
-//           attributes: ["name"],
-//         },
-//         {
-//           model: Content,
-//           attributes: ["content"],
-//         },
-//       ],
-//       where: {
-//         id: postId,
-//       },
-//     });
-
-//     // 댓글 정보 가져옴
-//     const comments = await Comment.findAll({
-//       include: [
-//         {
-//           model: User,
-//           attributes: ["id", "userId", "nickname"],
-//         },
-//         {
-//           model: Post,
-//           attributes: ["id"],
-//           where: { id: postId },
-//         }
-//       ]
-//     });
-
-//     // 날짜를 필요한 형태로 바꿈
-//     reformatDate(post, "full");
-//     comments.forEach((comment) => {
-//       reformatDate(comment, "full");
-//     })
-
-//     // 해당 게시글의 조회수 +1 처리
-//     await Post.update({
-//       view: post.view + 1,
-//     }, {
-//       where: { id: postId},
-//     });
-
-//     res.render("communityView", {
-//       title: "메인페이지",
-//       twit: post,
-//       comments,
-//       boardName: "communityView",
-//       postId: postId,
-//     });
-//   } catch (err) {
-//     console.error(err);
-//     next(err);
-//   }
-// };
-
 exports.renderPostDetail = async (req, res, next) => {
-  const { boardName, postId } = req.params;
+  const { boardName, userId } = req.params;
   try {
     // 게시글 정보 가져옴
     const post = await Post.findOne({
@@ -261,7 +196,7 @@ exports.renderPostDetail = async (req, res, next) => {
         },
       ],
       where: {
-        id: postId,
+        id: userId,
       },
     });
 
@@ -309,10 +244,10 @@ exports.renderPostDetail = async (req, res, next) => {
 
     console.log(JSON.stringify(post));
     let renderPage = "";
-    if(boardName == "picture"){
-      renderPage = "pictureDetail"
+    if (boardName == "picture") {
+      renderPage = "pictureDetail";
     } else {
-      renderPage = "postDetail"
+      renderPage = "postDetail";
     }
     res.render(renderPage, {
       title: "게시글 상세 정보",
@@ -330,79 +265,56 @@ exports.renderPostDetail = async (req, res, next) => {
 };
 
 exports.renderCommunity = async (req, res, next) => {
-  // const page = req.query.currentPage;
+  const page = parseInt(req.query.page || "1", 10);
+
+  if (page < 1) {
+    res.status(400).send();
+    return;
+  }
+
   try {
-    //   const posts = await Post.findAll({
-    //     include: [
-    //       {
-    //         model: User,
-    //         attributes: ["userId", "nickname"],
-    //       },
-    //       {
-    //         model: Board,
-    //         attributes: ["name"],
-    //         where: { name: "community" },
-    //       },
-    //       {
-    //         model: Content,
-    //         attributes: ["content"],
-    //       },
-    //     ],
-    //     limit: 10,
-    //     offset: (page - 1) * 10,
-    //   });
-    //   //console.log(posts);
-
-    //   const postsCount = await Post.findAndCountAll({
-    //     nest: false,
-    //     include: [
-    //       {
-    //         model: User,
-    //         attributes: ["userId", "nickname"],
-    //       },
-    //       {
-    //         model: Board,
-    //         attributes: ["name"],
-    //         where: { name: "community" },
-    //       },
-    //       {
-    //         model: Content,
-    //         attributes: ["id", "content"],
-    //       },
-    //     ],
-    //     limit: 10,
-    //     offset: page * 10,
-    //   });
-
-    //   const { count } = postsCount;
-    //   let limit = 10;
-
-    //   const pagingData = getPagingDataCount(count, page, limit);
-
-    //   // DB createdAt에 들어있는 Date 정보 커스터마이징
-    //   posts.forEach((post) => {
-    //     let date = post["dataValues"]["createdAt"];
-    //     post["dataValues"][
-    //       "createdAt"
-    //     ] = `${date.getFullYear()}년 ${date.getMonth()}월 ${date.getDate()}일 ${date.getHours()}시 ${date.getMinutes()}분 ${date.getSeconds()}초`;
-    res.render("community", {
-      title: "커뮤니티페이지",
-      boardName: "community",
+    const posts = await Post.findAll({
+      include: [
+        {
+          model: User,
+          attributes: ["userId"],
+        },
+        {
+          model: Board,
+          attributes: ["name"],
+          where: { name: "community" },
+        },
+        {
+          model: Content,
+          attributes: ["content"],
+        },
+      ],
+      limit: 10,
+      offset: (page - 1) * 10,
     });
+
+    const postCount = await Post.count({
+      include: [
+        {
+          model: User,
+        },
+        {
+          model: Board,
+          where: { name: "community" },
+        },
+        {
+          model: Content,
+        },
+      ],
+    });
+
+    const totalPages = Math.ceil(postCount / 10);
+    res.setHeader("Last-Page", totalPages);
+    return res.json(posts);
   } catch (err) {
     console.error(err);
     next(err);
   }
-};
-
-getPagingDataCount = (totalItems, page, limit) => {
-  const currentPage = page ? page : 0;
-  const totalPages = Math.ceil(totalItems / limit);
-  const pnStart = (Math.ceil(page / limit) - 1) * limit + 1; // NOTE: 현재 페이지의 페이지네이션 시작 번호.
-  let pnEnd = pnStart + limit; // NOTE: 현재 페이지의 페이지네이션 끝 번호.
-  if (pnEnd > totalPages) pnEnd = totalPages; // NOTE: 페이지네이션의 끝 번호가 페이지네이션 전체 카운트보다 높을 경우.
-
-  return { totalItems, totalPages, currentPage, pnStart, pnEnd };
 };
 
 exports.renderLogin = (req, res) => {
@@ -493,7 +405,7 @@ exports.renderPictureEditor = async (req, res) => {
   });
 };
 
-exports.renderMypage = async (req, res,next) => {
+exports.renderMypage = async (req, res, next) => {
   try {
     // const users = User.findAll();
     // users.forEach((user)=>{
@@ -504,9 +416,9 @@ exports.renderMypage = async (req, res,next) => {
       include: [
         {
           model: Post,
-          where: {UserId: req.user.id},
-        }
-      ]
+          where: { UserId: req.user.id },
+        },
+      ],
     });
     console.log(`${req.user.id}유저의 게시글 수는 ${postCount}개`);
 
@@ -514,35 +426,31 @@ exports.renderMypage = async (req, res,next) => {
     //   include: [
     //     {
     //       model: Board,
-    //       where: { name: boardName }, 
+    //       where: { name: boardName },
     //     },
     //   ],
     // });
-
 
     const commentCount = await User.count({
       include: [
         {
           model: Comment,
-          where: {UserId: req.user.id},
-
-        }
-      ]
+          where: { UserId: req.user.id },
+        },
+      ],
     });
 
     console.log(`${req.user.id}유저의 댓글 수는 ${commentCount}개`);
 
-
-  res.render("mypage", {
-    postCount,
-    commentCount,
-  });
+    res.render("mypage", {
+      postCount,
+      commentCount,
+    });
   } catch (err) {
     console.error(err);
     next(err);
   }
 };
-
 
 exports.renderModifyUser = async (req, res, next) => {
   console.log("-------------------------------------------------------");
@@ -583,9 +491,9 @@ exports.renderAdminpost = async (req, res, next) => {
         },
       ],
     });
-    posts.forEach((post)=>{
-      reformatDate(post, "full")
-    })
+    posts.forEach((post) => {
+      reformatDate(post, "full");
+    });
     res.render("admin_post", {
       title: "게시글관리 페이지",
       twits: posts,
@@ -601,15 +509,13 @@ exports.renderMember = async (req, res, next) => {
   console.log("admin/member 진입");
   try {
     const users = await User.findAll();
-    users.forEach((user)=>{
-      reformatDate(user,'full')
+    users.forEach((user) => {
+      reformatDate(user, "full");
     });
     res.render("admin_member", {
       title: "회원관리 페이지",
       users: users,
-
     });
-
   } catch (err) {
     console.error(err);
     next(err);
@@ -637,8 +543,8 @@ exports.renderAdminnotice = async (req, res, next) => {
         },
       ],
     });
-    posts.forEach((post)=> {
-      reformatDate(post, "full")
+    posts.forEach((post) => {
+      reformatDate(post, "full");
     });
     res.render("admin_notice", {
       title: "공지사항",
@@ -669,8 +575,6 @@ exports.renderAdminnotice = async (req, res, next) => {
 //         },
 //       ],
 //     })
-
-
 
 exports.popularList = async (req, res, next) => {
   try {

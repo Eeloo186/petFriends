@@ -22,7 +22,7 @@ const {
   rowViewList,
   newestList,
   oldList,
-    renderAdminnotice,
+  renderAdminnotice,
 } = require("../controllers/page");
 
 router.use((req, res, next) => {
@@ -54,10 +54,11 @@ router.get("/page/info", renderInfo);
 router.get("/page/picture", renderPicture);
 
 // 커뮤니티 페이지
-router.get("/page/community", renderCommunity);
+router.get("/community", renderCommunity);
+router.get("/:boardName/:userId/:id", renderPostDetail);
 
 // 글쓰기(에디터) 페이지
-router.get("/page/editor", isLoggedIn ,renderEditor);
+router.get("/page/editor", isLoggedIn, renderEditor);
 router.get("/page/pictureEditor", isLoggedIn, renderPictureEditor);
 
 // router.get("/page/editor/:postId");
@@ -75,6 +76,5 @@ router.get("/page/users/:id", isLoggedIn, renderModifyUser);
 
 // 개별 상세보기 페이지
 // router.get("/page/communityView/:postId", renderCommunityView);
-router.get("/page/:boardName/:postId", renderPostDetail);
 
 module.exports = router;
